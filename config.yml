@@ -3,24 +3,8 @@ languageCode: en-us
 title: FlappyHimself
 theme: PaperMod
 
-menu: 
-  main:
-    - identifier: categories
-      name: Categories
-      tag: /categories/
-      weight:  10
-    - identifier: tags
-      name: Tags
-      tag: /tags/
-      weight: 20
-    - identifier: archives
-      name: Archives
-      tag: /archives/
-      weight: 30 
-    - identifier: search
-      name: Search
-      tag: /search/
-      weight: 40 
+googleAnalytics: UA-123-45
+
 
 params: 
   profileMode:
@@ -30,7 +14,11 @@ params:
     imageUrl: "http://p1.itc.cn/q_70/images03/20200905/f4b6c22550ff4ab7b5d515be915664ae.jpeg" # optional
     imageWidth: 120 
     imageHeight: 120 
-
+    buttons:
+      - name: archives
+        url: archives
+      - name: tags
+        url: tags
 
   socialIcons:
     - name: github
@@ -50,17 +38,35 @@ params:
 
   outputs:
     home:
-      - HTML
-      - RSS
-      - JSON # is necessary
+    - HTML
+    - RSS
+    - JSON # is necessary
 
   fuseOpts:
-      isCaseSensitive: false
-      shouldSort: true
-      location: 0
-      distance: 1000
-      threshold: 0.4
-      minMatchCharLength: 0
-      keys: ["title", "permalink", "summary", "content"]
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    keys: ["title", "permalink", "summary", "content"]
 
 
+menu: 
+  main:
+    - identifier: categories
+      name: categories
+      tag: /categories/
+      weight: 10
+    - identifier: tags
+      name: tags
+      tag: /tags/
+      weight: 20
+    - identifier: archives
+      name: Archives
+      tag: /archives/
+      weight: 30 
+    - identifier: search
+      name: Search
+      tag: /search/
+      weight: 40 

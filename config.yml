@@ -8,15 +8,11 @@ params:
         enabled: true
         title: "hi, here's my notes repo ( ｡ớ ₃ờ) " 
         subtitle: "learn and practice"
-        imageUrl: "<image link>" # optional
-        imageTitle: "<title of image as alt>" # optional
-        imageWidth: 120 # custom size
-        imageHeight: 120 # custom size
-        buttons:
-            - name: Archive
-            url: "/archive"
-            - name: Github
-            url: "https://github.com/FlappyBob"
+        imageUrl: "https://www.google.com.hk/url?sa=i&url=http%3A%2F%2Fwww.sohu.com%2Fa%2F416653857_120052108&psig=AOvVaw1GHfzp9fdy6O4qOvMyrNyq&ust=1692862634840000&source=images&cd=vfe&opi=89978449&ved=0CA4QjRxqFwoTCMCq7_qi8oADFQAAAAAdAAAAABAD" # optional
+        imageWidth: 120 
+        imageHeight: 120 
+        - name: Github
+          url: "https://github.com/FlappyBob"
 
   socialIcons:
     - name: github

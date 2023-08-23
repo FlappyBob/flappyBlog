@@ -9,8 +9,6 @@ cover:
     caption: 'game -- ff14 of my avatar on behalf of getting through 5.x '
 tags: 
 - "blog"
-categories: 
-- "blog"
 ---
 *preword*: I built this static web site for compiling notes of knowledge. I dont want to focus too much on "deeper magic" on website building technology but just write notes. (/smile)
 
@@ -85,7 +83,7 @@ menu:
 
 
 **content structure.**
-![content structure](pic/first/content.png)
+![content structure](pic/content.png)
 ``` m
 .
 ├── config.yml
@@ -121,10 +119,10 @@ categories: ["blog"]
 Netlify is a service that builds up webpage using your existing github repository, and it automatically renews as you push contents to your github repo. 
 
 1. write config as following 
-![netlifyConfiguration](pic/first/netlify.png)
+![netlifyConfiguration](pic/netlify.png)
 
 2. write environment variable of your hugo version like below. 
-![netlifyEnvironmentVariable](pic/first/netlify1.png)
+![netlifyEnvironmentVariable](pic/netlify1.png)
 
 
 **add a domain name**.  

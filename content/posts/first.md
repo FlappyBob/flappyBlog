@@ -12,14 +12,14 @@ categories: ["blog"]
 
 I assume you've installed hugo, git correctly. 
 
-## Resource
+## Resources
 [Getting Started With Hugo | FREE COURSE](https://www.youtube.com/watch?v=hjD9jTi_DQ4&t=1455s)
 
 [paperMod theme](https://themes.gohugo.io/themes/hugo-papermod/)
 
 
 ## preknowledge recap 
-**quick github recap**
+**quick github recap**.
 ```md
 git remote add <github remote repo name> <repo url (better ssh since it caused several error using http)>  
 git remote remove <github remote repo name>
@@ -36,7 +36,6 @@ Here I am using papermod theme, so I clone their repo into my ./themes/ folder/
 Add in config.yml:
 ```theme: "PaperMod"``` and theme is automatically set. 
 
-****
 ### setup of configuration file. (config.yml)
 
 You can find them in github pages of your own theme's developer. Usually they will give their costomized guidence in their page. Below is my .yml file. 
@@ -88,9 +87,9 @@ menu:
 3. categories' names. 
 
 **How a typical content is made of.**
-```md
+``` m
 ---
-title: "Notes on how to build up this site using hugo"
+title: "Notes on how to build up this site using hugo"  
 date: 2023-08-22T23:51:11-04:00
 draft: false
 cover:
@@ -101,17 +100,18 @@ categories: ["blog"]
 ---
 ```
 
+### Connect to a real website.  
 **netlify service setup**
 Netlify is a service that builds up webpage using your existing github repository, and it automatically renews as you push contents to your github repo. 
 
 1. write config as following 
 ![netlifyConfiguration](../pic/first/netlify.png)
 
-1. write environmetn variable of your hugo version like below. 
+2. write environment variable of your hugo version like below. 
 ![netlifyEnvironmentVariable](../pic/first/netlify1.png)
 
 
-### add a domain name.  
+**add a domain name**.  
 If you are interested in publishing your website to the public, then posting your knowledge with a customed domain name is a good idea. 
 
 

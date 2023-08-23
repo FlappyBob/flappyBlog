@@ -19,8 +19,6 @@ params:
   ShowBreadCrumbs: true 
 
   ShowReadingTime: true
-
-  ShowShareButtons: true   
 menu: 
   main:
       - identifier: categories

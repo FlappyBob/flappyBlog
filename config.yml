@@ -19,34 +19,40 @@ minify:
 permalinks: #浏览器链接显示方式
   post: "/:title/"
 
-profileMode:
-  enabled: true
-  title: This is my note compilation.
-  subtitle: "learn and practice"
-  imageUrl: "http://p0.itc.cn/q_70/images03/20200905/3c619b233f9f44f6865c919f49b75478.jpeg"
-  imageWidth: 100
-  imageHeight: 100
-  buttons:
-    - name: tech
-      url: posts/tech
-    - name: life
-      url: posts/life
-    - name: class
-      url: posts/classes
-menu:
-  main:
-    - identifier: search
-      name: search
-      url: search
-      weight: 1
-    - identifier: archives
-      name: archives
-      url: archives/
-      weight: 2
-    - identifier: tags
-      name: tags
-      url: tags
-      weight: 3
+languages:
+  en:
+    languageName: "English"
+    # contentDir: content/english
+    weight: 1
+
+  profileMode:
+    enabled: true
+    title: This is my note compilation.
+    subtitle: "learn and practice"
+    imageUrl: "http://p0.itc.cn/q_70/images03/20200905/3c619b233f9f44f6865c919f49b75478.jpeg"
+    imageWidth: 100
+    imageHeight: 100
+    buttons:
+      - name: tech
+        url: posts/tech
+      - name: life
+        url: posts/life
+      - name: class
+        url: posts/classes
+  menu:
+    main:
+      - identifier: search
+        name: search
+        url: search
+        weight: 1
+      - identifier: archives
+        name: archives
+        url: en/archives/
+        weight: 2
+      - identifier: tags
+        name: tags
+        url: tags
+        weight: 3
 
 outputs:
   home:

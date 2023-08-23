@@ -20,10 +20,13 @@ params:
 
   cover:
     linkFullImages: true 
-
-  ShowBreadCrumbs: true 
-
-  ShowReadingTime: true
+    ShowBreadCrumbs: true 
+    ShowReadingTime: true
+    ShowCodeCopyButtons: true
+    comments: true
+    ShowPostNavLinks: true
+    ShowToc: true
+    TocOpen: true
 
   outputs:
     home:
@@ -54,3 +57,7 @@ menu:
         name: Archives
         tag: /archives/
         weight: 30 
+      - identifier: search
+        name: Search
+        tag: /search/
+        weight: 40 

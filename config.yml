@@ -52,12 +52,14 @@ params:
     ShowToc: true
     TocOpen: true
 
- 
-outputs:
+  outputs:
     home:
     - HTML
     - RSS
     - JSON # is necessary
+
+
+
 menu: 
   main:
     - identifier: categories
@@ -76,4 +78,3 @@ menu:
       name: Search
       tag: /search/
       weight: 40 
-

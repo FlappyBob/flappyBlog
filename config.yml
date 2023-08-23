@@ -47,10 +47,6 @@ languages:
             name: search
             url: search
             weight: 1
-          - identifier: archives
-            name: archives
-            url: en/archives/
-            weight: 2
           - identifier: tags
             name: tags
             url: tags

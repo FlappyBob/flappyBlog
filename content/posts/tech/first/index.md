@@ -204,7 +204,7 @@ Netlify is a service that builds up webpage using your existing github repositor
 **add a domain name**.  
 If you are interested in publishing your website to the public, then posting your knowledge with a customed domain name is a good idea. 
 
-### workflow
+## workflow
 Here the workflow becomes smooth as silk.  
 1. create markdown flie and find a comfortable text editor  ```hugo new posts/<file name.md>```
 2. write a script that upload your recent change, mostly I don't care about the commit message when writing my own blog. (I am windows, so create a .bat file)

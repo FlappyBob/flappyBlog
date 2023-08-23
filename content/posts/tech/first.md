@@ -5,8 +5,10 @@ draft: false
 cover:
     image: first/hello.png
     caption: 'game -- ff14 of my avatar on behalf of getting through 5.x '
-tags: ["blog"]
-archives: ["blog"]
+tags: 
+- "blog"
+categories: 
+- "blog"
 ---
 *preword*: I built this static web site for compiling notes of knowledge. I dont want to focus too much on "deeper magic" on website building technology but just write notes. (/smile)
 

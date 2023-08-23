@@ -170,6 +170,9 @@ I usually manage my file strucuture like this:
 2. Then create _index.md file for each folder that is a mother folder, except the folder that holds the article.
 3. In an article foldeer, there is one index markdown file that contains the artiocle and there is another pic folder that contains the pictures. 
 4. I use the static folder to contains cover pictures. 
+
+
+Below is the example frame that I use. 
 ![](pic/categories.png)
 **How a typical content is made of.**
 ``` m

@@ -145,7 +145,11 @@ fuseOpts:
 │   ├── archives.md   <--- Create archive.md here
 │   └── posts/│  
 │             └── first/
-│             └── pic/
+│                   └── pic/
+│                   └── index.md/
+│             └── second/
+│                   └── pic/
+│                   └── index.md/
 ├── static/ 
 └── themes/
     └── PaperMod/
@@ -154,11 +158,12 @@ fuseOpts:
 ![](pic/content.png)
 1. content is the mother folder that contains all real data that shows up in one blog.
 2. pic (sub folder) that holds picture references in one blog. The directories' names are named as the blog name. 
-3. categories' names. 
 
 I usually manage my file strucuture like this:
-1. I will split several categories in my posts. Accordingly, life/ tech/ classes. (I will split subfolder even further )
-
+1. I will split several categories in my posts. Accordingly, life/ tech/ classes. (I will split subfolder even further, like MIT6.s081/ CSAPP notes in subfolder classes. )
+2. Then create _index.md file for each folder that is a mother folder, except the folder that holds the article.
+3. In an article foldeer, there is one index markdown file that contains the artiocle and there is another pic folder that contains the pictures. 
+4. I use the static folder to contains cover pictures. 
 **How a typical content is made of.**
 ``` m
 ---

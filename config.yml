@@ -19,7 +19,7 @@ minify:
 permalinks: #浏览器链接显示方式
   post: "/:title/"
 
-  profileMode:
+profileMode:
     enabled: true
     title: This is my note compilation.
     subtitle: "learn and practice"
@@ -33,7 +33,7 @@ permalinks: #浏览器链接显示方式
         url: posts/life
       - name: class
         url: posts/classes
-  menu:
+menu:
     main:
       - identifier: search
         name: search

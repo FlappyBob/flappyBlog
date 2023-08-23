@@ -12,8 +12,7 @@ paginate: 15
 minify:
     disableXML: true
 
-params: 
-  profileMode:
+profileMode:
     enabled: true
     title: "hi, here's my notes repo ( ｡ớ ₃ờ) " 
     subtitle: "learn and practice"
@@ -26,6 +25,7 @@ params:
       - name: tags
         url: tags
 
+params: 
   socialIcons:
     - name: github
       url: "https://github.com/FlappyBob"

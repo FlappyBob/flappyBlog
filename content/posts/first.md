@@ -31,25 +31,7 @@ git remote remove <github remote repo name>
 
 **loading theme**.
 Here I am using papermod theme, so I clone their repo into my ./themes/ folder/
-```git clone  ```
-
-**netlify service setup**
-Netlify is a service that builds up webpage using your existing github repository, and it automatically renews as you push contents to your github repo. 
-
-1. write config as following 
-![netlifyConfiguration](../pic/first/netlify.png)
-
-2. write environmetn variable of your hugo version like below. 
-![netlifyEnvironmentVariable](../pic/first/netlify1.png)
-
-
-### structure of contents.
-
-**content structure.**
-![content structure](../pic/first/content.png)
-1. mother folder that contains all real data that shows up in one blog.
-2. pic (sub folder) that holds picture references in one blog. The directories' names are named as the blog name. 
-3. categories' names. 
+```git clone https://github.com/adityatelange/hugo-PaperMod themes/PaperMod --depth=1```
 
 ### setup of configuration file. (config.yml)
 ``` yml 
@@ -92,7 +74,32 @@ menu:
         weight: 30 
 ```
 
+**netlify service setup**
+Netlify is a service that builds up webpage using your existing github repository, and it automatically renews as you push contents to your github repo. 
+
+1. write config as following 
+![netlifyConfiguration](../pic/first/netlify.png)
+
+2. write environmetn variable of your hugo version like below. 
+![netlifyEnvironmentVariable](../pic/first/netlify1.png)
+
+
+### structure of contents.
+
+**content structure.**
+![content structure](../pic/first/content.png)
+1. mother folder that contains all real data that shows up in one blog.
+2. pic (sub folder) that holds picture references in one blog. The directories' names are named as the blog name. 
+3. categories' names. 
+
+
+
+### add a domain name.  
+If you are interested in publishing your website to the public, then posting your knowledge with a customed domain name is a good idea. 
+
+
 ### workflow
+Here the workflow becomes smooth as silk.  
 1. create markdown flie and find a comfortable text editor  ```hugo new posts/<file name.md>```
 2. write a script that upload your recent change, mostly I don't care about the commit message when writing my own blog. (I am windows, so create a .bat file)
 ``` bat 

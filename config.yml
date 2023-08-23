@@ -38,7 +38,9 @@ languages:
           - name: tech
             url: posts/tech
           - name: life
-            url: lives
+            url: posts/lives
+          - name: class
+            url: posts/classes
       menu:
         main:
           - identifier: search

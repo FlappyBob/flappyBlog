@@ -5,31 +5,31 @@ theme: PaperMod
 
 menu: 
   main:
-      - identifier: categories
-        name: Categories
-        tag: /categories/
-        weight:  10
-      - identifier: tags
-        name: Tags
-        tag: /tags/
-        weight: 20
-      - identifier: archives
-        name: Archives
-        tag: /archives/
-        weight: 30 
-      - identifier: search
-        name: Search
-        tag: /search/
-        weight: 40 
+    - identifier: categories
+      name: Categories
+      tag: /categories/
+      weight:  10
+    - identifier: tags
+      name: Tags
+      tag: /tags/
+      weight: 20
+    - identifier: archives
+      name: Archives
+      tag: /archives/
+      weight: 30 
+    - identifier: search
+      name: Search
+      tag: /search/
+      weight: 40 
 
 params: 
   profileMode:
-        enabled: true
-        title: "hi, here's my notes repo ( ｡ớ ₃ờ) " 
-        subtitle: "learn and practice"
-        imageUrl: "http://p1.itc.cn/q_70/images03/20200905/f4b6c22550ff4ab7b5d515be915664ae.jpeg" # optional
-        imageWidth: 120 
-        imageHeight: 120 
+    enabled: true
+    title: "hi, here's my notes repo ( ｡ớ ₃ờ) " 
+    subtitle: "learn and practice"
+    imageUrl: "http://p1.itc.cn/q_70/images03/20200905/f4b6c22550ff4ab7b5d515be915664ae.jpeg" # optional
+    imageWidth: 120 
+    imageHeight: 120 
 
 
   socialIcons:
@@ -50,17 +50,17 @@ params:
 
   outputs:
     home:
-        - HTML
-        - RSS
-        - JSON # is necessary
+      - HTML
+      - RSS
+      - JSON # is necessary
 
   fuseOpts:
-        isCaseSensitive: false
-        shouldSort: true
-        location: 0
-        distance: 1000
-        threshold: 0.4
-        minMatchCharLength: 0
-        keys: ["title", "permalink", "summary", "content"]
+      isCaseSensitive: false
+      shouldSort: true
+      location: 0
+      distance: 1000
+      threshold: 0.4
+      minMatchCharLength: 0
+      keys: ["title", "permalink", "summary", "content"]
 
 

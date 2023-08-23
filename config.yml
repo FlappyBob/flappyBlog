@@ -1,0 +1,37 @@
+baseURL: ""
+languageCode: en-us
+title: FlappyHimself
+theme: PaperMod
+
+params: 
+  homeInfoParams:
+    Title: "hi, here's my notes repo ( ｡ớ ₃ờ) " 
+
+  socialIcons:
+    - name: github
+      url: "https://github.com/FlappyBob"
+    - name: twitter
+      url: "https://twitter.com/FlappyHimself"
+
+  cover:
+    linkFullImages: true 
+
+  ShowBreadCrumbs: true 
+
+  ShowReadingTime: true
+
+  ShowShareButtons: true   
+menu: 
+  main:
+      - identifier: categories
+        name: Categories
+        tag: /categories/
+        weight:  10
+      - identifier: tags
+        name: Tags
+        tag: /tags/
+        weight: 20
+      - identifier: archives
+        name: Archives
+        tag: /archives/
+        weight: 30 

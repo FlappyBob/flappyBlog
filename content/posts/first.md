@@ -21,3 +21,6 @@ categories: ["tech"]
 git remote add <github remote repo name> <repo url (better ssh since it turned to several error using http proxy)>
 git remote remove <github remote repo name>
 ```
+
+**link to netlify service**
+![netlify](../pic/first/netlify.png)

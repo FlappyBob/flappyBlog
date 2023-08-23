@@ -1,4 +1,4 @@
-baseURL: ""
+baseURL: "https://flappyhimself.netlify.app/"
 languageCode: en-us
 title: FlappyHimself
 theme: PaperMod

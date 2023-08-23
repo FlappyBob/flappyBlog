@@ -10,6 +10,8 @@ categories: ["tech"]
 ---
 *preword*: I built this static web site for compiling notes of knowledge. I dont want to focus too much on "deeper magic" on website building technology but just write notes. (/smile)
 
+I assume you've installed hugo, git correctly. 
+
 ## Resource
 [Getting Started With Hugo | FREE COURSE](https://www.youtube.com/watch?v=hjD9jTi_DQ4&t=1455s)
 
@@ -17,16 +19,28 @@ categories: ["tech"]
 
 
 ## preknowledge recap 
-**quick github intro**
+**quick github recap**
 ```md
 git remote add <github remote repo name> <repo url (better ssh since it caused several error using http)>  
 git remote remove <github remote repo name>
 ```
 
 ## buildup this website
-Netlify is a service that builds up webpage with functions automatically renews as you push contents to your github repo. 
+**set up your blog directories**. 
+```hugo new site <sitename> -f yml``` will create static website. 
+
+**loading theme**.
+Here I am using papermod theme, so I clone their repo into my ./themes/ folder/
+```git clone  ```
+
 **netlify service setup**
-![netlify](../pic/first/netlify.png)
+Netlify is a service that builds up webpage using your existing github repository, and it automatically renews as you push contents to your github repo. 
+
+1. write config as following 
+![netlifyConfiguration](../pic/first/netlify.png)
+
+2. write environmetn variable of your hugo version like below. 
+![netlifyEnvironmentVariable](../pic/first/netlify1.png)
 
 
 ### structure of contents.

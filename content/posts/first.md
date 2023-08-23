@@ -5,8 +5,8 @@ draft: false
 cover:
     image: first/hello.png
     caption: 'game -- ff14 of my avatar on behalf of getting through 5.x '
-tags: ["html", "css"]
-categories: ["tech"]
+tags: ["blog"]
+categories: ["blog"]
 ---
 *preword*: I built this static web site for compiling notes of knowledge. I dont want to focus too much on "deeper magic" on website building technology but just write notes. (/smile)
 
@@ -33,11 +33,17 @@ git remote remove <github remote repo name>
 Here I am using papermod theme, so I clone their repo into my ./themes/ folder/
 ```git clone https://github.com/adityatelange/hugo-PaperMod themes/PaperMod --depth=1```
 
+Add in config.yml:
+```theme: "PaperMod"``` and theme is automatically set. 
+
+****
 ### setup of configuration file. (config.yml)
+
+You can find them in github pages of your own theme's developer. Usually they will give their costomized guidence in their page. Below is my .yml file. 
 ``` yml 
-baseURL: "https://flappyhimself.netlify.app/"
-languageCode: en-us
-title: FlappyHimself
+baseURL: "https://flappyhimself.netlify.app/" # your netlify net 
+languageCode: en-us # lang 
+title: FlappyHimself 
 theme: PaperMod
 
 params: 
@@ -74,17 +80,6 @@ menu:
         weight: 30 
 ```
 
-**netlify service setup**
-Netlify is a service that builds up webpage using your existing github repository, and it automatically renews as you push contents to your github repo. 
-
-1. write config as following 
-![netlifyConfiguration](../pic/first/netlify.png)
-
-2. write environmetn variable of your hugo version like below. 
-![netlifyEnvironmentVariable](../pic/first/netlify1.png)
-
-
-### structure of contents.
 
 **content structure.**
 ![content structure](../pic/first/content.png)
@@ -92,6 +87,28 @@ Netlify is a service that builds up webpage using your existing github repositor
 2. pic (sub folder) that holds picture references in one blog. The directories' names are named as the blog name. 
 3. categories' names. 
 
+**How a typical content is made of.**
+```md
+---
+title: "Notes on how to build up this site using hugo"
+date: 2023-08-22T23:51:11-04:00
+draft: false
+cover:
+    image: first/hello.png
+    caption: 'game -- ff14 of my avatar on behalf of getting through 5.x '
+tags: ["blog"]
+categories: ["blog"]
+---
+```
+
+**netlify service setup**
+Netlify is a service that builds up webpage using your existing github repository, and it automatically renews as you push contents to your github repo. 
+
+1. write config as following 
+![netlifyConfiguration](../pic/first/netlify.png)
+
+1. write environmetn variable of your hugo version like below. 
+![netlifyEnvironmentVariable](../pic/first/netlify1.png)
 
 
 ### add a domain name.  

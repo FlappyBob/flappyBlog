@@ -3,8 +3,14 @@ languageCode: en-us
 title: FlappyHimself
 theme: PaperMod
 
-googleAnalytics: UA-123-45
-
+hasCJKLanguage: true
+enableEmoji: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+paginate: 15 
+minify:
+    disableXML: true
 
 params: 
   profileMode:

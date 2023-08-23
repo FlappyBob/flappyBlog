@@ -67,7 +67,6 @@ params:
     # author: ["Me", "You"] # multiple authors
     defaultTheme: auto  # defaultTheme: light or  dark 
     disableThemeToggle: false
-    ShowShareButtons: true
     ShowReadingTime: true
     # disableSpecialistPost: true
     displayFullLangName: true

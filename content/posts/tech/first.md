@@ -81,7 +81,7 @@ menu:
 
 
 **content structure.**
-![content structure](../pic/first/content.png)
+![content structure](../pic/tech/first/content.png)
 ``` m
 
 .
@@ -117,10 +117,10 @@ categories: ["blog"]
 Netlify is a service that builds up webpage using your existing github repository, and it automatically renews as you push contents to your github repo. 
 
 1. write config as following 
-![netlifyConfiguration](../pic/first/netlify.png)
+![netlifyConfiguration](../pic/tech/first/netlify.png)
 
 2. write environment variable of your hugo version like below. 
-![netlifyEnvironmentVariable](../pic/first/netlify1.png)
+![netlifyEnvironmentVariable](../pic/tech/first/netlify1.png)
 
 
 **add a domain name**.  

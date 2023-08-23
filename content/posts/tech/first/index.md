@@ -1,19 +1,18 @@
 ---
-title: "Notes on how to build up this site using hugo"
+title: "How to build up site using hugo"
 date: 2023-08-22T23:51:11-04:00
-draft: false
 showToc: true # 显示目录
 TocOpen: true # 自动展开目录
 cover:
     image: tech/first/hello.png
-    caption: 'game -- ff14 of my avatar on behalf of getting through 5.x '
+    caption: 'game(ff14) -- my avatar on behalf of thinking hard'
 tags: 
 - "blog"
 ---
 
-*preword*: I built this static web site for compiling notes of knowledge. I dont want to focus too much on "deeper magic" on website building technology but just write notes. (/smile)
+*preword*: I built this static website for compiling notes of knowledge. I dont want to focus too much on "deeper magic" on website-building technology but just write notes about computer science and other types of knowledge. (/smile)
 
-I assume you've installed hugo, git correctly. 
+**precondition**: I assume you've installed hugo, git correctly. 
 
 ## Resources
 [Getting Started With Hugo | FREE COURSE](https://www.youtube.com/watch?v=hjD9jTi_DQ4&t=1455s)
@@ -41,66 +40,124 @@ Add in config.yml:
 
 ### setup of configuration file. (config.yml)
 
-You can find them in github pages of your own theme's developer. Usually they will give their costomized guidence in their page. Below is my .yml file. 
+You can find them in github pages of your own theme's developer. Below is my .yml file. 
 ``` yml 
-baseURL: "https://flappyhimself.netlify.app/" # your netlify net 
-languageCode: en-us # lang 
-title: FlappyHimself 
+baseURL: "https://flappyhimself.netlify.app/"
+languageCode: en-us
+title: FlappyHimself
 theme: PaperMod
 
-params: 
-  homeInfoParams:
-    Title: "hi, here's my notes repo ( ｡ớ ₃ờ) " 
+enableInlineShortcodes: true 
+enableEmoji: true 
+enableRobotsTXT: true 
+hasCJKLanguage: true 
 
-  socialIcons:
-    - name: github
-      url: "https://github.com/FlappyBob"
-    - name: twitter
-      url: "https://twitter.com/FlappyHimself"
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+paginate: 15   
+minify:
+    disableXML: true
 
-  cover:
-    linkFullImages: true 
+permalinks: 
+  post: "/:title/"
+defaultContentLanguage: en
+defaultContentLanguageInSubdir: true
 
-  ShowBreadCrumbs: true 
+languages:
+    en:
+      languageName: "English"
+      # contentDir: content/english
+      weight: 1
+      profileMode:
+        enabled: true
+        title: This is my note compilation. 
+        subtitle: "learn and practice"
+        imageUrl: "http://p0.itc.cn/q_70/images03/20200905/3c619b233f9f44f6865c919f49b75478.jpeg" 
+        imageWidth: 100
+        imageHeight: 100
+        buttons:
+          - name: tech
+            url: posts/tech
+          - name: life
+            url: posts/life
+          - name: class
+            url: posts/classes
+      menu:
+        main:
+          - identifier: search
+            name: search
+            url: search
+            weight: 1
+          - identifier: tags
+            name: tags
+            url: tags
+            weight: 3
 
-  ShowReadingTime: true
+outputs:
+    home:
+        - HTML
+        - RSS
+        - JSON
 
-  ShowShareButtons: true   
-menu: 
-  main:
-      - identifier: categories
-        name: Categories
-        tag: /categories/
-        weight:  10
-      - identifier: tags
-        name: Tags
-        tag: /tags/
-        weight: 20
-      - identifier: archives
-        name: Archives
-        tag: /archives/
-        weight: 30 
+params:
+    env: production 
+    author: Flappy
+    defaultTheme: auto  #
+    disableThemeToggle: false
+    ShowShareButtons: true
+    ShowReadingTime: true
+    displayFullLangName: true
+    ShowPostNavLinks: true
+    ShowBreadCrumbs: true
+    ShowCodeCopyButtons: true
+    hideFooter: false 
+    ShowWordCounts: true
+    VisitCount: true
+    ShowLastMod: true 
+    ShowToc: true 
+    TocOpen: true 
+    comments: true
+    
+    socialIcons:
+        - name: github
+          url: "https://github.com/FlappyBob"
+        - name: twitter
+          url:  "https://twitter.com/FlappyHimself"
+
+
+fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    keys: ["title", "permalink", "summary", "content"]
 ```
 
 
-**content structure.**
-![](pic/content.png)
-
+**content structure, and its relationship with config file**
 ``` m
 .
-├── config.yml
+├── config.yml 
 ├── content/
 │   ├── archives.md   <--- Create archive.md here
-│   └── posts/
-├── static/
+│   └── posts/│  
+│             └── first/
+│             └── pic/
+├── static/ 
 └── themes/
     └── PaperMod/
 
 ``` 
-
-1. mother folder that contains all real data that shows up in one blog.
+![](pic/content.png)
+1. content is the mother folder that contains all real data that shows up in one blog.
 2. pic (sub folder) that holds picture references in one blog. The directories' names are named as the blog name. 
 3. categories' names. 
+
+I usually manage my file strucuture like this:
+1. I will split several categories in my posts. Accordingly, life/ tech/ classes. (I will split subfolder even further )
 
 **How a typical content is made of.**
 ``` m
@@ -134,7 +191,6 @@ Netlify is a service that builds up webpage using your existing github repositor
 **add a domain name**.  
 If you are interested in publishing your website to the public, then posting your knowledge with a customed domain name is a good idea. 
 
-
 ### workflow
 Here the workflow becomes smooth as silk.  
 1. create markdown flie and find a comfortable text editor  ```hugo new posts/<file name.md>```
@@ -145,3 +201,5 @@ git commit -m "finish setting"
 git push blog main
 ```
 3. run the script and see changes on your website (usually take a few seconds)
+
+### conclusion

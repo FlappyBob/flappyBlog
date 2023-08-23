@@ -143,14 +143,20 @@ fuseOpts:
 ├── config.yml 
 ├── content/
 │   ├── archives.md   <--- Create archive.md here
-│   └── posts/│  
-│             └── first/
-│                   └── pic/
-│                   └── index.md/
-│             └── second/
-│                   └── pic/
-│                   └── index.md/
-├── static/ 
+│   └── posts/ ────│tech  
+│                   │
+│                   └── first/
+│                           └── pic/
+│                           └── index.md/
+│                   └── second/
+│                           └── pic/
+│                           └── index.md/
+├── static/ ────│tech  
+│                   │
+│                   └── first/
+│                           └── background picture1/
+│                   └── second/
+│                           └── background picture12/
 └── themes/
     └── PaperMod/
 
@@ -160,21 +166,23 @@ fuseOpts:
 2. pic (sub folder) that holds picture references in one blog. The directories' names are named as the blog name. 
 
 I usually manage my file strucuture like this:
-1. I will split several categories in my posts. Accordingly, life/ tech/ classes. (I will split subfolder even further, like MIT6.s081/ CSAPP notes in subfolder classes. )
+1. I will split several categories in my posts. Accordingly, **life/ tech/ classes**. (I will split subfolder even further, like **MIT6.s081/ CSAPP** notes in subfolder classes. )
 2. Then create _index.md file for each folder that is a mother folder, except the folder that holds the article.
 3. In an article foldeer, there is one index markdown file that contains the artiocle and there is another pic folder that contains the pictures. 
 4. I use the static folder to contains cover pictures. 
+![](pic/categories.png)
 **How a typical content is made of.**
 ``` m
 ---
-title: "Notes on how to build up this site using hugo"  
+title: "How to build up site using hugo"
 date: 2023-08-22T23:51:11-04:00
-draft: false
+showToc: true # show the directoreis of the article. 
+TocOpen: true 
 cover:
-    image: first/hello.png
-    caption: 'game -- ff14 of my avatar on behalf of getting through 5.x '
-tags: ["blog"]
-categories: ["blog"]
+    image: tech/first/hello.png
+    caption: 'game(ff14) -- my avatar on behalf of thinking hard'
+tags: 
+- "blog"
 ---
 ```
 
@@ -183,13 +191,10 @@ categories: ["blog"]
 Netlify is a service that builds up webpage using your existing github repository, and it automatically renews as you push contents to your github repo. 
 
 1. write config as following 
-
-
-1. write environment variable of your hugo version like below. 
-
 ![](pic/netlify.png)
 
 
+2. write environment variable of your hugo version like below. 
 ![](pic/netlify1.png)
 
 
@@ -206,5 +211,3 @@ git commit -m "finish setting"
 git push blog main
 ```
 3. run the script and see changes on your website (usually take a few seconds)
-
-### conclusion

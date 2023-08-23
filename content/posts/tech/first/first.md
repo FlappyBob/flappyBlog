@@ -83,7 +83,7 @@ menu:
 
 
 **content structure.**
-![](pic/content.png)
+![](../second/pic/content.png)
 ``` m
 .
 ├── config.yml

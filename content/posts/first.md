@@ -26,4 +26,20 @@ git remote remove <github remote repo name>
 ![netlify](../pic/first/netlify.png)
 
 ### structure of contents.
-![netlify](../pic/first/content.png)
+Netlify is a service that builds up webpage with functions automatically renews as you push contents to your github repo. 
+
+**content structure.**
+![content structure](../pic/first/content.png)
+1. mother folder that contains all real data that shows up in one blog.
+2. pic (sub folder) that holds picture references in one blog. The directories' names are named as the blog name. 
+3. categories' names. 
+
+### workflow
+1. create markdown flie and find a comfortable text editor  ```hugo new posts/<file name.md>```
+2. write a script that upload your recent change, mostly I don't care about the commit message when writing my own blog. (I am windows, so create a .bat file)
+``` bat 
+git add ./
+git commit -m "finish setting"  
+git push blog main
+```
+3. run the script and see changes on your website (usually take a few seconds)

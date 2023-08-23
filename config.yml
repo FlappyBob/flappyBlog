@@ -51,6 +51,10 @@ languages:
             name: tags
             url: tags
             weight: 3
+          - identifier: about
+            name: about
+            url: about
+            weight: 4
 
 outputs:
     home:

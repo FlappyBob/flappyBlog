@@ -82,6 +82,18 @@ menu:
 
 **content structure.**
 ![content structure](../pic/first/content.png)
+``` m
+
+.
+├── config.yml
+├── content/
+│   ├── archives.md   <--- Create archive.md here
+│   └── posts/
+├── static/
+└── themes/
+    └── PaperMod/
+```
+
 1. mother folder that contains all real data that shows up in one blog.
 2. pic (sub folder) that holds picture references in one blog. The directories' names are named as the blog name. 
 3. categories' names. 

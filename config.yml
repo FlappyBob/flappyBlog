@@ -4,8 +4,15 @@ title: FlappyHimself
 theme: PaperMod
 
 params: 
-  homeInfoParams:
-    Title: "hi, here's my notes repo ( ｡ớ ₃ờ) " 
+  profileMode:
+        enabled: true
+        title: "hi, here's my notes repo ( ｡ớ ₃ờ) " 
+        subtitle: "learn and practice"
+        imageUrl: "<image link>" # optional
+        imageTitle: "<title of image as alt>" # optional
+        imageWidth: 120 # custom size
+        imageHeight: 120 # custom size
+        
 
   socialIcons:
     - name: github
@@ -19,7 +26,9 @@ params:
   ShowBreadCrumbs: true 
 
   ShowReadingTime: true
-menu: 
+
+
+  menu: 
   main:
       - identifier: categories
         name: Categories

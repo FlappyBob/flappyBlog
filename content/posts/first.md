@@ -24,3 +24,6 @@ git remote remove <github remote repo name>
 
 **link to netlify service**
 ![netlify](../pic/first/netlify.png)
+
+### structure of contents.
+![netlify](../pic/first/content.png)

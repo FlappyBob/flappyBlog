@@ -4,16 +4,17 @@ date: 2023-08-23T22:10:11-04:00
 showToc: true # 显示目录
 TocOpen: true # 自动展开目录
 cover:
-    image: tech/first/大一回忆.png
-    caption: 'ff14'
+    image: tech/first/nyu-first-year.jpg
+    caption: 'game that accompanies the most time last year'
 tags: 
 - "memory"
 ---
 *这个好像是我的第一篇随想啊，那就写一下规则好了*
 
+这里是草稿。
 不论价值观如何，有一个推着你走的老师是真的很好的。
 
-### 一年反思。
+### 过去的一年和现状。
 整个暑假基本上用来彻底放松了，每天不是吃就是睡觉，会起床找些时间翻翻csapp的书和，lab做到shell lab就没心思继续做下去了，接下来像做一些unix网络编程的事情。
 
 虽然看完csapp总的来说懂了一些皮毛，计算机系统对我来说还是像一个黑盒。

@@ -41,6 +41,8 @@ languages:
             url: posts/life
           - name: class
             url: posts/classes
+          - name: thoughts
+            url: posts/thoughts
       menu:
         main:
           - identifier: search

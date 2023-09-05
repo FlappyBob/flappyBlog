@@ -4,7 +4,7 @@ date: 2023-08-24T23:51:11-04:00
 showToc: true # 显示目录
 TocOpen: true # 自动展开目录
 cover:
-    image: classes/NJUpa/NJU-chap1.jpg
+    image: classes/NJUpa/NJU-pre.png
 tags: 
 - "NJU programming assignment"
 ---
@@ -74,5 +74,3 @@ So we should learn:
 4. Undetstand the typical tools for solving typical questions. 
 
 > 这种"只要不影响我现在survive, 就不要紧"的想法其实非常的利己和短视: 你在专业上的技不如人, 迟早有一天会找上来, 会影响到你个人职业生涯的长远的发展; 更严重的是, 这些以得过且过的态度来对待自己专业的学生, 他们的survive其实是以透支南大教育的信誉为代价的 -- 如果我们一定比例的毕业生都是这种情况, 那么过不了多久, 不但那些混到毕业的学生也没那么容易survive了, 而且那些真正自己刻苦努力的学生, 他们的前途也会受到影响. -- etone
-
-## Preparation

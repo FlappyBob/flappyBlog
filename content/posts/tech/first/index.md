@@ -1,5 +1,5 @@
 ---
-title: "How to build up site using hugo"
+title: "Build up static site and deploy it using hugo and netlify"
 date: 2023-08-22T23:51:11-04:00
 showToc: true # 显示目录
 TocOpen: true # 自动展开目录
@@ -7,18 +7,17 @@ cover:
     image: tech/first/hello.png
     caption: 'game(ff14) -- my avatar on behalf of thinking hard'
 tags: 
-- "blog"
+- "blog setup"
 ---
 
 *preword*: I built this static website for compiling notes of knowledge. I dont want to focus too much on "deeper magic" on website-building technology but just write notes about computer science and other types of knowledge. (/smile)
 
-**precondition**: I assume you've installed hugo, git correctly. 
+**precondition**: Installed hugo, git  
 
 ## Resources
 [Getting Started With Hugo | FREE COURSE](https://www.youtube.com/watch?v=hjD9jTi_DQ4&t=1455s)
 
 [paperMod theme](https://themes.gohugo.io/themes/hugo-papermod/)
-
 
 ## preknowledge recap 
 **quick github recap**.
@@ -137,7 +136,7 @@ fuseOpts:
 ```
 
 
-**content structure, and its relationship with config file**
+**Content structure, and its relationship with config file**
 ``` m
 .
 ├── config.yml 
@@ -168,7 +167,7 @@ fuseOpts:
 I usually manage my file strucuture like this:
 1. I will split several categories in my posts. Accordingly, **life/ tech/ classes**. (I will split subfolder even further, like **MIT6.s081/ CSAPP** notes in subfolder classes. )
 2. Then create _index.md file for each folder that is a mother folder, except the folder that holds the article.
-3. In an article foldeer, there is one index markdown file that contains the artiocle and there is another pic folder that contains the pictures. 
+3. In an article folder, there is one index markdown file that contains the artiocle and there is another pic folder that contains the pictures. 
 4. I use the static folder to contains cover pictures. 
 
 
@@ -201,8 +200,10 @@ Netlify is a service that builds up webpage using your existing github repositor
 ![](pic/netlify1.png)
 
 
-**add a domain name**.  
-If you are interested in publishing your website to the public, then posting your knowledge with a customed domain name is a good idea. 
+3. **add a domain name**.  
+TODO
+
+
 
 ## workflow
 Here the workflow becomes smooth as silk.  

@@ -8,3 +8,6 @@ cover:
 tags: 
 - "NJU programming assignment"
 ---
+
+I chose the book HARLEY HAHN'S GUIDE TO UNIX AND LINUX as my unix book. Below is my insights or inspirations. 
+-----

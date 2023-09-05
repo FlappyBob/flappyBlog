@@ -4,7 +4,7 @@ date: 2023-08-24T23:51:11-04:00
 showToc: true # 显示目录
 TocOpen: true # 自动展开目录
 cover:
-    image: classes/NJUpa/NJU-chap1.png
+    image: classes/NJUpa/NJU-chap1.jpg
 tags: 
 - "NJU programming assignment"
 ---
@@ -64,7 +64,6 @@ So we should learn:
 
 > 学汽车制造专业是要学发动机怎么设计, 学开车怎么开得过司机呢?
 ## Chicken soup
-
 **少抱怨, 多吃苦吧。当你遇到了问题，那么就是你没有掌握好。**
 **程序设计实验对菜鸡友好, 但为什么你做完之后还是菜鸡? 做一个对菜鸡友好的实验, 能力并不会得到提升.**
 

@@ -43,8 +43,7 @@ languages:
             url: posts/classes
           - name: thoughts
             url: posts/thoughts
-          - name: about
-            url: posts/about
+         
       menu:
         main:
           - identifier: search

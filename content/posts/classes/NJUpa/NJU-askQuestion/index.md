@@ -7,5 +7,6 @@ cover:
     image: classes/NJUpa/NJU-askQuestion.jepg
 tags: 
 - "NJU programming assignment"
+--- 
 
-    
+## How to ask the right question. 

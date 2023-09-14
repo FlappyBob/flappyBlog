@@ -201,7 +201,7 @@ Netlify is a service that builds up webpage using your existing github repositor
 
 
 3. **add a domain name**.  
-TODO
+
 
 
 

@@ -1,8 +1,8 @@
 ---
-title: "Archives"
-layout: "archives"
-url: "en/archives"
-summary: archives
+title: "About"
+layout: "about"
+url: "en/about"
+summary: about
 ---
 
 ## Who am I? 

@@ -1,10 +1,3 @@
----
-title: "About"
-layout: "about"
-url: "en/about"
-summary: about
----
-
 ## Who am I? 
 
 I am currently a sophomore in New York University, majored in computer science (planned to be an honored track).

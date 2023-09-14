@@ -1,3 +1,12 @@
+---
+title: "About myself"
+date: 2023-09-13T23:51:11-04:00
+showToc: true # 显示目录
+TocOpen: true # 自动展开目录
+tags: 
+- "About Page"
+---
+
 ## Who am I? 
 
 I am currently a sophomore in New York University, majored in computer science (planned to be an honored track).

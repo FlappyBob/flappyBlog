@@ -43,6 +43,8 @@ languages:
             url: posts/classes
           - name: thoughts
             url: posts/thoughts
+          - name: about
+            url: posts/about
       menu:
         main:
           - identifier: search
@@ -53,10 +55,7 @@ languages:
             name: tags
             url: tags
             weight: 3
-          - identifier: about
-            name: about
-            url: about
-            weight: 4
+
 
 outputs:
     home:

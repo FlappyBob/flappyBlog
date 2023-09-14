@@ -10,4 +10,3 @@ Later on I played huge amount of games on tablet including various kind, like Fi
 ![](pic/2.png)
 
 Games brings me so much and solidified my personlity. I enpowered me every moment when I got to depression -- That can also be said: "I cannot be the real myself without games." 
-

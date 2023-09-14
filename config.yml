@@ -54,7 +54,7 @@ languages:
           - identifier: tags
             name: tags
             url: tags
-            weight: 3
+            weight: 2
 
 
 outputs:

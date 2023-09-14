@@ -1,6 +1,6 @@
 baseURL: "https://flappyhimself.netlify.app/"
 languageCode: en-us
-title: FlappyHimself
+title: Flappy's blog
 theme: PaperMod
 
 enableInlineShortcodes: true #允许内联短码
@@ -29,8 +29,8 @@ languages:
       weight: 1
       profileMode:
         enabled: true
-        title: This is my note compilation. 
-        subtitle: "learn and practice"
+        title: Hi, here's Flappy. 
+        subtitle: ""
         imageUrl: "http://p0.itc.cn/q_70/images03/20200905/3c619b233f9f44f6865c919f49b75478.jpeg" 
         imageWidth: 100
         imageHeight: 100

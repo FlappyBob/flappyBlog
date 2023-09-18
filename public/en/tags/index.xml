@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Tags on Flappy&#39;s blog</title>
+    <link>https://flappyhimself.netlify.app/en/tags/</link>
+    <description>Recent content in Tags on Flappy&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 15 Sep 2023 23:51:11 -0400</lastBuildDate><atom:link href="https://flappyhimself.netlify.app/en/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>leetcode</title>
+      <link>https://flappyhimself.netlify.app/en/tags/leetcode/</link>
+      <pubDate>Fri, 15 Sep 2023 23:51:11 -0400</pubDate>
+      
+      <guid>https://flappyhimself.netlify.app/en/tags/leetcode/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>About Page</title>
+      <link>https://flappyhimself.netlify.app/en/tags/about-page/</link>
+      <pubDate>Wed, 13 Sep 2023 23:51:11 -0400</pubDate>
+      
+      <guid>https://flappyhimself.netlify.app/en/tags/about-page/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>NJU programming assignment</title>
+      <link>https://flappyhimself.netlify.app/en/tags/nju-programming-assignment/</link>
+      <pubDate>Tue, 05 Sep 2023 10:51:11 -0400</pubDate>
+      
+      <guid>https://flappyhimself.netlify.app/en/tags/nju-programming-assignment/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>common neural science</title>
+      <link>https://flappyhimself.netlify.app/en/tags/common-neural-science/</link>
+      <pubDate>Sun, 27 Aug 2023 22:10:11 -0400</pubDate>
+      
+      <guid>https://flappyhimself.netlify.app/en/tags/common-neural-science/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>memory</title>
+      <link>https://flappyhimself.netlify.app/en/tags/memory/</link>
+      <pubDate>Wed, 23 Aug 2023 22:10:11 -0400</pubDate>
+      
+      <guid>https://flappyhimself.netlify.app/en/tags/memory/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>blog setup</title>
+      <link>https://flappyhimself.netlify.app/en/tags/blog-setup/</link>
+      <pubDate>Tue, 22 Aug 2023 23:51:11 -0400</pubDate>
+      
+      <guid>https://flappyhimself.netlify.app/en/tags/blog-setup/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

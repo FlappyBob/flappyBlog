@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>About Page on Flappy&#39;s blog</title>
+    <link>https://flappyhimself.netlify.app/en/tags/about-page/</link>
+    <description>Recent content in About Page on Flappy&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 13 Sep 2023 23:51:11 -0400</lastBuildDate><atom:link href="https://flappyhimself.netlify.app/en/tags/about-page/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About </title>
+      <link>https://flappyhimself.netlify.app/en/posts/about/</link>
+      <pubDate>Wed, 13 Sep 2023 23:51:11 -0400</pubDate>
+      
+      <guid>https://flappyhimself.netlify.app/en/posts/about/</guid>
+      <description>Who am I? I am currently a sophomore in New York University, majored in computer science (planned to be an honored track). I am a traveller who&amp;rsquo;ve been to America, China, Australia, Swizerland, and Greece. Huge fan of Computer games/ Computers I always dream of becoming a game designer some day. I played my first game when I was 6. (The House of the Dead III) Later on I played</description>
+    </item>
+    
+  </channel>
+</rss>

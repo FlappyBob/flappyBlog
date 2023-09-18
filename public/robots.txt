@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://flappyhimself.netlify.app/sitemap.xml

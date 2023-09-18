@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Flappy&#39;s blog</title>
+    <link>https://flappyhimself.netlify.app/en/</link>
+    <description>Recent content on Flappy&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 15 Sep 2023 23:51:11 -0400</lastBuildDate><atom:link href="https://flappyhimself.netlify.app/en/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode day1</title>
+      <link>https://flappyhimself.netlify.app/en/posts/classes/lc/day1/</link>
+      <pubDate>Fri, 15 Sep 2023 23:51:11 -0400</pubDate>
+      
+      <guid>https://flappyhimself.netlify.app/en/posts/classes/lc/day1/</guid>
+      <description>Preface: I wrote this article for recompiling what I variously gained Slow/ Fast Index method</description>
+    </item>
+    
+    <item>
+      <title>About </title>
+      <link>https://flappyhimself.netlify.app/en/posts/about/</link>
+      <pubDate>Wed, 13 Sep 2023 23:51:11 -0400</pubDate>
+      
+      <guid>https://flappyhimself.netlify.app/en/posts/about/</guid>
+      <description>Who am I? I am currently a sophomore in New York University, majored in computer science (planned to be an honored track). I am a traveller who&amp;rsquo;ve been to America, China, Australia, Swizerland, and Greece. Huge fan of Computer games/ Computers I always dream of becoming a game designer some day. I played my first game when I was 6. (The House of the Dead III) Later on I played</description>
+    </item>
+    
+    <item>
+      <title>NJU PA - Unix introduction. </title>
+      <link>https://flappyhimself.netlify.app/en/posts/classes/njupa/nju-unix/pic/</link>
+      <pubDate>Tue, 05 Sep 2023 10:51:11 -0400</pubDate>
+      
+      <guid>https://flappyhimself.netlify.app/en/posts/classes/njupa/nju-unix/pic/</guid>
+      <description>I chose the book HARLEY HAHN&amp;rsquo;S GUIDE TO UNIX AND LINUX as my unix book. Below is my insights or inspirations.</description>
+    </item>
+    
+    <item>
+      <title>如何管理多巴胺，迎接sustainable人生</title>
+      <link>https://flappyhimself.netlify.app/en/posts/thoughts/common_nerural_sci/dopamine/</link>
+      <pubDate>Sun, 27 Aug 2023 22:10:11 -0400</pubDate>
+      
+      <guid>https://flappyhimself.netlify.app/en/posts/thoughts/common_nerural_sci/dopamine/</guid>
+      <description>这篇文章会浅浅总结多巴胺的来源和目的，以及它如何优化我们的生活。 资源 【快感上瘾?】如何欺骗大脑做困难的事! 多巴胺 动力、专注力&amp;amp;满足感</description>
+    </item>
+    
+    <item>
+      <title>NJU PA Mindset</title>
+      <link>https://flappyhimself.netlify.app/en/posts/classes/njupa/nju-pre/</link>
+      <pubDate>Thu, 24 Aug 2023 23:51:11 -0400</pubDate>
+      
+      <guid>https://flappyhimself.netlify.app/en/posts/classes/njupa/nju-pre/</guid>
+      <description>Introduction (FAQ) Recently I found an amazing course that introduces computer system, NJU PA. PA focus more on the abstraction of computer system, but it is not a typical system class that focues too much on hardware. It focus more on a symplified version of OS. And it is very tough. It also includes friendly words from those skilled system programmer. Why is this course so amazing? (why should I</description>
+    </item>
+    
+    <item>
+      <title>NYU 第一年</title>
+      <link>https://flappyhimself.netlify.app/en/posts/life/nyu-first-year/</link>
+      <pubDate>Wed, 23 Aug 2023 22:10:11 -0400</pubDate>
+      
+      <guid>https://flappyhimself.netlify.app/en/posts/life/nyu-first-year/</guid>
+      <description>原文po在了flappyhimself.netlify.app上，用了外网博客同步服务的原因搞个梯子才能上 喜欢（做过的事）。 计算机学习。 从去</description>
+    </item>
+    
+    <item>
+      <title>Build up static site and deploy it using hugo and netlify</title>
+      <link>https://flappyhimself.netlify.app/en/posts/tech/veryfirstblog/</link>
+      <pubDate>Tue, 22 Aug 2023 23:51:11 -0400</pubDate>
+      
+      <guid>https://flappyhimself.netlify.app/en/posts/tech/veryfirstblog/</guid>
+      <description>preword: I built this static website for compiling notes of knowledge. I dont want to focus too much on &amp;ldquo;deeper magic&amp;rdquo; on website-building technology but just write notes about computer science and other types of knowledge. (/smile) precondition: Installed hugo, git Resources Getting Started With Hugo | FREE COURSE paperMod theme preknowledge recap quick github recap. git remote add &amp;lt;github remote repo name&amp;gt; &amp;lt;repo url (better ssh since it caused</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://flappyhimself.netlify.app/en/en/posts/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://flappyhimself.netlify.app/en/en/posts/about/</guid>
+      <description>About</description>
+    </item>
+    
+    
+    
+  </channel>
+</rss>

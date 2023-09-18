@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>tech on Flappy&#39;s blog</title>
+    <link>https://flappyhimself.netlify.app/en/posts/tech/</link>
+    <description>Recent content in tech on Flappy&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 22 Aug 2023 23:51:11 -0400</lastBuildDate><atom:link href="https://flappyhimself.netlify.app/en/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Build up static site and deploy it using hugo and netlify</title>
+      <link>https://flappyhimself.netlify.app/en/posts/tech/veryfirstblog/</link>
+      <pubDate>Tue, 22 Aug 2023 23:51:11 -0400</pubDate>
+      
+      <guid>https://flappyhimself.netlify.app/en/posts/tech/veryfirstblog/</guid>
+      <description>preword: I built this static website for compiling notes of knowledge. I dont want to focus too much on &amp;ldquo;deeper magic&amp;rdquo; on website-building technology but just write notes about computer science and other types of knowledge. (/smile) precondition: Installed hugo, git Resources Getting Started With Hugo | FREE COURSE paperMod theme preknowledge recap quick github recap. git remote add &amp;lt;github remote repo name&amp;gt; &amp;lt;repo url (better ssh since it caused</description>
+    </item>
+    
+  </channel>
+</rss>

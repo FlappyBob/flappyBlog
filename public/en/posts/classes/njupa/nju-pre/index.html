@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>NJU PA Mindset | Flappy&#39;s blog</title>
+<meta name="keywords" content="NJU programming assignment">
+<meta name="description" content="Introduction (FAQ) Recently I found an amazing course that introduces computer system, NJU PA. PA focus more on the abstraction of computer system, but it is not a typical system class that focues too much on hardware. It focus more on a symplified version of OS. And it is very tough. It also includes friendly words from those skilled system programmer. Why is this course so amazing? (why should I">
+<meta name="author" content="Flappy">
+<link rel="canonical" href="https://flappyhimself.netlify.app/en/posts/classes/njupa/nju-pre/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.5c25c975546c048d1a5600aadb48425ae1bc921a9a18fe67d6955c9535260811.css" integrity="sha256-XCXJdVRsBI0aVgCq20hCWuG8khqaGP5n1pVclTUmCBE=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://flappyhimself.netlify.app/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://flappyhimself.netlify.app/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://flappyhimself.netlify.app/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://flappyhimself.netlify.app/apple-touch-icon.png">
+<link rel="mask-icon" href="https://flappyhimself.netlify.app/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="NJU PA Mindset" />
+<meta property="og:description" content="Introduction (FAQ) Recently I found an amazing course that introduces computer system, NJU PA. PA focus more on the abstraction of computer system, but it is not a typical system class that focues too much on hardware. It focus more on a symplified version of OS. And it is very tough. It also includes friendly words from those skilled system programmer. Why is this course so amazing? (why should I" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://flappyhimself.netlify.app/en/posts/classes/njupa/nju-pre/" />
+<meta property="og:image" content="https://flappyhimself.netlify.app/classes/NJUpa/NJU-pre.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-08-24T23:51:11-04:00" />
+<meta property="article:modified_time" content="2023-08-24T23:51:11-04:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://flappyhimself.netlify.app/classes/NJUpa/NJU-pre.png" />
+<meta name="twitter:title" content="NJU PA Mindset"/>
+<meta name="twitter:description" content="Introduction (FAQ) Recently I found an amazing course that introduces computer system, NJU PA. PA focus more on the abstraction of computer system, but it is not a typical system class that focues too much on hardware. It focus more on a symplified version of OS. And it is very tough. It also includes friendly words from those skilled system programmer. Why is this course so amazing? (why should I"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://flappyhimself.netlify.app/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "classes",
+      "item": "https://flappyhimself.netlify.app/en/posts/classes/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "NJU pa for system programming",
+      "item": "https://flappyhimself.netlify.app/en/posts/classes/njupa/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "NJU PA Mindset",
+      "item": "https://flappyhimself.netlify.app/en/posts/classes/njupa/nju-pre/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "NJU PA Mindset",
+  "name": "NJU PA Mindset",
+  "description": "Introduction (FAQ) Recently I found an amazing course that introduces computer system, NJU PA. PA focus more on the abstraction of computer system, but it is not a typical system class that focues too much on hardware. It focus more on a symplified version of OS. And it is very tough. It also includes friendly words from those skilled system programmer. Why is this course so amazing? (why should I",
+  "keywords": [
+    "NJU programming assignment"
+  ],
+  "articleBody": "Introduction (FAQ) Recently I found an amazing course that introduces computer system, NJU PA.\nPA focus more on the abstraction of computer system, but it is not a typical system class that focues too much on hardware. It focus more on a symplified version of OS. And it is very tough. It also includes friendly words from those skilled system programmer.\nWhy is this course so amazing? (why should I take this course? )\nIt is hard. After grinding, solving a hard problem on my own is gained. Since every serious engineering problem starts with a blank piece of paper. A handout? The framework code? It doesn’t exist. If we don’t provide handouts and framework code for you to write a NEMU that can run a sword, it will be very similar to the task you will face after graduation. So we design PA to beat you now, let you suffer, suffer, in the final analysis is to make you more competitive in the future job hunting, to withstand the beating of society. 我将来不从事系统相关的工作, 就不会那么痛苦了? ans: 就算是应用程序, 几千个模块之间通过几万个API交互的场景都是家常便饭, 复杂性是社会毒打你的第二招必杀技.\nBuilding up your own knowledge system. Everything will only work when you fully understand. If you don’t know what you are talking about, your understanding of the knowledge is not clear enough, then you should read a book/manual\nDo not know what to do/how to do, indicating that your system view is fragmentary, can not understand the relationship between various modules in the system, at this time you should RTFSC, try your best to sort out and understand all the details of the system\nIf you don’t find bugs, you don’t know the correct expected behavior of the program. You need RTFSC to understand how the program should work. It also shows that you don’t pay attention to the use of tools and methods, and you need to take the time to experience and summarize them\nbtw pa is designed for upper goals, it does not intend to welcome students finishing this in a term.\nWhat knowledge is included other than solid debugging skills and engineering skills? 确实, 对于大部分计算机本科专业学生来说, 硬件设计能力不如电子工程专业学生, 行业软件开发和应用能力不如其他相关专业学生, 算法设计和分析基础又不如数学系学生. 那么, 计算机专业学生的特长在哪里? 我们认为计算机专业学生的优势之一在于计算机系统能力, 即具备计算机系统层面的认知与设计能力, 能从计算机系统的高度考虑和解决问题.\n随着大规模数据中心(WSC)的建立和个人移动设备(PMD)的大量普及使用, 计算机发展进入了后PC时代, 呈现出\"人与信息世界及物理世界融合\"的趋势和网络化, 服务化, 普适化和智能化的鲜明特征. 后PC时代WSC, PMD和PC等共存, 使得原先基于PC而建立起来的专业教学内容, 已经远远不能反映现代社会对计算机专业人才的培养要求, 原先计算机专业人才培养强调\"程序\"设计也变为更强调\"系统\"设计.\n后PC时代, 并行成为重要主题, 培养具有系统观的, 能够进行软, 硬件协同设计的软硬件贯通人才是关键. 而且, 后PC时代对于大量从事应用开发的应用程序员的要求也变得更高. 首先, 后PC时代的应用问题更复杂, 应用领域更广泛. 其次, 要能够编写出各类不同平台所适合的高效程序, 应用开发人员必需对计算机系统具有全面的认识, 必需了解不同系统平台的底层结构, 并掌握并行程序设计技术和工具.\nAbilities:\n能够对软, 硬件功能进行合理划分 能够对系统不同层次进行抽象和封装 能够对系统的整体性能进行分析和调优 能够对系统各层面的错误进行调试和修正 能够根据系统实现机理对用户程序进行准确的性能评估和优化 能够根据不同的应用要求合理构建系统框架等 So we should learn:\n对计算机系统整机概念的认识。 对计算机系统层次结构的深刻理解。 对高级语言程序, ISA, OS, 编译器, 链接器等之间关系的深入掌握。 对指令在硬件上执行过程的理解和认识。 对构成计算机硬件的基本电路特性和设计方法等的基本了解等。从而能够更深刻地理解时空开销和权衡, 抽象和建模, 分而治之, 缓存和局部性, 吞吐率和时延, 并发和并行, 远程过程调用(RPC), 权限 和保护等重要的核心概念, 掌握现代计算机系统中最核心的技术和实现方法. Always remember, there are only 3 fundamental question in cs education:\n(theory, 理论计算机科学) What is computing? (system, 计算机系统) What is a computer? (application, 计算机应用) What can a computer do? Learning how to practice will enhance your understanding, bringing up new ideas, and bringing up more practices.\n学汽车制造专业是要学发动机怎么设计, 学开车怎么开得过司机呢?\nChicken soup 少抱怨, 多吃苦吧。当你遇到了问题，那么就是你没有掌握好。 程序设计实验对菜鸡友好, 但为什么你做完之后还是菜鸡? 做一个对菜鸡友好的实验, 能力并不会得到提升.\nappropriate mindset. (from the FAQ section of PA.)\nRead the fucking manual. Understand every detail about the code you write. Understand the relationship between modules of computer systems. Undetstand the typical tools for solving typical questions. 这种\"只要不影响我现在survive, 就不要紧\"的想法其实非常的利己和短视: 你在专业上的技不如人, 迟早有一天会找上来, 会影响到你个人职业生涯的长远的发展; 更严重的是, 这些以得过且过的态度来对待自己专业的学生, 他们的survive其实是以透支南大教育的信誉为代价的 – 如果我们一定比例的毕业生都是这种情况, 那么过不了多久, 不但那些混到毕业的学生也没那么容易survive了, 而且那些真正自己刻苦努力的学生, 他们的前途也会受到影响. – etone\nHow to ask the right question? ",
+  "wordCount" : "1735",
+  "inLanguage": "en",
+  "image":"https://flappyhimself.netlify.app/classes/NJUpa/NJU-pre.png","datePublished": "2023-08-24T23:51:11-04:00",
+  "dateModified": "2023-08-24T23:51:11-04:00",
+  "author":{
+    "@type": "Person",
+    "name": "Flappy"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://flappyhimself.netlify.app/en/posts/classes/njupa/nju-pre/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Flappy's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://flappyhimself.netlify.app/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://flappyhimself.netlify.app/en/" accesskey="h" title="Flappy&#39;s blog (Alt + H)">Flappy&#39;s blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://flappyhimself.netlify.app/en/search" title="search (Alt &#43; /)" accesskey=/>
+                    <span>search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://flappyhimself.netlify.app/en/tags" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://flappyhimself.netlify.app/en/posts/about" title="about">
+                    <span>about</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://flappyhimself.netlify.app/en/">Home</a>&nbsp;»&nbsp;<a href="https://flappyhimself.netlify.app/en/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://flappyhimself.netlify.app/en/posts/classes/">classes</a>&nbsp;»&nbsp;<a href="https://flappyhimself.netlify.app/en/posts/classes/njupa/">NJU pa for system programming</a></div>
+    <h1 class="post-title">
+      NJU PA Mindset
+    </h1>
+    <div class="post-meta"><span title='2023-08-24 23:51:11 -0400 EDT'>August 24, 2023</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Flappy
+
+</div>
+  </header> 
+<figure class="entry-cover"><img loading="lazy" src="https://flappyhimself.netlify.app/classes/NJUpa/NJU-pre.png" alt="">
+        
+</figure><div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#introduction-faq" aria-label="Introduction (FAQ)">Introduction (FAQ)</a></li>
+                <li>
+                    <a href="#what-knowledge-is-included-other-than-solid-debugging-skills-and-engineering-skills" aria-label="What knowledge is included other than solid debugging skills and engineering skills?">What knowledge is included other than solid debugging skills and engineering skills?</a></li>
+                <li>
+                    <a href="#chicken-soup" aria-label="Chicken soup">Chicken soup</a></li>
+                <li>
+                    <a href="#how-to-ask-the-right-question" aria-label="How to ask the right question?">How to ask the right question?</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="introduction-faq">Introduction (FAQ)<a hidden class="anchor" aria-hidden="true" href="#introduction-faq">#</a></h2>
+<p>Recently I found an amazing course that introduces computer system, NJU PA.</p>
+<p>PA focus more on the abstraction of computer system, but it is <strong>not a typical system class</strong> that focues too much on hardware. It focus more on a symplified version of OS. And it is very tough. It also includes friendly words from those skilled system programmer.</p>
+<p><strong>Why is this course so amazing?</strong> (why should I take this course? )</p>
+<ol>
+<li>It is <strong>hard</strong>.</li>
+<li>After grinding, <strong>solving a hard problem on my own is gained.</strong> Since every serious engineering problem starts with a blank piece of paper.</li>
+</ol>
+<blockquote>
+<p>A handout? The framework code? It doesn&rsquo;t exist. If we don&rsquo;t provide handouts and framework code for you to write a NEMU that can run a sword, it will be very similar to the task you will face after graduation.
+So we design PA to beat you now, let you suffer, suffer, in the final analysis is to make you more competitive in the future job hunting, to withstand the beating of society.
+我将来不从事系统相关的工作, 就不会那么痛苦了? ans: 就算是应用程序, 几千个模块之间通过几万个API交互的场景都是家常便饭, 复杂性是社会毒打你的第二招必杀技.</p>
+</blockquote>
+<ol start="3">
+<li>Building up your own knowledge system. Everything will only work when you fully understand.</li>
+</ol>
+<blockquote>
+<p>If you don&rsquo;t know what you are talking about, your understanding of the knowledge is not clear enough, then you should read a book/manual</p>
+</blockquote>
+<blockquote>
+<p>Do not know what to do/how to do, indicating that your system view is fragmentary, can not understand the relationship between various modules in the system, at this time you should RTFSC, try your best to sort out and understand all the details of the system</p>
+</blockquote>
+<blockquote>
+<p>If you don&rsquo;t find bugs, you don&rsquo;t know the correct expected behavior of the program. You need RTFSC to understand how the program should work. It also shows that you don&rsquo;t pay attention to the use of tools and methods, and you need to take the time to experience and summarize them</p>
+</blockquote>
+<p><em>btw pa is designed for upper goals, it does not intend to welcome students finishing this in a term.</em></p>
+<h2 id="what-knowledge-is-included-other-than-solid-debugging-skills-and-engineering-skills">What knowledge is included other than solid debugging skills and engineering skills?<a hidden class="anchor" aria-hidden="true" href="#what-knowledge-is-included-other-than-solid-debugging-skills-and-engineering-skills">#</a></h2>
+<p>确实, 对于大部分计算机本科专业学生来说, 硬件设计能力不如电子工程专业学生, 行业软件开发和应用能力不如其他相关专业学生, 算法设计和分析基础又不如数学系学生. 那么, 计算机专业学生的特长在哪里? 我们认为计算机专业学生的优势之一在于计算机系统能力, 即具备计算机系统层面的认知与设计能力, 能从计算机系统的高度考虑和解决问题.</p>
+<p>随着大规模数据中心(WSC)的建立和个人移动设备(PMD)的大量普及使用, 计算机发展进入了后PC时代, 呈现出&quot;人与信息世界及物理世界融合&quot;的趋势和网络化, 服务化, 普适化和智能化的鲜明特征. 后PC时代WSC, PMD和PC等共存, 使得原先基于PC而建立起来的专业教学内容, 已经远远不能反映现代社会对计算机专业人才的培养要求, 原先计算机专业人才培养强调&quot;程序&quot;设计也变为更强调&quot;系统&quot;设计.</p>
+<p>后PC时代, 并行成为重要主题, 培养具有系统观的, 能够进行软, 硬件协同设计的软硬件贯通人才是关键. 而且, 后PC时代对于大量从事应用开发的应用程序员的要求也变得更高. 首先, 后PC时代的应用问题更复杂, 应用领域更广泛. 其次, 要能够编写出各类不同平台所适合的高效程序, 应用开发人员必需对计算机系统具有全面的认识, 必需了解不同系统平台的底层结构, 并掌握并行程序设计技术和工具.</p>
+<p>Abilities:</p>
+<ol>
+<li>能够对软, 硬件功能进行合理划分</li>
+<li>能够对系统不同层次进行抽象和封装</li>
+<li>能够对系统的整体性能进行分析和调优</li>
+<li>能够对系统各层面的错误进行调试和修正</li>
+<li>能够根据系统实现机理对用户程序进行准确的性能评估和优化</li>
+<li>能够根据不同的应用要求合理构建系统框架等</li>
+</ol>
+<p>So we should learn:</p>
+<ol>
+<li>对计算机系统整机概念的认识。</li>
+<li>对计算机系统层次结构的深刻理解。</li>
+<li>对高级语言程序, ISA, OS, 编译器, 链接器等之间关系的深入掌握。</li>
+<li>对指令在硬件上执行过程的理解和认识。</li>
+<li>对构成计算机硬件的基本电路特性和设计方法等的基本了解等。从而能够更深刻地理解时空开销和权衡, 抽象和建模, 分而治之, 缓存和局部性, 吞吐率和时延, 并发和并行, 远程过程调用(RPC), 权限</li>
+<li>和保护等重要的核心概念, 掌握现代计算机系统中最核心的技术和实现方法.</li>
+</ol>
+<p><strong>Always remember, there are only 3 fundamental question in cs education:</strong></p>
+<ol>
+<li>(theory, 理论计算机科学) What is computing?</li>
+<li>(system, 计算机系统) What is a computer?</li>
+<li>(application, 计算机应用) What can a computer do?</li>
+</ol>
+<p><strong>Learning how to practice will enhance your understanding, bringing up new ideas, and bringing up more practices.</strong></p>
+<blockquote>
+<p>学汽车制造专业是要学发动机怎么设计, 学开车怎么开得过司机呢?</p>
+</blockquote>
+<h2 id="chicken-soup">Chicken soup<a hidden class="anchor" aria-hidden="true" href="#chicken-soup">#</a></h2>
+<p><strong>少抱怨, 多吃苦吧。当你遇到了问题，那么就是你没有掌握好。</strong>
+<strong>程序设计实验对菜鸡友好, 但为什么你做完之后还是菜鸡? 做一个对菜鸡友好的实验, 能力并不会得到提升.</strong></p>
+<p><strong>appropriate mindset.</strong> (from the FAQ section of PA.)</p>
+<ol>
+<li>Read the fucking manual.</li>
+<li>Understand every detail about the code you write.</li>
+<li>Understand the relationship between modules of computer systems.</li>
+<li>Undetstand the typical tools for solving typical questions.</li>
+</ol>
+<blockquote>
+<p>这种&quot;只要不影响我现在survive, 就不要紧&quot;的想法其实非常的利己和短视: 你在专业上的技不如人, 迟早有一天会找上来, 会影响到你个人职业生涯的长远的发展; 更严重的是, 这些以得过且过的态度来对待自己专业的学生, 他们的survive其实是以透支南大教育的信誉为代价的 &ndash; 如果我们一定比例的毕业生都是这种情况, 那么过不了多久, 不但那些混到毕业的学生也没那么容易survive了, 而且那些真正自己刻苦努力的学生, 他们的前途也会受到影响. &ndash; etone</p>
+</blockquote>
+<h2 id="how-to-ask-the-right-question">How to ask the right question?<a hidden class="anchor" aria-hidden="true" href="#how-to-ask-the-right-question">#</a></h2>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://flappyhimself.netlify.app/en/tags/nju-programming-assignment/">NJU programming assignment</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://flappyhimself.netlify.app/en/posts/thoughts/common_nerural_sci/dopamine/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>如何管理多巴胺，迎接sustainable人生</span>
+  </a>
+  <a class="next" href="https://flappyhimself.netlify.app/en/posts/life/nyu-first-year/">
+    <span class="title">Next »</span>
+    <br>
+    <span>NYU 第一年</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://flappyhimself.netlify.app/en/">Flappy&#39;s blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>NJU pa for system programming on Flappy&#39;s blog</title>
+    <link>https://flappyhimself.netlify.app/en/posts/classes/njupa/</link>
+    <description>Recent content in NJU pa for system programming on Flappy&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 05 Sep 2023 10:51:11 -0400</lastBuildDate><atom:link href="https://flappyhimself.netlify.app/en/posts/classes/njupa/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NJU PA - Unix introduction. </title>
+      <link>https://flappyhimself.netlify.app/en/posts/classes/njupa/nju-unix/pic/</link>
+      <pubDate>Tue, 05 Sep 2023 10:51:11 -0400</pubDate>
+      
+      <guid>https://flappyhimself.netlify.app/en/posts/classes/njupa/nju-unix/pic/</guid>
+      <description>I chose the book HARLEY HAHN&amp;rsquo;S GUIDE TO UNIX AND LINUX as my unix book. Below is my insights or inspirations.</description>
+    </item>
+    
+    <item>
+      <title>NJU PA Mindset</title>
+      <link>https://flappyhimself.netlify.app/en/posts/classes/njupa/nju-pre/</link>
+      <pubDate>Thu, 24 Aug 2023 23:51:11 -0400</pubDate>
+      
+      <guid>https://flappyhimself.netlify.app/en/posts/classes/njupa/nju-pre/</guid>
+      <description>Introduction (FAQ) Recently I found an amazing course that introduces computer system, NJU PA. PA focus more on the abstraction of computer system, but it is not a typical system class that focues too much on hardware. It focus more on a symplified version of OS. And it is very tough. It also includes friendly words from those skilled system programmer. Why is this course so amazing? (why should I</description>
+    </item>
+    
+  </channel>
+</rss>

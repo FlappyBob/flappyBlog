@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>life on Flappy&#39;s blog</title>
+    <link>https://flappyhimself.netlify.app/en/posts/life/</link>
+    <description>Recent content in life on Flappy&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 23 Aug 2023 22:10:11 -0400</lastBuildDate><atom:link href="https://flappyhimself.netlify.app/en/posts/life/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NYU 第一年</title>
+      <link>https://flappyhimself.netlify.app/en/posts/life/nyu-first-year/</link>
+      <pubDate>Wed, 23 Aug 2023 22:10:11 -0400</pubDate>
+      
+      <guid>https://flappyhimself.netlify.app/en/posts/life/nyu-first-year/</guid>
+      <description>原文po在了flappyhimself.netlify.app上，用了外网博客同步服务的原因搞个梯子才能上 喜欢（做过的事）。 计算机学习。 从去</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -5,7 +5,7 @@ showToc: true # 显示目录
 TocOpen: true # 自动展开目录
 draft: false
 cover:
-    image: tech/如何刷题小总/background.jpg
+    image: tech/如何刷题小总/backgroung.jpg
 tags: 
 - "leetcode"
 ---

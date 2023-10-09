@@ -1,5 +1,5 @@
 ---
-title: "NYU 第一年"
+title: "研究生？ "
 date: 2023-09-18T22:10:11-04:00
 showToc: true # 显示目录
 TocOpen: true # 自动展开目录

@@ -3,6 +3,7 @@ title: "如何管理多巴胺，迎接sustainable人生"
 date: 2023-08-27T22:10:11-04:00
 showToc: true # 显示目录
 TocOpen: true # 自动展开目录
+draft: true
 cover:
     image: thoughts/dopamine/img.jpg
     caption: 'best UFC fighter currently'

@@ -3,6 +3,7 @@ title: "LeetCode day1"
 date: 2023-10-08T23:51:11-04:00
 showToc: true # 显示目录
 TocOpen: true # 自动展开目录
+draft: true
 tags: 
 - "leetcode"
 ---

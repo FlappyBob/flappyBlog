@@ -3,7 +3,6 @@ title: "NYU second half year"
 date: 2023-10-10T22:10:11-04:00
 showToc: true # 显示目录
 TocOpen: true # 自动展开目录
-ShowShareButtons: true
 draft: false 
 cover:
     image: 

@@ -5,8 +5,8 @@ showToc: true # 显示目录
 TocOpen: true # 自动展开目录
 draft: false
 cover:
-    image: 
-    caption: 
+    image: life/1.png
+    caption: tokido, my favorite fighting game player
 tags: 
 - "memory"
 ---

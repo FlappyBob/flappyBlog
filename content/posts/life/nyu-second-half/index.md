@@ -113,21 +113,45 @@ TODO
 ### 有关生活的想法。 
 ### 追求幸福
 Ans：**幸福**。
+
 对此，我认为：**因为多巴胺天平的存在，人一辈子的时间的“兴奋”的时间其实是有限的，但是人生的很长一段时间都可以保持“幸福”**。对于兴奋感，即使你什么事情都不做，甚至你认为的降低你的多巴胺（比如洗冷水澡），你的多巴胺（兴奋感）反而会上升。而但是幸福感不会，至少出于我的主观体验来讲，幸福感一直是**长期存在的**。
 
 去真正的找一个真正的人而非利益的寄生虫开始相爱吧，你会收获幸福感。
 
 **幸福是什么**？
+
 这种幸福感可能是和自己的伴侣一起相处的时光但是什么都不干；可能是看到自己和自己孩子一起打游戏的照片而感到欣喜；可能是自己的真正的好homie结婚找到你作为伴郎。因为这些关系是基于真正的爱的而非利益关系，我想如果这些事情发生，我会感觉到的发自内心的幸福感。
 
 ### 如何保持一个良好的心态？
 *此部分博文写于2023/11/08*
 在很多时候我都遇到了动力缺失的问题。通常就是一天起来什么都不想干（内心会有一个很好的借口，比如自己的睡眠时间不够等等）。
 
-吹哥（jonnason blow）介绍了他应对动力缺失的想法([应对动力缺失，虚弱感和抑郁的技巧](https://www.bilibili.com/video/BV1wW411T7Xu/?vd_source=7e02795fb03862e4a4b16860c697aa69)).
+吹哥（jonnason blow）介绍了他应对动力缺失的想法([应对动力缺失，虚弱感和抑郁的技巧](https://www.bilibili.com/video/BV1wW411T7Xu/?vd_source=7e02795fb03862e4a4b16860c697aa69))
+
 
 我的insight：
-1. 
+
+1. Keep the condition of meditating while encounterting the negative state(anger, anxious, extreme happiness ... ), doing a introspection to you at that time. 
+* make your body at condition of awareness. 
+2. Your thoughts will not control your life because your thoughts are only a tiny part of your experience. 
+3. Your sensations are completely neutrual, and it adds layers upon the sensations. 
+No matter it is anxious feeling when you find mistakes, or sadness when encountering big failure, it is always important to control your mind.
+
+
+用中文总结一下：
+
+**人体的构成吹哥给出了一个较为可行的模型**：分为 --
+1. Body sensation。人的感官知觉，这是最不可控的一部分。
+2. 思想。这是你大脑中awareness的一部分，这是很可控的。
+3. 情绪。这是你思想的反应，通过控制思想，这部分也会变得很可控。
+  
+我们的最终目的是获得幸福感，一切消极的思想只会让幸福感消失，那么我们该怎么做呢？
+* 当动力缺失，陷入抑郁时候：
+  0. 观察身体。通常这不需要，但是你可以用一种中性的角度去审视肉体。
+  1. 观察心理。同样的，用中性的角度去审视。如果有负面情绪，那么就保持这种introspection，这样负面情绪会很快消失。
+  2. 值得提出的是：上学期上的冥想课中，提到了可以通过深呼吸专注在呼吸上，如果自己的感觉自己的注意力转移到了别的情绪上时，你就可以观察它。和上面是一个道理。
+
+某种程度上来说就是什么都不做就行。
 
 ### 你想要什么样的生活？ 
 *此部分博文写于2023.10.14，求职季末期。*

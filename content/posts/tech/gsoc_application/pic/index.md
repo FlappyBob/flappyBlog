@@ -5,7 +5,7 @@ showToc: true # 显示目录
 TocOpen: true # 自动展开目录
 draft: false
 cover:
-    image: open_source/open_source.png
+    image: tech/open_source/open_source.png
 tags: 
 - "gsoc"
 ---

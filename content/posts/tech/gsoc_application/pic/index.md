@@ -5,7 +5,7 @@ showToc: true # 显示目录
 TocOpen: true # 自动展开目录
 draft: false
 cover:
-    image: 
+    image: open_source/open_source.png
 tags: 
 - "gsoc"
 ---
@@ -21,6 +21,7 @@ tags:
 2. 熟悉自己领域的专业知识，OS就需要先跟完cs162这种课；如果打算做模拟器那就最好先实现一个模拟器，NES emulator for instance. 
 
 ## 准备开源时期
+尝试自己解决一些bugs和issues
 
 ## 
 TODO 

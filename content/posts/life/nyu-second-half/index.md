@@ -14,7 +14,7 @@ tags:
 ## 学了什么？
 
 ### **mind and machines**
-
+[introtomindphilosophy](https://flappyhimself.netlify.app/en/posts/classes/philosophy/introtomindphilosophy/)
 
 
 ### **cs杂类**

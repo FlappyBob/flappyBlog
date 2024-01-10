@@ -1,5 +1,5 @@
 ---
-title: "NYU second half year"
+title: "NYU 第二上半年"
 date: 2023-12-23T22:10:11-04:00
 showToc: true # 显示目录
 TocOpen: true # 自动展开目录

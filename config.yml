@@ -42,6 +42,8 @@ languages:
             url: posts/classes
           - name: thoughts
             url: posts/thoughts
+          - name: anime_game_films
+            url: posts/anime_game_films
          
       menu:
         main:

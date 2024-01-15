@@ -28,7 +28,7 @@ languages:
       weight: 1
       profileMode:
         enabled: true
-        title: Hi, here's Flappy. 
+        title: Flappy's notes. 
         subtitle: ""
         imageUrl: "http://p0.itc.cn/q_70/images03/20200905/3c619b233f9f44f6865c919f49b75478.jpeg" 
         imageWidth: 100

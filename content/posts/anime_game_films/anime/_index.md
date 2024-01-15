@@ -1,3 +1,3 @@
 ---
-title: "Anime"
+title: "anime"
 ---

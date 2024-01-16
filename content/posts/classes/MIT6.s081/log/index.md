@@ -26,3 +26,33 @@ tags:
 
 想的是目前先用6.s081的知识来拓宽自己的眼界，之后掌握正确的debug手法之后就可以自己在下学期独立0学好os和cs162了，数据库的事情之后再说吧，不急。现在先火速开始6.s081吧，事不宜迟。
 
+## 1/15 
+今日发生了一些小冲突，就看了lec1
+一些感悟：
+
+* 重要的是内心得有这个清晰的想法 -- 自己写的所有c代码也都是instruction被存在了内存里。很多魔法操作（比如fork就是把一模一样的instruction load进新的physical mm space里）。
+
+* shell也不过是一串instruction，深刻理解到了shell也不过是一个user app的事实 -- 我们若是直接在其中调用exec那会直接覆盖了内存空间，于是shell就会消失， 所以我们才先fork再exec。
+
+* shell中的redirect很神奇是吧。也只不过是把原本（fd = 1）的stdout换成了要输入的文件，然后echo程序做的事情也就是把fd0 不断地写东西
+
+echo.c 
+``` c
+int
+main(int argc, char *argv[])
+{
+  int i;
+
+  for(i = 1; i < argc; i++){
+    write(1, argv[i], strlen(argv[i]));
+    if(i + 1 < argc){
+      write(1, " ", 1);
+    } else {
+      write(1, "\n", 1);
+    }
+  }
+  exit(0);
+}
+
+ ```
+这里就是不断地从cmdline 除了echo之外的字符串开始写入到fd为1的bytestream中。

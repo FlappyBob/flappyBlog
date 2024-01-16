@@ -56,3 +56,50 @@ main(int argc, char *argv[])
 
  ```
 这里就是不断地从cmdline 除了echo之外的字符串开始写入到fd为1的bytestream中。
+
+明日打算把lab0写了。
+
+## 1/16 
+pipe syscall的作用是创建两个fd，一个头用来读一个用来写。
+
+```c 
+
+
+#include "kernel/types.h"
+#include "user/user.h"
+
+// pipe2.c: communication between two processes
+
+int
+main()
+{
+  int n, pid;
+  int fds[2];
+  char buf[100];
+  
+  // create a pipe, with two FDs in fds[0], fds[1].
+  pipe(fds);
+
+  pid = fork();
+  if (pid == 0) {
+    write(fds[1] , "this is pipe2\n", 14);
+  } else {
+    n = read(fds[0], buf, sizeof(buf));
+    write(1, buf, n);
+  }
+
+  exit(0);
+}
+ ```
+
+我们常识的认知是读与写是分开的，但实际上是一个fifo的循环队列，若是父子进程同时读写，先后次序便不是固定的。
+
+因此在写pingpong的时候，最好的方法是创建两个管道。
+
+父 write --------> pipe1 -------> read 子
+子 write --------> pipe2 -------> read 父
+
+子进程通过复制父进程的fd table来得到已经在父进程实现的管道。
+![Alt text](image-1.png)
+
+我一开始粗浅的认识以为pipe如果一方先读了另一方后写怎么办？难道不会写入一些奇怪的数据吗？答案是：linux中循环队列的实现确保了读指针永远不会超过写指针。如果“read 1 byte”先在进程A中发生了，那么他会等待另一端的write进入，这样永远可以保证每一个byte都是一个一个传进去的。

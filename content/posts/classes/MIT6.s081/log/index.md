@@ -57,7 +57,7 @@ main(int argc, char *argv[])
  ```
 这里就是不断地从cmdline 除了echo之外的字符串开始写入到fd为1的bytestream中。
 
-明日打算把lab0写了。
+明日打算把lab1写了。
 
 ## 1/16 
 pipe syscall的作用是创建两个fd，一个头用来读一个用来写。
@@ -97,9 +97,234 @@ main()
 因此在写pingpong的时候，最好的方法是创建两个管道。
 
 父 write --------> pipe1 -------> read 子
+
 子 write --------> pipe2 -------> read 父
 
 子进程通过复制父进程的fd table来得到已经在父进程实现的管道。
+
 ![Alt text](image-1.png)
 
-我一开始粗浅的认识以为pipe如果一方先读了另一方后写怎么办？难道不会写入一些奇怪的数据吗？答案是：linux中循环队列的实现确保了读指针永远不会超过写指针。如果“read 1 byte”先在进程A中发生了，那么他会等待另一端的write进入，这样永远可以保证每一个byte都是一个一个传进去的。
+pipe的一些性质。
+1. 我一开始粗浅的认识以为pipe如果一方先读了另一方后写怎么办？难道不会写入一些奇怪的数据吗？答案是：linux中循环队列的实现确保了读指针永远不会超过写指针。如果“read 1 byte”先在进程A中发生了，那么他会等待另一端的write进入，这样永远可以保证每一个byte都是一个一个传进去的。
+
+2. pipe的读端会等write端如果没有啥可以读的，如果所有write端都被关闭了，那么进程会监测到write端的变化，于是read端会返回0
+ans: 
+``` c
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
+#include "kernel/fs.h"
+
+#define WRITEEND 1
+#define READEND 0
+int main(int argc, char *argv[])
+{
+    // local convention: p[1] is write end ; p[0] is read end
+    int pp2c[2]; // write p -> read c
+    int pc2p[2]; // write c -> read p
+    int status; 
+    pipe(pp2c);
+    pipe(pc2p);
+    char thatbyte;
+    // c
+    if (fork() == 0) {
+        close(pp2c[WRITEEND]);
+        close(pc2p[READEND]);
+
+        read(pp2c[READEND], &thatbyte, 1);
+        printf("%d: received ping\n", getpid());
+        write(pc2p[WRITEEND], "a", 1);
+
+        close(pc2p[WRITEEND]);
+        close(pp2c[READEND]);
+        exit(0);
+    // p  
+    } else {
+        // write p -> read c
+        close(pc2p[WRITEEND]);
+        close(pp2c[READEND]);
+    
+        write(pp2c[WRITEEND], "a", 1);
+        read(pc2p[READEND], &thatbyte, 1);
+        printf("%d: received pong\n", getpid());
+        wait(&status);
+
+        close(pp2c[WRITEEND]);
+        close(pc2p[READEND]);
+    }
+    exit(0);
+}
+ ```
+
+Primes中令我困惑的只有一个问题。在最后reap children的时候先退出管道的读写端总是最safe的选择。我猜测我前几次失败的原因是：先reap children了，导致父进程后续退出写端的时候系统发现这个管道缺了一个读端（因为child的读端先被reap了）。
+
+ans：
+``` c
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
+#include "kernel/fs.h"
+
+// primes needs recursion since it needs n-generation processes created
+#define WRITEEND 1
+#define READEND 0
+void sieve(int pipe_in[2])
+{
+    // This close syscall is put here but not in below function is because 
+    // we need to ensure the pipe that first call the function does close as well. 
+    close(pipe_in[WRITEEND]);
+    int n, num, status;
+    // read if encountered 0, then there is no more numbers needs sieving, then we quit.
+    if (read(pipe_in[READEND], &num, sizeof(int)) != sizeof(int)){
+        exit(0);
+    }
+
+    // if not exited, the first num is prime, we print
+    printf("prime %d\n", num);
+    int pipe_out[2];
+    pipe(pipe_out);
+    // send number that can pass the sieve to pipe_out
+
+    // child 
+    if (fork() == 0)
+    {
+        sieve(pipe_out); 
+    }
+    // parent
+    else
+    {
+        close(pipe_out[READEND]);
+        // stops reading until there is no more. 
+        while (read(pipe_in[READEND], &n, sizeof(int)) == sizeof(int))
+        {
+            if (n % num == 0) continue;
+            else {
+                write(pipe_out[WRITEEND], &n, sizeof(int));    
+            }
+        }
+        close(pipe_out[WRITEEND]);
+        // wait must be put after close(pipe_out[WRITEEND]); is executed otherwise pipe_out cannot be closed since
+        // child has already been reaped, pipe cannot be closed. 
+        wait(&status);
+        close(pipe_in[READEND]);
+    }
+    exit(0);
+}
+
+// main send num 2 - 35 to the first pipe_in 
+int main(int argc, char *argv[])
+{
+    int status, i;
+    int pipe_out[2]; 
+    pipe(pipe_out);
+    
+    if (fork() == 0) {
+        sieve(pipe_out);                
+    } else {
+        close(pipe_out[READEND]);
+        for (i = 2; i <= 35; i++) {
+            write(pipe_out[WRITEEND],&i, sizeof(int));
+        }
+        close(pipe_out[WRITEEND]);
+        wait(&status);
+    }
+    exit(0);
+}
+ ```
+
+**find**. 这题让我知道dir和file没有本质区别，他都是一串字节而已。以下是xv6 ls的实现。
+
+``` c
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
+#include "kernel/fs.h"
+
+// return formatted name of the path 
+char*
+fmtname(char *path)
+{
+  // size of formatted name 
+  static char buf[DIRSIZ+1]; 
+  // ptr 
+  char *p;
+
+  // Find first character after last slash.
+  for(p=path+strlen(path); p >= path && *p != '/'; p--)
+    ;
+  p++;
+
+  // Return blank-padded name.
+  if(strlen(p) >= DIRSIZ)
+    return p;
+  memmove(buf, p, strlen(p));
+  memset(buf+strlen(p), ' ', DIRSIZ-strlen(p));
+  return buf;
+}
+
+void
+ls(char *path)
+{
+  char buf[512], *p;
+  int fd;
+  struct dirent de;
+  struct stat st;
+
+  if((fd = open(path, 0)) < 0){
+    fprintf(2, "ls: cannot open %s\n", path);
+    return;
+  }
+
+  if(fstat(fd, &st) < 0){
+    fprintf(2, "ls: cannot stat %s\n", path);
+    close(fd);
+    return;
+  }
+
+  switch(st.type){
+  case T_FILE:
+    printf("%s %d %d %l\n", fmtname(path), st.type, st.ino, st.size);
+    break;
+
+  case T_DIR:
+    // I dont get it 
+    if(strlen(path) + 1 + DIRSIZ + 1 > sizeof buf){
+      printf("ls: path too long\n");
+      break;
+    } 
+    strcpy(buf, path);
+    p = buf+strlen(buf);
+    *p++ = '/';
+    while(read(fd, &de, sizeof(de)) == sizeof(de)){
+      if(de.inum == 0)
+        continue;
+      memmove(p, de.name, DIRSIZ);
+      p[DIRSIZ] = 0;
+      if(stat(buf, &st) < 0){
+        printf("ls: cannot stat %s\n", buf);
+        continue;
+      }
+      printf("%s %d %d %d\n", fmtname(buf), st.type, st.ino, st.size);
+    }
+    break;
+  }
+  close(fd);
+}
+
+int
+main(int argc, char *argv[])
+{
+  int i;
+
+  if(argc < 2){
+    ls(".");
+    exit(0);
+  }
+  for(i=1; i<argc; i++)
+    ls(argv[i]);
+  exit(0);
+}
+
+ ```
+
+最后的xargs有点被搞了。。大概思路知道但是c语言还是不太熟练导致我思来想去很久都没写出来。暂时先空着吧。。等我c语言熟悉一波再回来写。

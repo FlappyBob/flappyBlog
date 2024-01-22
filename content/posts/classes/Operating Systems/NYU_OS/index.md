@@ -12,6 +12,10 @@ tags:
 
 *这个log就不涉及具体lab实现和setup的detail了，我主要讲一些对设计理念/ 做lab/ 上课时候的一些感悟。*
 
+如果有人感兴趣，可以看一下课程主页，作业的环境也几乎docker里配好的。
+webpage: https://cs.nyu.edu/~mwalfish/classes/24sp/
+lab： https://github.com/nyu-cs202/labs
+
 ## Lecture 1 
 没讲啥特殊的, good intro =。=
 

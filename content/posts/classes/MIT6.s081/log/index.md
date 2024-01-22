@@ -341,7 +341,18 @@ emmmmmmmmm感觉这个没啥好讲的，就是纯看hint写出来的，本质上
 
 *syscall lab完成*
 
-# 1/19 
+## 1/19 
 *胃连着疼了三天，今天休息一天，明天看医生*
 
-# 1/20 
+## 1/20 
+今天熟悉一下pagetable的概念，顺便看看xv6的源码。
+
+我读的是csapp的chap9，当时跳过了malloc lab，这次得恶补一下了。
+
+![Alt text](image.png)
+Via Address tranlation VA is turned into PA. 
+
+之后去帮朋友过生日了，明天开学。
+
+... 
+

@@ -10,6 +10,8 @@ tags:
 - "Operating Systems"
 ---
 
+*这个log就不涉及具体lab实现和setup的detail了，我主要讲一些对设计理念/ 做lab/ 上课时候的一些感悟。*
+
 ## Lecture 1 
 没讲啥特殊的, good intro =。=
 
@@ -22,3 +24,5 @@ walfish教授真的是非常热情。在讲为什么要学os/sys的时候几句�
 2. hardware是ugly的，从软件工程师的角度。如果没有好的design，那么deal with hardware everyday无疑是一个劳动密集的工作。正是因为有这层抽象，让写码本身变得优雅了很多。这是从美学的角度的一个为什么学os的原因。它**简单，强大，优雅。**
 
 3. os demonstrate了不少软件工程中重要的概念。比如scheduler是经典的调度问题/ 在和processes打交道的时候会接触到并行。这些都是在很多健壮的代码库中demonstrate的概念。
+
+

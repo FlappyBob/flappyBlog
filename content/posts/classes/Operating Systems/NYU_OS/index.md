@@ -5,7 +5,7 @@ showToc: true # 显示目录
 TocOpen: true # 自动展开目录
 draft: false 
 cover:
-    image: 
+    image: life/3.png
 tags: 
 - "Operating Systems"
 ---

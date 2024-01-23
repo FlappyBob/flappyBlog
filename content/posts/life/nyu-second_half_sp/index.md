@@ -5,13 +5,11 @@ showToc: true # 显示目录
 TocOpen: true # 自动展开目录
 draft: true
 cover:
-  image: 
+  image: life/2.png
   caption: 
 tags:
   - "memory"
 ---
-
-## 
 
 ## 一些年初的旅行。
 

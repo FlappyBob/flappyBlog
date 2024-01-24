@@ -29,4 +29,4 @@ walfish教授真的是非常热情。在讲为什么要学os/sys的时候几句�
 
 3. os demonstrate了不少软件工程中重要的概念。比如scheduler是经典的调度问题/ 在和processes打交道的时候会接触到并行。这些都是在很多健壮的代码库中demonstrate的概念。
 
-
+## Lecture 2

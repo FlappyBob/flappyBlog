@@ -30,3 +30,14 @@ walfish教授真的是非常热情。在讲为什么要学os/sys的时候几句�
 3. os demonstrate了不少软件工程中重要的概念。比如scheduler是经典的调度问题/ 在和processes打交道的时候会接触到并行。这些都是在很多健壮的代码库中demonstrate的概念。
 
 ## Lecture 2
+![Alt text](image.png)
+walfish课上直接把从src到变成byte load到os中的过程具象化了，有点像csapp中的第一章。
+
+csapp:
+![Alt text](image-1.png)
+
+理解process的方式有两种:
+1. 从processor的方式：无非就是loader在跑一段exeutable file.
+2. 从os的方式：os as resource manager会把processes当成一些instances来管理。
+
+感觉walfish对cpu如何运行的方式有一种美学的鉴赏 -- 一切漂亮的app，自始至终都是一堆bytes boil down之后都是cpu的pc在不断地指向下一步然后执行。

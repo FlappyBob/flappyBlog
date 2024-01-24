@@ -40,4 +40,13 @@ csapp:
 1. 从processor的方式：无非就是loader在跑一段exeutable file.
 2. 从os的方式：os as resource manager会把processes当成一些instances来管理。
 
-感觉walfish对cpu如何运行的方式有一种美学的鉴赏 -- 一切漂亮的app，自始至终都是一堆bytes boil down之后都是cpu的pc在不断地指向下一步然后执行。
+感觉walfish对cpu如何运行的方式有一种美学的鉴赏 -- 一切漂亮的app，自始至终都是一堆bytes boil down之后都是cpu的pc在不断地指向下一步然后执行。事实就是如此，这些设计是**优雅，强大**的。
+
+**一次相当quick的对sys的intro。** 
+![Alt text](image-2.png)
+
+stack：记住%rsp永远指向非空addr。
+
+。。。
+
+之后所有的的课都是csapp chap3的内容

@@ -42,11 +42,15 @@ csapp:
 
 感觉walfish对cpu如何运行的方式有一种美学的鉴赏 -- 一切漂亮的app，自始至终都是一堆bytes boil down之后都是cpu的pc在不断地指向下一步然后执行。事实就是如此，这些设计是**优雅，强大**的。
 
+之后所有的的课都是csapp chap3的内容. 
+
 **一次相当quick的对sys的intro。** 
 ![Alt text](image-2.png)
 
-stack：记住%rsp永远指向非空addr。
+* stack：记住%rsp永远指向非空addr。
+* local variable access:
 
-。。。
+``` c
+    
+ ```
 
-之后所有的的课都是csapp chap3的内容

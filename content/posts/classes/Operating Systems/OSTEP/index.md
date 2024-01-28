@@ -10,4 +10,23 @@ tags:
 - "dev tools"
 ---
 
-## 
+## Shell
+``` sh
+# Environment variables
+echo $PATH
+
+which echo 
+/usr/bin/echo # where echo is found. 
+
+# current directory
+flappy@Flappy:~$ pwd
+/home/flappy
+
+cd ~ # home directories. 
+
+cd - # get back to previous path. 
+
+-- help # 
+
+ls -l 
+ ```

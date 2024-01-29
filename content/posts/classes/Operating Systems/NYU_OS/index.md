@@ -68,3 +68,6 @@ Mike甚至贴心的给了环境的描述，我哭死。我觉得这很好，因�
 有多少个process？
 $2^{10}$
 ![Alt text](image-5.png)
+
+![Alt text](image-6.png)
+> 现场装逼.jpg

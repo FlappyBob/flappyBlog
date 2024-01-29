@@ -196,7 +196,19 @@ const numbers = [-5, -2, -1, -10, -3];
 console.log(
   reduce(
     numbers,
-    // 这里是reduce的callback function，
+    // 这里是reduce的callback function
+    // 按顺序take in的参数有。
+    // accumulator
+    // The value resulting from the previous call to callbackFn. On the first call, its value is initialValue if the latter is specified; otherwise its value is array[0].
+
+    // currentValue
+    // The value of the current element. On the first call, its value is array[0] if initialValue is specified; otherwise its value is array[1].
+
+    // currentIndex
+    // The index position of currentValue in the array. On the first call, its value is 0 if initialValue is specified, otherwise 1.
+
+    // array
+    // The array reduce() was called upon.
     function (accum, ele) {
       if (accum < ele) {
         return accum;

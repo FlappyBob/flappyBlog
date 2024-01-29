@@ -108,7 +108,23 @@ for (const p of points) {
 
 ## 自己梳理，一些铸币js语法。
 
-首先js铸币的地方 -- function只要被正规地declared了，那么它就会被完整地hoisted（也就是放到最上面。）
+**Function argument objects.** Function自身有一个argument object作为default。
+```js
+const f = function(... a) {
+    console.log(arguments);
+    console.log(a);
+}
+
+f(1, 2, 3);
+
+// output: [Arguments] { '0': 1, '1': 2, '2': 3 } 
+// [ 1, 2, 3 ]
+// 
+ ```
+在传入参数的时候如果我们不知道具体参数，那么就可以用spread syntax来access argument作为
+
+
+**Hoised Functions**。function只要被正规地declared了，那么它就会被完整地hoisted（也就是放到最上面。）
 
 > This f() can be accessed.
 
@@ -229,6 +245,21 @@ console.log(
 	return product * currentNumber;
 }, 1);`. This is the built-in func.
 
+another ex of reduce：
+``` js
+const nums = [-3, -2, 2, 3, 4];
+const x = nums
+  .filter((n) => n % 2 === 0)
+  // 1st arg accmu: res; 2nd arg elemtn: n; 
+  // renew res as current smallest value we've met, start it as Infinity. 
+  // so it return -2. 
+  .reduce((res, n) => (n < res ? n : res), Infinity);
+console.log(x);
+
+ ```
+
+**Decorator**: Basically a more complex wrapper function over the original function with original args and accompaneid with some extra "customized features". ex:
+
 ```js
 const debuggedParseInt = (oldFn) => {
   // now we send ...args  => like argv in C.
@@ -240,28 +271,28 @@ const debuggedParseInt = (oldFn) => {
 };
 ```
 
-**Decorator**: just run as original function with original args and accompaneid with some extra "customized features". Like above, is logging.
-
 One cache example of decorator. This decorator cached result of functions with the given arguments.
 
 js has local variable stack. When same function is called, then all local variables are retrieved. That's why cache declared locally can work.
 
 ```js
-function cachify(oldfn) {
-  const cache = {};
-  const newfn = function (...args) {
-    console.log(`cache called`);
-    const k = JSON.stringify(args);
-    if (Object.hasOwn(cache, k)) {
-      console.log(`cache hit`);
-    } else {
-      console.log(`cache miss`);
-      const returnval = oldfn(args);
-      cache[k] = returnVal;
-      console.log(`cache miss: return val saved`);
-    }
-    return cache[k];
-  };
-  return newfn;
+function cachify(f) {
+    const cache = {};
+    return function(...args) {
+        if(cache.hasOwnProperty(x)) {
+            console.log(`Cache hit!`)
+            return cache[x];
+        } else {
+            console.log(`Cache miss!`)
+            const res = f(x);
+            cache[x] = res;
+            console.log(`Cache stored!`)
+            return res;
+        }
+    };
 }
+const cachedSquare = cachify(function(n) { return n * n; });
+const res = cachedSquare(8);
+const res = cachedSquare(8);
+console.log(res);
 ```

@@ -50,7 +50,6 @@ csapp:
 * stack：记住%rsp永远指向非空addr。
 * local variable access:
 
-``` c
-    
- ```
+## Lecture 3
 
+j

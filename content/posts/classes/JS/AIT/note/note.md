@@ -7,6 +7,7 @@ draft: false
 tags:
   - "js"
 ---
+
 # 用于记录很刁钻的js语法/ other知识。
 
 ```js

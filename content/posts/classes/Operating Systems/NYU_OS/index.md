@@ -59,4 +59,7 @@ csapp:
 从stack的角度想，这里的x被放在了stack上。而我们如果要send一个variable addr，我们either在别的frame上，either在heap上allocate。
 
 
-**syscall**。
+**syscall**是一种**user space** transfer to **kernel space**的一种方式。
+
+Mike甚至贴心的给了环境的描述，我哭死。我觉得这很好，因为就这简单的一张图基本上足够破除学生对环境的疑惑和恐惧了。
+![](image-4.png)

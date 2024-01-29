@@ -194,10 +194,14 @@ const numbers = [-5, -2, -1, -10, -3];
 
 // accum saved as resulst of the minimun of all eles we've met.
 console.log(
+  // reduce作为一个obj的method，它只需要takein两个args，
+  // 1. callback
+  // 2. initial value. 
+  // mark：这里只是因为用了自己的reduce所以第一个param pass的是numbers。
   reduce(
     numbers,
     // 这里是reduce的callback function
-    // 按顺序take in的参数有。
+    // 按顺序take in的参数有: 
     // accumulator
     // The value resulting from the previous call to callbackFn. On the first call, its value is initialValue if the latter is specified; otherwise its value is array[0].
 

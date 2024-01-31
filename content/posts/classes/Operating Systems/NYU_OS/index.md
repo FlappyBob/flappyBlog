@@ -71,3 +71,23 @@ $2^{10}$
 
 ![Alt text](image-6.png)
 > 现场装逼.jpg
+
+## Lecture 4
+**shell**.
+
+```c 
+while(1) {
+    write() // just write the dollar sign 
+}
+ ```
+Something to notice:
+1. `>`的实现很简单，这其实踩在了file descriptor的肩膀上。只不过就是把fs的1的指针指向了新的file。注意write这个fsyscall完全不知道发生了什么。
+2. 为什么fork和exec要隔离开来?为什么不直接有一个craeteprocess？难道这样不更方便？
+TODO
+3. `background`的实现也只不过是`fork和wait`的syscall的妙用。如果shell parse到了&，shell直接不等了，直接让execve在后台运行。
+
+**File Descriptor.** 每个process都会维护一个VM，fs table（实际上是指向真正的fs table的ptr）和registers。
+ ![Alt text](image-7.png)]
+
+ 
+

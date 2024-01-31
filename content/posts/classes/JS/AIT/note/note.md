@@ -174,7 +174,6 @@ forEach(numbers, function (arrayElement) {
 **ForEach作为array obj的inheritance的性质。**因为object inheritance是js库中实现的，所以它自动support一些功能，比如，下面的logArrayElements你可以pass in一些支持的参数，顺序依次是每个looping的element，index，和array自己。注意：顺序一定被遵守。
 
 ``` js
-
 const logArrayElements = (e, i,  array) => {
   console.log(`The given arr -> ${array}`);
   console.log(`a[${i}] = ${e}`);
@@ -193,6 +192,23 @@ const logArrayElements = (e, i,  array) => {
 // a[3] = 9
 
  ```
+还有一个poker的例子。
+``` js 
+var generateCards = function() {
+	var suits = ['♠','♥','♦','♣'],
+        faces = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'],
+        cards = [];
+	suits.forEach(function(suit) {
+		faces.forEach(function(face) {
+			cards.push({'suit':suit, 'face':face}); 
+		});
+	});
+	return cards;
+};
+console.log(generateCards());
+ ```
+
+**map。**用来把每一个element通过callbackfn的方式生成一个新arr并返回。
 
 **Reduce**，用来把一个function按顺序压缩。
 
@@ -296,3 +312,4 @@ const res = cachedSquare(8);
 const res = cachedSquare(8);
 console.log(res);
 ```
+

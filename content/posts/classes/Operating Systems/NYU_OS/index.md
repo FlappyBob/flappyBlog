@@ -95,4 +95,494 @@ TODO
 # 奇怪的脚本，赶紧试试吧！
 $ :(){:1:&};: 
  ```
+ 
+回顾一下pipeline和fork的调用知识。
+```c 
+#include "kernel/types.h"
+#include "user/user.h"
 
+// pipe2.c: communication between two processes
+
+int
+main()
+{
+  int n, pid;
+  int fds[2];
+  char buf[100];
+  
+  // create a pipe, with two FDs in fds[0], fds[1].
+  pipe(fds);
+
+  pid = fork();
+  if (pid == 0) {
+    write(fds[1] , "this is pipe2\n", 14);
+  } else {
+    n = read(fds[0], buf, sizeof(buf));
+    write(1, buf, n);
+  }
+
+  exit(0);
+}
+ ```
+
+**一点点proc**。OS的角度来看Proc就是一个一堆Proc表，每次booting的时候都用表里的信息来load进去，表如下，可以看看xv6的代码。
+
+//TODO 可以看看xv6的代码。
+![Alt text](image-9.png)
+
+
+**一点点thread**。Thread从proc的角度来看，其实和proc差不多。
+
+![Alt text](image-10.png)
+
+每个thread都会维护自己的registers。
+![Alt text](image-11.png)
+
+但是我有个小问题是：创建一个新的thread会创建出过呢更多的register，这个register只是在软件层被维护吗？like vm? （TODO）
+![Alt text](image-12.png)
+
+Notes：Thread也会把当前stack的所有全部复制了。
+
+当x是一个global的时候，两个线程同时都可以access到一个地址。
+![Alt text](image-13.png)
+这里所以会造成线程写的问题。
+
+## Lab2 
+## Lab2 ls
+
+Personal Note for lab2
+
+What I learnt:
+
+- I found the learning process of a function is to **testing** them using different arguments. And That's it and even more sophisticated syscall needs testing. Learning by playing is the most interesting and the most valuable when learning some apis.
+
+- **不要恐惧**。很多时候依附于某种语言的特性都会有一些 trick 让原本的代码变得难读。不要着急，一步一步调试后你就能理解其中的优美之处。所以，多多阅读优秀的源码并且理解是可以比读书收获很多的。
+
+- **磨刀不误砍柴工**。在我们既有的抽象层细细的去了解自己的工具。在 lab2 我们的工作是 base on system calls -> implement user functions. So understanding those tools deeply has value in it.
+
+### Argument parsing
+
+getopt();
+
+```c
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+int main(int argc, char *argv[])
+{
+    int flags, opt;
+    int nsecs, tfnd;
+
+    nsecs = 0;
+    tfnd = 0;
+    flags = 0;
+    // opt receives character if success, receives if failing.
+    while ((opt = getopt(argc, argv, "nt:")) != -1)
+    {
+        switch (opt)
+        {
+        case 'n':
+            flags = 1;
+            break;
+        case 't':
+            // optarg is set as the argument if optstring has specified : after a flag
+            nsecs = atoi(optarg);
+            tfnd = 1;
+            break;
+        default: /* '?' */
+            // getopt will retunr ? if some wield pattern occurs.
+            fprintf(stderr, "Usage: %s [-t nsecs] [-n] name\n",
+                    argv[0]);
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    printf("flags=%d; tfnd=%d; nsecs=%d; optind=%d\n",
+           flags, tfnd, nsecs, optind);
+
+    if (optind >= argc)
+    {
+
+        fprintf(stderr, "Expected argument after options\n");
+        exit(EXIT_FAILURE);
+    }
+
+    // optind is the index in argv of the first argv-element that is not an option
+    printf("name argument = %s\n", argv[optind]);
+
+    /* Other code omitted */
+
+    exit(EXIT_SUCCESS);
+}
+```
+
+getopt_long();
+
+```c
+int main(int argc, char **argv)
+{
+    int c;
+    int digit_optind = 0;
+
+    while (1)
+    {
+        // set optind to 1 if it is not set
+        int this_option_optind = optind ? optind : 1;
+        int option_index = 0;
+        // this struct maps long options into int 0.
+        static struct option long_options[] = {
+            {"add", required_argument, 0, 0},
+            {"append", no_argument, 0, 0},
+            {"delete", required_argument, 0, 0},
+            {"verbose", no_argument, 0, 0},
+            {"create", required_argument, 0, 'c'},
+            {"file", required_argument, 0, 0},
+            {0, 0, 0, 0}};
+
+        c = getopt_long(argc, argv, "abc:d:012",
+                        long_options, &option_index);
+        if (c == -1)
+            break;
+
+        switch (c)
+        {
+        case 0:
+            // option_index is used to indexing the option struct .
+            printf("option %s", long_options[option_index].name);
+            if (optarg)
+                printf(" with arg %s", optarg);
+            printf("\n");
+            break;
+
+        // Short options
+        case '0':
+        case '1':
+        case '2':
+            if (digit_optind != 0 && digit_optind != this_option_optind)
+                printf("digits occur in two different argv-elements.\n");
+            digit_optind = this_option_optind;
+            printf("option %c\n", c);
+            break;
+
+        case 'a':
+            printf("option a\n");
+            break;
+
+        case 'b':
+            printf("option b\n");
+            break;
+
+        case 'c':
+            printf("option c with value '%s'\n", optarg);
+            break;
+
+        case 'd':
+            printf("option d with value '%s'\n", optarg);
+            break;
+
+        case '?':
+            break;
+
+        default:
+            printf("?? getopt returned character code 0%o ??\n", c);
+        }
+    }
+
+    // optind should be checked since remember
+    // c does not have limit check but it is leaves to you
+    // we needs to ensures that optind is not pointing to other memory.
+    if (optind < argc)
+    {
+        printf("optind -> %d\n", optind);
+        printf("argc -> %d\n", argc);
+        printf("non-option ARGV-elements: ");
+        while (optind < argc)
+            printf("%s ", argv[optind++]);
+        printf("\n");
+    }
+
+    exit(EXIT_SUCCESS);
+}
+```
+
+```sh
+# 一些例子。
+cs202-user@ac03bcbbed6b:~/cs202-labs/test$ ./exec --create 1
+option c with value '1'
+cs202-user@ac03bcbbed6b:~/cs202-labs/test$ ./exec --c 1
+option c with value '1'
+
+cs202-user@ac03bcbbed6b:~/cs202-labs/test$ ./exec -ab -c 123 123
+option a
+option b
+option c with value '123'
+non-option ARGV-elements: '123'
+```
+
+### Read Directories/ file systems api
+
+Dir Stream 其实就是 an ordered sequence of all the directory entries in a particular directory，跟打开一个 fd 的感觉一样，都是抽象成一个流。
+How to open dir Stream -> opendir
+
+```c
+#include <sys/types.h>
+#include <dirent.h>
+// open dir stream.
+DIR *opendir(const char *name);
+DIR *fdopendir(int fd);
+
+// The underlying file descriptor of the directory stream can be obtained using dirfd(3).
+
+// Filename entries can be read from a directory stream using readdir(3).
+
+```
+
+- dirp 是一个指针指向了这个流。（This stream can be specified as a linear sequence of struct directory）。而 Readdir 会返回给当前的 direct struct.
+
+- Applications wishing to check for error situations should set errno to 0 before calling readdir().
+
+- END: It shall return a null pointer upon reaching the end of the directory stream.
+
+direct structure is ->
+
+```c
+struct dirent {
+    ino_t          d_ino;       /* Inode number */
+    off_t          d_off;       /* Not an offset; see below */
+    unsigned short d_reclen;    /* Length of this record */
+    unsigned char  d_type;      /* Type of file; not supported
+                                    by all filesystem types */
+    char           d_name[256]; /* Null-terminated filename */
+};
+```
+
+```c
+#include <dirent.h>
+#include <stdio.h>
+#include <stdlib.h> /* for exit */
+#include <getopt.h>
+#include <string.h>
+void display(struct dirent *dp)
+{
+    printf("d_ino -> %ld\n", dp->d_ino);
+    printf("d_off -> %ld\n", dp->d_off);
+    printf("d_reclen -> %d\n", dp->d_reclen);
+    printf("d_type -> %d\n", dp->d_type);
+    printf("d_name -> %s\n", dp->d_name);
+    putchar('\n');
+}
+int main(int argc, char **argv)
+{
+    // TODO: This opendir should check error but it does not  
+    DIR *dirp = opendir(".");
+    struct dirent *dp;
+    int errno;
+    // Read as null it reaches end 
+    while ((dp = readdir(dirp)) != NULL)
+    {
+        display(dp);
+    }
+    printf("We've finished reading! \n");
+    closedir(dirp);
+    exit(0);
+}
+
+```
+
+输出是下面：
+
+```sh
+d_ino -> 39986
+d_off -> 2122451233231811000
+d_reclen -> 32
+d_type -> 8
+d_name -> main.c
+
+d_ino -> 29864
+d_off -> 6629703606815583833
+d_reclen -> 24
+d_type -> 4
+d_name -> ..
+
+d_ino -> 31553
+d_off -> 7336315452623241479
+d_reclen -> 24
+d_type -> 8
+d_name -> exec
+
+d_ino -> 39987
+d_off -> 8301092125137062404
+d_reclen -> 24
+d_type -> 4
+d_name -> .
+
+d_ino -> 39988
+d_off -> 9223372036854775807
+d_reclen -> 32
+d_type -> 8
+d_name -> test.sh
+
+We've finished reading!
+```
+
+
+*This following program looks for filenames in given directory* 
+```c
+#include <dirent.h>
+#include <errno.h>
+#include <stdio.h>
+#include <string.h>
+
+static void lookup(const char *arg)
+{
+    DIR *dirp;
+    struct dirent *dp;
+
+    if ((dirp = opendir(".")) == NULL) {
+        perror("couldn't open '.'");
+        return;
+    }
+
+    do {
+        // set errno to 0 to enforce checking error 
+        errno = 0;
+        if ((dp = readdir(dirp)) != NULL) {
+            if (strcmp(dp->d_name, arg) != 0)
+                continue;
+
+            (void) printf("found %s\n", arg);
+            (void) closedir(dirp);
+                return;
+        }
+    // end if dp is NULL  
+    } while (dp != NULL);
+
+    if (errno != 0)
+        perror("error reading directory");
+    else
+        (void) printf("failed to find %s\n", arg);
+    (void) closedir(dirp);
+    return;
+}
+
+int main(int argc, char *argv[])
+{
+    int i;
+    for (i = 1; i < argc; i++)
+        lookup(argv[i]);
+    return (0);
+}
+```
+
+
+**stat 调用**。
+
+```c
+int main(int argc, char *argv[])
+{
+    struct stat sb;
+
+    if (argc != 2)
+    {
+        fprintf(stderr, "Usage: %s <pathname>\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    if (lstat(argv[1], &sb) == -1)
+    {
+        perror("lstat");
+        exit(EXIT_FAILURE);
+    }
+
+    printf("ID of containing device:  [%jx,%jx]\n",
+           (uintmax_t)major(sb.st_dev),
+           (uintmax_t)minor(sb.st_dev));
+
+    printf("File type:                ");
+
+    switch (sb.st_mode & S_IFMT)
+    {
+    case S_IFBLK:
+        printf("block device\n");
+        break;
+    case S_IFCHR:
+        printf("character device\n");
+        break;
+    case S_IFDIR:
+        printf("directory\n");
+        break;
+    case S_IFIFO:
+        printf("FIFO/pipe\n");
+        break;
+    case S_IFLNK:
+        printf("symlink\n");
+        break;
+    case S_IFREG:
+        printf("regular file\n");
+        break;
+    case S_IFSOCK:
+        printf("socket\n");
+        break;
+    default:
+        printf("unknown?\n");
+        break;
+    }
+
+    printf("I-node number:            %ju\n", (uintmax_t)sb.st_ino);
+
+    printf("Mode:                     %jo (octal)\n",
+           (uintmax_t)sb.st_mode);
+
+    printf("Link count:               %ju\n", (uintmax_t)sb.st_nlink);
+    printf("Ownership:                UID=%ju   GID=%ju\n",
+           (uintmax_t)sb.st_uid, (uintmax_t)sb.st_gid);
+
+    printf("Preferred I/O block size: %jd bytes\n",
+           (intmax_t)sb.st_blksize);
+    printf("File size:                %jd bytes\n",
+           (intmax_t)sb.st_size);
+    printf("Blocks allocated:         %jd\n",
+           (intmax_t)sb.st_blocks);
+
+    printf("Last status change:       %s", ctime(&sb.st_ctime));
+    printf("Last file access:         %s", ctime(&sb.st_atime));
+    printf("Last file modification:   %s", ctime(&sb.st_mtime));
+
+    exit(EXIT_SUCCESS);
+}
+```
+
+```sh
+ID of containing device:  [8,20]
+File type:                directory
+I-node number:            39987
+Mode:                     40755 (octal)
+Link count:               2
+Ownership:                UID=1000   GID=1000
+Preferred I/O block size: 4096 bytes
+File size:                4096 bytes
+Blocks allocated:         8
+Last status change:       Sat Feb  3 01:36:49 2024
+Last file access:         Sat Feb  3 01:36:53 2024
+Last file modification:   Sat Feb  3 01:36:49 2024
+```
+
+**inode**
+Each file has an inode containing metadata about the file. An application can retrieve this metadata using stat(2) (or related calls), which returns a stat structure, or statx(2), which returns a statx structure.
+
+在 manual 里写的最重要的无非是 -- `stat`中返回的 struct 中`st.mode`是 type, filemode 的 bitmask。我们可以通过一些 manual 中提供的 marco 去轻易获得。
+
+```c
+// S_IFMT     0170000   bit mask for the file type bit field
+ stat(pathname, &sb);
+if ((sb.st_mode & S_IFMT) == S_IFREG) {
+    /* Handle regular file */
+}
+
+// if we want to check S_IRWXU     00700   if owner has read, write, and execute permission
+if ((sb.st_mode & S_IFMT) == S_IFREG) {
+    /* Handle  */
+}
+
+```

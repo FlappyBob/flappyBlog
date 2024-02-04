@@ -607,5 +607,13 @@ e.g. : 如果源路径是`./filesystem`，如果你在其中发现了一个dir�
 
 * 如何debug：尽可能地在自己能确认的地方打log。ex：看前面两行就是我在理解getopt这个api的时候加入的log，这样其实更加清晰，少了自己人肉编译的过程。所以这种方便自己理解的log越多越好。。
 ![alt text](image-16.png)
+![alt text](image-17.png)
 
-ls lab用时约12小时。
+基本逻辑打好了，现在剩下
+* 重新看一遍lab2，了解test（bats）的framework。
+* 优化
+   * -n有无更好的方法?
+   * overflow的问题。（字符串怎么使用的更好）
+   * recursive？检查。
+   * 其余代码检查
+<!-- ls lab用时约12小时。 -->

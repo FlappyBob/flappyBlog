@@ -586,7 +586,7 @@ if ((sb.st_mode & S_IFMT) == S_IFREG) {
 }
 
 ```
-## Implementation
+### Implementation
 *2024/02/03* 
 写了不少了，但是还是有很多常识的错误。
 BUG：       
@@ -617,3 +617,28 @@ e.g. : 如果源路径是`./filesystem`，如果你在其中发现了一个dir�
    * recursive？检查。
    * 其余代码检查
 <!-- ls lab用时约12小时。 -->
+
+
+## Lecture 5
+![alt text](image-18.png)
+
+
+**Why using them?** TODO 
+
+为什么会有这种错误？本质是因为global variable是被stack-shared。
+
+ex: 已经很清晰了。
+![alt text](image-19.png)
+
+ex2: 假设这个Buffer以及其他3个variable都是在memory space中被shared。那么会有什么傻逼情况？
+
+
+![alt text](image-20.png)
+
+ex3: 
+![alt text](image-21.png)
+
+ans:sequential inconsistency because of the existence of multicore. 
+
+MIke：这个例子并不会出现在单核cpu中，介绍这个example只是为了介绍concurrency的真正问题不只是存在程序员的设计的threadprogramming中，并且存在硬件中（multicore）。
+ ![alt text](image-22.png)

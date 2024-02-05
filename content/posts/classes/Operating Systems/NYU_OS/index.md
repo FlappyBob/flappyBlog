@@ -640,5 +640,5 @@ ex3:
 
 ans:sequential inconsistency because of the existence of multicore. 
 
-MIke：这个例子并不会出现在单核cpu中，介绍这个example只是为了介绍concurrency的真正问题不只是存在程序员的设计的threadprogramming中，并且存在硬件中（multicore）。
+MIke：这个例子并不会出现在单核cpu中，介绍这个example只是为了介绍concurrency的真正问题不只是存在程序员的设计的threadprogramming中，并且存在硬件中（multicore）。但是之后介绍的锁编程会优雅地解决这些硬软件并行问题。
  ![alt text](image-22.png)

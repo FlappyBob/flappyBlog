@@ -135,17 +135,14 @@ main()
 
 ![Alt text](image-10.png)
 
-每个thread都会维护自己的registers。
-![Alt text](image-11.png)
+每个thread都会维护自己的registers和stack space，但是他们指向的.text and .data area都是一样的（也就是，他们share的code，和global variable是一样的）。这样程序员会觉得觉得他们在“同时”执行一些操作。
 
-但是我有个小问题是：创建一个新的thread会创建出过呢更多的register，这个register只是在软件层被维护吗？like vm? （TODO）
+<!-- 但是我有个小问题是：创建一个新的thread会创建出过呢更多的register，这个register只是在软件层被维护吗？ -->
 ![Alt text](image-12.png)
 
-Notes：Thread也会把当前stack的所有全部复制了。
-
-当x是一个global的时候，两个线程同时都可以access到一个地址。
+当x是一个global的时候，两个线程同时都可以access到一个地方，所以会造成线程写的问题。
 ![Alt text](image-13.png)
-这里所以会造成线程写的问题。
+
 
 ## Lab2 
 ## Lab2 ls
@@ -620,14 +617,11 @@ e.g. : 如果源路径是`./filesystem`，如果你在其中发现了一个dir�
 
 
 ## Lecture 5
+让我们在回顾一下thread的实现。
 ![alt text](image-18.png)
 
-
-**Why using them?** TODO 
-
-为什么会有这种错误？本质是因为global variable是被stack-shared。
-
-ex: 已经很清晰了。
+ex: 为什么会有这种错误？
+ans：本质是因为（上节课提过）global variable是被stack-shared。
 ![alt text](image-19.png)
 
 ex2: 假设这个Buffer以及其他3个variable都是在memory space中被shared。那么会有什么傻逼情况？
@@ -638,7 +632,40 @@ ex2: 假设这个Buffer以及其他3个variable都是在memory space中被shared
 ex3: 
 ![alt text](image-21.png)
 
-ans:sequential inconsistency because of the existence of multicore. 
+ans:The problem does not occur because of the program but of the hardware. it is  because of the existence of multicore/Sequential inconsistency in mem. 
 
-MIke：这个例子并不会出现在单核cpu中，介绍这个example只是为了介绍concurrency的真正问题不只是存在程序员的设计的threadprogramming中，并且存在硬件中（multicore）。但是之后介绍的锁编程会优雅地解决这些硬软件并行问题。
+MIke：这个例子并不会出现在单核cpu中，介绍这个example只是为了介绍concurrency的真正问题不只是存在程序员的设计的threadprogramming中，并且存在硬件中（multicore）。但是之后介绍的锁编程的方法会优雅地解决这些硬软件并行问题。
  ![alt text](image-22.png)
+
+
+* 1. **lock！！** 
+
+note：注意虽然这两行是“atomic”，但是实际上他们的执行顺序依旧是depend on scheduler but not linear. 
+
+也就是说acquire() 和release() 之间，只能有一个thread running。
+
+锁的作用是配合了programmer设计的invariant。他能保证“某些shared memory中”会被executed atomicaly, 保证了invariant的正确性。
+ ![alt text](image-23.png)
+
+
+## Lecture 6
+**Why do we learn Conditional variable?**
+![alt text](image-25.png)
+小note：
+![alt text](image-26.png)
+这里不单单邪恶`while(count == 0)`的原因是执行yield的时候得调到别的thread中，要不然就死循环了。
+
+因为performance的原因，当buffer满的时候，producer放不进去。导致了producer会一直spin。我们希望的是 --- 直接在某种条件直接终止某个thread，而不是继续check。
+![alt text](image-24.png)
+
+船新的改进： 
+note question: 为什么这里是while包住？
+ans：
+![alt text](image-29.png)
+如果是if，那么如果两个producer同时通过了check（同时跑过这个conditioncheck），那么都会继续执行后面的操作。
+
+![alt text](image-27.png)
+
+在consumer中，每当我们放进去的时候，signal call会放出来一个waiting thread，这里是一个producer（具体是谁depend on scheduler）。
+![alt text](image-28.png)
+

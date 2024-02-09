@@ -13,6 +13,7 @@ tags:
 ## Web Dev
 
 **ip address** - number given to a computer / device on a network
+
 **port** - a number given to a communication end point that usually represents some specific service… **allowing multiple services to be run on the same device**
 
 **socket** - an endpoint to a connection… so there are two sockets per connection, but in network programming apis, a socket object is typically the object that mediates communication (reads/writes) to a connected client or server
@@ -32,30 +33,44 @@ tags:
 细节：
 
 1. the browser attempts to connect to the address of the server
+
 2. if the server is listening and reachable, a TCP connection is made between the server and the client on port 80 (the default port for HTTP traffic)
+
 3. the browser sends a request message
+
 4. on the same connection, the web server gives back a response message
 
 Request 结构：
 **a request line： a request method and a path**- `GET /teaching HTTP/1.1`
+
 Request Methods: GET/ POST 这种。
 
 **request headers** `Host: jvers.com`, `User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:12.0) Gecko/20100101`
+
 **an empty line**
+
 **an optional body**
+
 [note] that a new line is represented by a carriage return, line feed: `\r\n`
 
 Response 结构：
-**status-line： status code and reason** - `HTTP/1.1 200 OK`
-1xx - Informational, request received
-2xx - Success, request was received, understood and accepted
-3xx - Redirection, additional action must be taken to complete request
-4xx - Client Error
-5xx - Server Error
+1. **status-line： status code and reason** - `HTTP/1.1 200 OK`
+* 1xx - Informational, request received
 
-**response header fields** - **Content-Type: **text/html\***\*
-**an empty line\*\*
-**an optional message body** - usually an HTML document!
+* 2xx - Success, request was received, understood and accepted
+
+* 3xx - Redirection, additional action must be taken to complete request
+
+* 4xx - Client Error
+
+* 5xx - Server Error
+
+2. **response header fields** - **Content-Type: **text/html\***\*
+
+3. **an empty line\*\*
+
+4. **an optional message body** - usually an HTML document!
+
 [note] that a new line is represented by a carriage return, line feed: `\r\n`
 
 ```sh
@@ -118,10 +133,13 @@ server.listen(PORT, HOST);
 ```
 
 run node myFile.js in one window. (这是 server)
+
 然后你再用 nc 或者是 google 这种 browser 来发送 connnection（具体的背后的 implementation 细节我们不用管）然后你就会发现自己的服务器有响应了。
 
 背后：
+
 nc (application) ---whatever request---> server
+
 nc (application) <---whatever response--- server
 
 现在我们正要写的是：**server 端代码**（有人帮我们搭好了框架（js 里面的库，甚至 js 的库都被再次包装了已一遍成了 express 这种），然后 js compiler 编译成和 iodevice 交互的机器码，而我们只需要知道业务逻辑就行了）例如：如何接受 request？怎么处理 request 中的 header？发送什么 data 包装成 response 搞回去？
@@ -197,3 +215,5 @@ const server = net.createServer((sock) => {
 js，包括其他非js库封装好的函数都会有handle error的功能，比如说再sock.end()之后写就会报错等等，这些都是要慢慢阅读menual积累经验的，而不像c一样裸露在外。
 
 还有nc这个软件，写入的规则就必须是<arg1> <arg2> <arg3>，缺一个少一个都是无效的，背后帮你handle error好了，但是表面上是什么都不显示的。
+
+这就是一个简单的intro。

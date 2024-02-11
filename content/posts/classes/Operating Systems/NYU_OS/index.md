@@ -756,12 +756,7 @@ int main(int argc, char *argv[]) {
 - 为什么这里是while包住？
   ans:
 ![alt text](image-23.png)
+仔细观察，如果c1在buffer空的时候wait了，之后因为buffer被p1填满进入了ready状态。如果锁之后开了第一个被唤醒的是这个蠢蠢欲动的，但是无处可拿（因为buffer空）的c1，那么是不是很尴尬？因此我们要在wait唤醒之后继续进行while check。
 
-
-因为performance的原因，当buffer满的时候，producer放不进去。导致了producer会一直spin。我们希望的是 --- 直接在某种条件直接终止某个thread，而不是继续check。
-![alt text](image-24.png)
-
-![alt text](image-27.png)
-
-在consumer中，每当我们放进去的时候，signal call会放出来一个waiting thread，这里是一个producer（具体是谁depend on scheduler）。
-![alt text](image-28.png)
+![alt text](image-26.png)
+- 

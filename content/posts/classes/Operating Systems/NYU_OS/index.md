@@ -3,20 +3,21 @@ title: "NYU OS log"
 date: 2024-01-21T22:10:11-04:00
 showToc: true # 显示目录
 TocOpen: true # 自动展开目录
-draft: false 
+draft: false
 cover:
-    image: life/3.png
-tags: 
-- "Operating Systems"
+  image: life/3.png
+tags:
+  - "Operating Systems"
 ---
 
-*这个log就不涉及具体lab实现和setup的detail了，我主要讲一些对设计理念/ 做lab/ 上课时候的一些感悟。*
+_这个log就不涉及具体lab实现和setup的detail了，我主要讲一些对设计理念/ 做lab/ 上课时候的一些感悟。_
 
 如果有人感兴趣，可以看一下课程主页，作业的环境也几乎docker里配好的。
 webpage: https://cs.nyu.edu/~mwalfish/classes/24sp/
 lab： https://github.com/nyu-cs202/labs
 
-## Lecture 1 
+## Lecture 1
+
 没讲啥特殊的, good intro =。=
 
 walfish教授分别讲了 unix历史，为什么要学os/sys，以及os的一些构成。
@@ -30,6 +31,7 @@ walfish教授真的是非常热情。在讲为什么要学os/sys的时候几句�
 3. os demonstrate了不少软件工程中重要的概念。比如scheduler是经典的调度问题/ 在和processes打交道的时候会接触到并行。这些都是在很多健壮的代码库中demonstrate的概念。
 
 ## Lecture 2
+
 ![Alt text](image.png)
 walfish课上直接把从src到变成byte load到os中的过程具象化了，有点像csapp中的第一章。
 
@@ -37,67 +39,71 @@ csapp:
 ![Alt text](image-1.png)
 
 理解process的方式有两种:
+
 1. 从processor的方式：无非就是loader在跑一段exeutable file.
 2. 从os的方式：os as resource manager会把processes当成一些instances来管理。
 
 感觉walfish对cpu如何运行的方式有一种美学的鉴赏 -- 一切漂亮的app，自始至终都是一堆bytes boil down之后都是cpu的pc在不断地指向下一步然后执行。事实就是如此，这些设计是**优雅，强大**的。
 
-之后所有的的课都是csapp chap3的内容. 
+之后所有的的课都是csapp chap3的内容.
 
-**一次相当quick的对sys的intro。** 
+**一次相当quick的对sys的intro。**
 ![Alt text](image-2.png)
 
-* stack：记住%rsp永远指向非空addr。
-* local variable access:
+- stack：记住%rsp永远指向非空addr。
+- local variable access:
 
 ## Lecture 3
-重新想了一下，Caller和Callee的设计很精妙。相当于用了一层人类的简单的规约去释放了很多设计空间，因为正常的temporary variable不可能不用，不可能全用stack的空间；但是又不能全部都搞成temporary variable，这样要saved variable太几把多了。所以干脆搞一个规约，让一半去负责特定的东西，frame ptr，stack ptr这种，而且callee得负责回去的时候全部的值都不变，让另外一半register让callee随便用，但是回到caller的时候让caller自己搞定。
 
+重新想了一下，Caller和Callee的设计很精妙。相当于用了一层人类的简单的规约去释放了很多设计空间，因为正常的temporary variable不可能不用，不可能全用stack的空间；但是又不能全部都搞成temporary variable，这样要saved variable太几把多了。所以干脆搞一个规约，让一半去负责特定的东西，frame ptr，stack ptr这种，而且callee得负责回去的时候全部的值都不变，让另外一半register让callee随便用，但是回到caller的时候让caller自己搞定。
 
 **一些bug**
 ![Alt text](image-3.png)
 从stack的角度想，这里的x被放在了stack上。而我们如果要send一个variable addr，我们either在别的frame上，either在heap上allocate。
-
 
 **syscall**是一种**user space** transfer to **kernel space**的一种方式。
 
 Mike甚至贴心的给了环境的描述，我哭死。我觉得这很好，因为就这简单的一张图基本上足够破除学生对环境的疑惑和恐惧了。
 ![](image-4.png)
 
-
 有多少个process？
 $2^{10}$
 ![Alt text](image-5.png)
 
 ![Alt text](image-6.png)
+
 > 现场装逼.jpg
 
 ## Lecture 4
+
 **shell**.
 
-```c 
+```c
 while(1) {
-    write() // just write the dollar sign 
+    write() // just write the dollar sign
 }
- ```
+```
+
 Something to notice:
+
 1. `>`的实现很简单，这其实踩在了file descriptor的肩膀上。只不过就是把fs的1的指针指向了新的file。注意write这个fsyscall完全不知道发生了什么。
 2. 为什么fork和exec要隔离开来?为什么不直接有一个craeteprocess？难道这样不更方便？
-TODO
+   TODO
 3. `background`的实现也只不过是`fork和wait`的syscall的妙用。如果shell parse到了&，shell直接不等了，直接让execve在后台运行。
 
 **File Descriptor.** 每个process都会维护一个VM，fs table（实际上是指向真正的fs table的ptr）和registers。
- ![Alt text](image-7.png)]
-
+![Alt text](image-7.png)]
 
 **pipeline**
-```sh 
+
+```sh
 # 奇怪的脚本，赶紧试试吧！
-$ :(){:1:&};: 
- ```
- 
+$ :(){:1:&};:
+```
+
 回顾一下pipeline和fork的调用知识。
-```c 
+
+```c
 #include "kernel/types.h"
 #include "user/user.h"
 
@@ -109,7 +115,7 @@ main()
   int n, pid;
   int fds[2];
   char buf[100];
-  
+
   // create a pipe, with two FDs in fds[0], fds[1].
   pipe(fds);
 
@@ -123,13 +129,12 @@ main()
 
   exit(0);
 }
- ```
+```
 
 **一点点proc**。OS的角度来看Proc就是一个一堆Proc表，每次booting的时候都用表里的信息来load进去，表如下，可以看看xv6的代码。
 
 //TODO 可以看看xv6的代码。
 ![Alt text](image-9.png)
-
 
 **一点点thread**。Thread从proc的角度来看，其实和proc差不多。
 
@@ -138,13 +143,14 @@ main()
 每个thread都会维护自己的registers和stack space，但是他们指向的.text and .data area都是一样的（也就是，他们share的code，和global variable是一样的）。这样程序员会觉得觉得他们在“同时”执行一些操作。
 
 <!-- 但是我有个小问题是：创建一个新的thread会创建出过呢更多的register，这个register只是在软件层被维护吗？ -->
+
 ![Alt text](image-12.png)
 
 当x是一个global的时候，两个线程同时都可以access到一个地方，所以会造成线程写的问题。
 ![Alt text](image-13.png)
 
+## Lab2
 
-## Lab2 
 ## Lab2 ls
 
 Personal Note for lab2
@@ -371,11 +377,11 @@ void display(struct dirent *dp)
 }
 int main(int argc, char **argv)
 {
-    // TODO: This opendir should check error but it does not  
+    // TODO: This opendir should check error but it does not
     DIR *dirp = opendir(".");
     struct dirent *dp;
     int errno;
-    // Read as null it reaches end 
+    // Read as null it reaches end
     while ((dp = readdir(dirp)) != NULL)
     {
         display(dp);
@@ -423,8 +429,8 @@ d_name -> test.sh
 We've finished reading!
 ```
 
+_This following program looks for filenames in given directory_
 
-*This following program looks for filenames in given directory* 
 ```c
 #include <dirent.h>
 #include <errno.h>
@@ -442,7 +448,7 @@ static void lookup(const char *arg)
     }
 
     do {
-        // set errno to 0 to enforce checking error 
+        // set errno to 0 to enforce checking error
         errno = 0;
         if ((dp = readdir(dirp)) != NULL) {
             if (strcmp(dp->d_name, arg) != 0)
@@ -452,7 +458,7 @@ static void lookup(const char *arg)
             (void) closedir(dirp);
                 return;
         }
-    // end if dp is NULL  
+    // end if dp is NULL
     } while (dp != NULL);
 
     if (errno != 0)
@@ -471,7 +477,6 @@ int main(int argc, char *argv[])
     return (0);
 }
 ```
-
 
 **stat 调用**。
 
@@ -583,41 +588,63 @@ if ((sb.st_mode & S_IFMT) == S_IFREG) {
 }
 
 ```
-### Implementation
-*2024/02/03* 
-写了不少了，但是还是有很多常识的错误。
-BUG：       
-* implement目录的时候，想当然的把自己当成用户了（以为系统会自己帮我把前目录名加上，但是还是要自己手动加上的）。这个bug找了我30min。
-![alt text](image-14.png)
-ans: 在找到发现另一个目录前，请把目录名append到源路径后面并且加上‘/’。 
-e.g. : 如果源路径是`./filesystem`，如果你在其中发现了一个dir，那么就是`./filesystem/<dirname>`. 
 
-* 我神奇的静态示例一直把strcmp看成strcpy，内存反复爆炸。。。下次看到这种内存写
-![](image-15.png)
-的错误大概就是strcpy这种写入方程的参数错误了，大概率是往指针里写。。所以最好还是定义成const预防一下。。（没想到之前书里看到了错误自己全部踩了一遍。。
+### Implementation
+
+_2024/02/03_
+写了不少了，但是还是有很多常识的错误。
+BUG：
+
+- implement目录的时候，想当然的把自己当成用户了（以为系统会自己帮我把前目录名加上，但是还是要自己手动加上的）。这个bug找了我30min。
+  ![alt text](image-14.png)
+  ans: 在找到发现另一个目录前，请把目录名append到源路径后面并且加上‘/’。
+  e.g. : 如果源路径是`./filesystem`，如果你在其中发现了一个dir，那么就是`./filesystem/<dirname>`.
+
+- 我神奇的静态示例一直把strcmp看成strcpy，内存反复爆炸。。。下次看到这种内存写
+  ![](image-15.png)
+  的错误大概就是strcpy这种写入方程的参数错误了，大概率是往指针里写。。所以最好还是定义成const预防一下。。（没想到之前书里看到了错误自己全部踩了一遍。。
 
 神奇之处：
-* 在root文件夹中的`..`并不是上一级目录，而是他自己，自己指向了自己。
+
+- 在root文件夹中的`..`并不是上一级目录，而是他自己，自己指向了自己。
 
 感受：
-* 最绝望的时候通常是无路可走的时候，而不是有一条艰辛的路的时候。前者像是在等死，后者有希望。但是在我相信在之后系统开发的过程中一定会有更看不懂的bug出现，而让自己成为编译器是不可能的，尽自己全力掌握debug tricks并汲取经验好好成长才是可行之道。心态是 --- 在找bug的时候一定要相信是自己的问题，而这种问题绝对是可以被解决的。
 
-* 如何debug：尽可能地在自己能确认的地方打log。ex：看前面两行就是我在理解getopt这个api的时候加入的log，这样其实更加清晰，少了自己人肉编译的过程。所以这种方便自己理解的log越多越好。。
-![alt text](image-16.png)
-![alt text](image-17.png)
+- 最绝望的时候通常是无路可走的时候，而不是有一条艰辛的路的时候。前者像是在等死，后者有希望。但是在我相信在之后系统开发的过程中一定会有更看不懂的bug出现，而让自己成为编译器是不可能的，尽自己全力掌握debug tricks并汲取经验好好成长才是可行之道。心态是 --- 在找bug的时候一定要相信是自己的问题，而这种问题绝对是可以被解决的。
+
+- 如何debug：尽可能地在自己能确认的地方打log。ex：看前面两行就是我在理解getopt这个api的时候加入的log，这样其实更加清晰，少了自己人肉编译的过程。所以这种方便自己理解的log越多越好。。
+  ![alt text](image-16.png)
+  ![alt text](image-17.png)
 
 基本逻辑打好了，现在剩下
-* 重新看一遍lab2，了解test（bats）的framework。
-* 优化
-   * -n有无更好的方法?
-   * overflow的问题。（字符串怎么使用的更好）
-   * recursive？检查。
-   * 其余代码检查
-<!-- ls lab用时约12小时。 -->
 
+- 重新看一遍lab2，了解test（bats）的framework。
+- 优化
+  - -n有无更好的方法?
+  - overflow的问题。（字符串怎么使用的更好）
+  - recursive？检查。
+  - 其余代码检查
+  <!-- ls lab用时约12小时。 -->
 
 ## Lecture 5
-让我们在回顾一下thread的实现。
+
+让我们再回顾一下thread的实现。
+
+### thread和process的区别是什么？
+
+它们都要做context switches from process A to B。
+但是process：
+
+- 需要switch addr spaces by page tables.
+- save registers from process A
+  thread:
+- save registers from thread A.
+
+因此threads共享内存，`.code .data`section都是thread间共享的。
+
+具体背后thread怎么跑的大概率的multiprocessor有关，正是因为并行的优势让我们想用thread。
+
+当一段代码同时使用公用的addr space，这段代码被叫做cirtical section。s
 ![alt text](image-18.png)
 
 ex: 为什么会有这种错误？
@@ -626,46 +653,115 @@ ans：本质是因为（上节课提过）global variable是被stack-shared。
 
 ex2: 假设这个Buffer以及其他3个variable都是在memory space中被shared。那么会有什么傻逼情况？
 
-
 ![alt text](image-20.png)
 
-ex3: 
+ex3:
 ![alt text](image-21.png)
 
-ans:The problem does not occur because of the program but of the hardware. it is  because of the existence of multicore/Sequential inconsistency in mem. 
+ans:The problem does not occur because of the program but of the hardware. it is because of the existence of multicore/Sequential inconsistency in mem.
 
-MIke：这个例子并不会出现在单核cpu中，介绍这个example只是为了介绍concurrency的真正问题不只是存在程序员的设计的threadprogramming中，并且存在硬件中（multicore）。但是之后介绍的锁编程的方法会优雅地解决这些硬软件并行问题。
- ![alt text](image-22.png)
+Mike：这个例子并不会出现在单核cpu中，介绍这个example只是为了介绍concurrency的真正问题不只是存在程序员的设计的threadprogramming中，并且存在硬件中（multicore）。但是之后介绍的锁编程的方法会优雅地解决这些硬软件并行问题。
+![alt text](image-22.png)
 
+**lock.**
 
-* 1. **lock！！** 
-
-note：注意虽然这两行是“atomic”，但是实际上他们的执行顺序依旧是depend on scheduler but not linear. 
+note：注意虽然被夹在lock中间的代码是“atomic”，但是实际上他们的执行顺序依旧是不固定的，取决于scheduler。
 
 也就是说acquire() 和release() 之间，只能有一个thread running。
 
 锁的作用是配合了programmer设计的invariant。他能保证“某些shared memory中”会被executed atomicaly, 保证了invariant的正确性。
- ![alt text](image-23.png)
 
+```c
+pthread_mutex_tlock = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_lock(&lock);
+x= x + 1;
+pthread_mutex_unlock(&lock);
+```
+
+这是lock的机制：简要来说：
+
+- if a lock wants to acquire a lock: it needs to wait for the lock to be unlocked by some other threads.
+- only the thread who acquire the lock can unlock it.
+
+![alt text](image-30.png)
+
+- note: During initialiaztion, using a wrapper to check error.
 
 ## Lecture 6
+
 **Why do we learn Conditional variable?**
-![alt text](image-25.png)
-小note：
-![alt text](image-26.png)
-这里不单单邪恶`while(count == 0)`的原因是执行yield的时候得调到别的thread中，要不然就死循环了。
+
+- 通常是因为两个thread之间有dependency形成了一种拓补关系。
+- 但是通常的spin等待太铸币了，需要一种硬件上的解决方式，直接让thread sleep。
+
+因此就有了以下的api。
+
+```c
+intpthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *mutex);
+intpthread_cond_signal(pthread_cond_t *cond);
+```
+一个thread执行的状态有：
+1. sleep：似了。CPU不管这个，省clock cycle。
+2. ready：被lock挡住了。CPU不管这个，省clock cycle。要么是被wait之后叫醒，要么是要锁的时候被block了，但是已经排在queue中了。如果锁一开，有可能哥们直接上。
+3. run：正在跑的thread。
+**multithread的目的：就是让parallelism好好执行/ 但是不让相关逻辑的critical section影响。**
+
+- wait：一个thread觉得自己进行不下去了，release自己的lock（这也是为什么wait要带一个mutex作为argument的原因）然后hold一个约定（conditional variable）。
+- signal：另一个thread想要唤醒持有规约的那个睡觉的thread（可能有很多个）。
+
+* 为什么要有done？
+  ans：如果没有，若signal比wait先call，那么父进程会永远进入睡眠。所以我们要维护一个状态变量（in this case，it is `done`）
+
+* 为什么signal的时候还是要有lock？
+  ans：下面的例子：child会再parent执行公务的时候，sleep的时候，立马interupt，然后把done给改了。这样当parent搞完sleep之后，会发现他永远wait了。这是一个围绕signal wait的race condition。所以我们要做的是在
+  - parent: check done之前，wait之后
+  - child：改done之前，signal之后。
+
+1. either child先执行完，parent发现了已经done了。
+2. or parent先执行完，child在中途signal。
+
+这是一个好的synchronization。
+
+```c
+pthread_cond_t  c = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t m = PTHREAD_MUTEX_INITIALIZER;
+int done = 0;
+
+void *child(void *arg) {
+    printf("child: begin\n");
+    sleep(1);
+    done = 1;
+    printf("child: signal\n");
+    Cond_signal(&c);
+    return NULL;
+}
+int main(int argc, char *argv[]) {
+    pthread_t p;
+    printf("parent: begin\n");
+    Pthread_create(&p, NULL, child, NULL);
+    Mutex_lock(&m);
+    printf("parent: check condition\n");
+    while (done == 0) {
+	sleep(2);
+	printf("parent: wait to be signalled...\n");
+	Cond_wait(&c, &m);
+    }
+    Mutex_unlock(&m);
+    printf("parent: end\n");
+    return 0;
+}
+
+```
+
+- 为什么这里是while包住？
+  ans:
+![alt text](image-23.png)
+
 
 因为performance的原因，当buffer满的时候，producer放不进去。导致了producer会一直spin。我们希望的是 --- 直接在某种条件直接终止某个thread，而不是继续check。
 ![alt text](image-24.png)
-
-船新的改进： 
-note question: 为什么这里是while包住？
-ans：
-![alt text](image-29.png)
-如果是if，那么如果两个producer同时通过了check（同时跑过这个conditioncheck），那么都会继续执行后面的操作。
 
 ![alt text](image-27.png)
 
 在consumer中，每当我们放进去的时候，signal call会放出来一个waiting thread，这里是一个producer（具体是谁depend on scheduler）。
 ![alt text](image-28.png)
-

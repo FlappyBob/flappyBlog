@@ -624,7 +624,63 @@ BUG：
   - overflow的问题。（字符串怎么使用的更好）
   - recursive？检查。
   - 其余代码检查
-  <!-- ls lab用时约12小时。 -->
+
+_2024/02/12_
+没想到下一次写lab居然是一周之后了啊。。。上周实在是太水了。。
+
+#### Testing framework
+
+mktest.sh 
+```sh
+#!/bin/bash
+set -e
+TEST_DIR=$1
+if [ -e ${TEST_DIR} ]; then
+    echo "Cowardly refusing to change an existing directory ${TEST_DIR}"
+    exit 1
+fi
+# Create base directory.
+mkdir ${TEST_DIR}
+# Create some files.
+touch ${TEST_DIR}/a
+touch ${TEST_DIR}/b
+touch -t 1912301230.03 ${TEST_DIR}/c
+touch -t 1810251600.00 ${TEST_DIR}/d
+dd if=/dev/urandom of=${TEST_DIR}/s1 bs=1024 count=1 status=none > /dev/null
+dd if=/dev/urandom of=${TEST_DIR}/s2 bs=1024 count=2 status=none > /dev/null
+dd if=/dev/urandom of=${TEST_DIR}/s3 bs=1024 count=3 status=none > /dev/null
+dd if=/dev/urandom of=${TEST_DIR}/s4 bs=1024 count=4 status=none > /dev/null
+mkdir ${TEST_DIR}/in0
+mkdir ${TEST_DIR}/in0/in1
+mkdir ${TEST_DIR}/in0/in1/in2
+touch -t 1912301230.03 ${TEST_DIR}/in0/a
+touch  ${TEST_DIR}/in0/b
+touch ${TEST_DIR}/in0/in1/in2/x
+touch ${TEST_DIR}/.boo
+mkdir ${TEST_DIR}/bad
+touch ${TEST_DIR}/bad/bad_user
+sudo chown 2002 ${TEST_DIR}/bad/bad_user
+touch ${TEST_DIR}/bad/bad_group
+sudo chown :2220 ${TEST_DIR}/bad/bad_group
+touch ${TEST_DIR}/bad/bad_ugroup
+sudo chown 2002:2220 ${TEST_DIR}/bad/bad_ugroup
+mkdir ${TEST_DIR}/.hidden
+touch ${TEST_DIR}/.hidden/a
+touch ${TEST_DIR}/.hidden/b
+touch ${TEST_DIR}/.hidden/c
+
+touch ${TEST_DIR}/ungrwx
+chmod 070 ${TEST_DIR}/ungrwx
+touch ${TEST_DIR}/urwxgn
+chmod 700 ${TEST_DIR}/urwxgn
+touch ${TEST_DIR}/urwgrwarw
+chmod 666 ${TEST_DIR}/urwgrwarw
+touch ${TEST_DIR}/urwgrar
+chmod 644 ${TEST_DIR}/urwgrar
+
+```
+
+  <!-- ls lab用时约<>小时。 -->
 
 ## Lecture 5
 
@@ -766,6 +822,7 @@ int main(int argc, char *argv[]) {
 
 ## Lecture 7
 
+### 一些建议。
 ### **Implementation of lock**
 
 critiria:
@@ -826,14 +883,15 @@ int unlock(lock_t *lock) {
 
 还有彩票lock, 用的是fetchandadd primitive
 fetchandadd:
+
 1. fetch from oldptr
-2. add one to it 
-3. return oldval 
+2. add one to it
+3. return oldval
 
 ```c
 typedef struct lock {
     int turn;
-    int ticket; 
+    int ticket;
 } lock_t
 
 int init(lock_t *lock) {
@@ -854,21 +912,18 @@ int unlock(lock_t *lock) {
 ```
 
 mutual exclusive? yes
-fair? yes since every locked thread is in a queue. 
-performance? still no because of spinning. 
-
+fair? yes since every locked thread is in a queue.
+performance? still no because of spinning.
 
 一个较为符合直觉的方法是与其spin不如直接让cpu停用那个thread。
 
 cpu -> thread1
 cpu -context switch--> thread2
 yield()
-thread2 go into ready state. 
+thread2 go into ready state.
 cpu -context switch--> thread1
-thread1 running. 
-
+thread1 running.
 
 但是它的cost依旧很高因为context switches。
 
 ### performace的改进：使用park() 和unpark()
-

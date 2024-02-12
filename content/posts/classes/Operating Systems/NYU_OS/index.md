@@ -644,26 +644,23 @@ BUG：
 
 具体背后thread怎么跑的大概率的multiprocessor有关，正是因为并行的优势让我们想用thread。
 
-当一段代码同时使用公用的addr space，这段代码被叫做cirtical section。s
+当一段代码同时使用公用的addr space，这段代码被叫做cirtical section。
 ![alt text](image-18.png)
 
 ex: 为什么会有这种错误？
 ans：本质是因为（上节课提过）global variable是被stack-shared。
 ![alt text](image-19.png)
 
-ex2: 假设这个Buffer以及其他3个variable都是在memory space中被shared。那么会有什么傻逼情况？
-
-![alt text](image-20.png)
-
-ex3:
+ex1:
 ![alt text](image-21.png)
+TODO
 
 ans:The problem does not occur because of the program but of the hardware. it is because of the existence of multicore/Sequential inconsistency in mem.
 
 Mike：这个例子并不会出现在单核cpu中，介绍这个example只是为了介绍concurrency的真正问题不只是存在程序员的设计的threadprogramming中，并且存在硬件中（multicore）。但是之后介绍的锁编程的方法会优雅地解决这些硬软件并行问题。
 ![alt text](image-22.png)
 
-**lock.**
+### **lock**
 
 note：注意虽然被夹在lock中间的代码是“atomic”，但是实际上他们的执行顺序依旧是不固定的，取决于scheduler。
 
@@ -678,14 +675,14 @@ x= x + 1;
 pthread_mutex_unlock(&lock);
 ```
 
-这是lock的机制：简要来说：
+**lock的机制**：
 
 - if a lock wants to acquire a lock: it needs to wait for the lock to be unlocked by some other threads.
 - only the thread who acquire the lock can unlock it.
 
 ![alt text](image-30.png)
 
-- note: During initialiaztion, using a wrapper to check error.
+- note: During initialiaztion, using a **wrapper** to check error.
 
 ## Lecture 6
 
@@ -700,11 +697,13 @@ pthread_mutex_unlock(&lock);
 intpthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *mutex);
 intpthread_cond_signal(pthread_cond_t *cond);
 ```
+
 一个thread执行的状态有：
+
 1. sleep：似了。CPU不管这个，省clock cycle。
 2. ready：被lock挡住了。CPU不管这个，省clock cycle。要么是被wait之后叫醒，要么是要锁的时候被block了，但是已经排在queue中了。如果锁一开，有可能哥们直接上。
 3. run：正在跑的thread。
-**multithread的目的：就是让parallelism好好执行/ 但是不让相关逻辑的critical section影响。**
+   **multithread的目的：就是让parallelism好好执行/ 但是不让相关逻辑的critical section影响。**
 
 - wait：一个thread觉得自己进行不下去了，release自己的lock（这也是为什么wait要带一个mutex作为argument的原因）然后hold一个约定（conditional variable）。
 - signal：另一个thread想要唤醒持有规约的那个睡觉的thread（可能有很多个）。
@@ -755,8 +754,121 @@ int main(int argc, char *argv[]) {
 
 - 为什么这里是while包住？
   ans:
-![alt text](image-23.png)
-仔细观察，如果c1在buffer空的时候wait了，之后因为buffer被p1填满进入了ready状态。如果锁之后开了第一个被唤醒的是这个蠢蠢欲动的，但是无处可拿（因为buffer空）的c1，那么是不是很尴尬？因此我们要在wait唤醒之后继续进行while check。
+  ![alt text](image-23.png)
+  仔细观察，如果c1在buffer空的时候wait了，之后因为buffer被p1填满进入了ready状态。如果锁之后开了第一个被唤醒的是这个蠢蠢欲动的，但是无处可拿（因为buffer空）的c1，那么是不是很尴尬？因此我们要在wait唤醒之后继续进行while check。
 
-![alt text](image-26.png)
-- 
+- 为什么要使用不同的conditional variable？
+  ![alt text](image-26.png)
+  ans: 会导致如上的consumer唤醒consumer的情况，这样我们就进入了死process中。我们需要让conditional variable具有指向性，让合理的逻辑动起来。
+  ![alt text](image-27.png)
+
+- **add efficiency**: avoid context switches
+
+## Lecture 7
+
+### **Implementation of lock**
+
+critiria:
+
+- mutual exclusion.
+- fairness: 所有ready threads都能有相等的机会被唤醒吗？
+- performance。
+
+### spin lock
+
+我们用硬件提供的testandset可以写个spinlock.
+
+相当于：我们用了一个隐形的硬件锁同时完成了比较和赋值。
+
+testandset:
+
+1. get oldval
+2. return oldval
+3. setnewval into oldval
+
+你也可以用更加强大的comandset。
+testandset(\*oldptr, testval, newval)
+
+1. get oldval from oldptr
+2. return oldval
+3. if oldVal == testVal, setnewval into oldptr, else do nothing.
+
+```c
+typedef struct lock {
+    int flag;
+} lock_t
+
+int init(lock_t *lock) {
+    lock->flag = 0;
+}
+
+// using testandset.
+int lock(lock_t *lock) {
+    while (testandset(lock->flag, 1) == 1) {
+        // spin()
+    }
+    lock->flag = 1;
+}
+
+// using compareandset.
+int lock(lock_t *lock) {
+    while (compareandset(lock->flag, 0, 1) == 1) {
+        // spin()
+    }
+    lock->flag = 1;
+}
+
+
+int unlock(lock_t *lock) {
+    lock->flag = 0;
+}
+```
+
+还有彩票lock, 用的是fetchandadd primitive
+fetchandadd:
+1. fetch from oldptr
+2. add one to it 
+3. return oldval 
+
+```c
+typedef struct lock {
+    int turn;
+    int ticket; 
+} lock_t
+
+int init(lock_t *lock) {
+    lock->turn = 0;
+    lock->ticket = 0;
+}
+
+// using fetchandadd.
+int lock(lock_t *lock) {
+    while (fetchandadd(lock->ticket) != lock->turn) {
+        // spin()
+    }
+}
+
+int unlock(lock_t *lock) {
+    lock->turn ++;
+}
+```
+
+mutual exclusive? yes
+fair? yes since every locked thread is in a queue. 
+performance? still no because of spinning. 
+
+
+一个较为符合直觉的方法是与其spin不如直接让cpu停用那个thread。
+
+cpu -> thread1
+cpu -context switch--> thread2
+yield()
+thread2 go into ready state. 
+cpu -context switch--> thread1
+thread1 running. 
+
+
+但是它的cost依旧很高因为context switches。
+
+### performace的改进：使用park() 和unpark()
+

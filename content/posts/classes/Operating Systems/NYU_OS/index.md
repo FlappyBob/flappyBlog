@@ -149,8 +149,6 @@ main()
 当x是一个global的时候，两个线程同时都可以access到一个地方，所以会造成线程写的问题。
 ![Alt text](image-13.png)
 
-## Lab2
-
 ## Lab2 ls
 
 Personal Note for lab2
@@ -680,7 +678,7 @@ chmod 644 ${TEST_DIR}/urwgrar
 
 ```
 
-  <!-- ls lab用时约<>小时。 -->
+ls lab用时约**12**小时。
 
 ## Lecture 5
 
@@ -832,7 +830,6 @@ critiria:
 - performance。
 
 ### spin lock
-
 我们用硬件提供的testandset可以写个spinlock.
 
 相当于：我们用了一个隐形的硬件锁同时完成了比较和赋值。

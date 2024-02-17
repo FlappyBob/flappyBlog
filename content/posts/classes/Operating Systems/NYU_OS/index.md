@@ -742,7 +742,6 @@ pthread_mutex_unlock(&lock);
 ## Lecture 6
 
 **Why do we learn Conditional variable?**
-
 - 通常是因为两个thread之间有dependency形成了一种拓补关系。
 - 但是通常的spin等待太铸币了，需要一种硬件上的解决方式，直接让thread sleep。
 
@@ -925,3 +924,6 @@ thread1 running.
 但是它的cost依旧很高因为context switches。
 
 ### performace的改进：使用park() 和unpark()
+TODO
+
+## Lecture 8

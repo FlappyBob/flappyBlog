@@ -78,7 +78,7 @@ params:
         url: posts/classes
       - name: thoughts
         url: posts/thoughts
-      - na  me: anime_game_films
+      - name: anime_game_films
         url: posts/anime_game_films
 
   socialIcons:

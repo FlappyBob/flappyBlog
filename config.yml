@@ -26,7 +26,7 @@ defaultContentLanguageInSubdir: false
 languages:
   en:
     languageName: "zh"
-    # contentDir: content/english
+    contentDir: content
     weight: 1
     profileMode:
       enabled: true

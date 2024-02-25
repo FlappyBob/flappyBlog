@@ -1,38 +1,50 @@
-html {
-    font-size: 12px;
-    /* px means "pixels": the base font size is now 10 pixels high */
-    font-family: "Open Sans", sans-serif;
-    /* this should be the rest of the output you got from Google Fonts */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 h2 {
-    font-size: 30px;
-    text-align: center;
+    font-size: 24px;
+    margin-bottom: 10px;
 }
 
-body {
-    color: rgb(240, 247, 252);
-    background-color: rgb(0, 0, 0);
-    margin: 0 auto;
-    border: 5px solid black;
-    padding: 0 20px 20px 20px;
+hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 10px 0;
 }
 
 img {
     width: 250px;
-    height: 315px;
-    margin: 0;
+    height: auto;
 }
 
-.text {
-    font-family: sans-serif;
-    font-size: 15px;
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 .space {
-    margin-top: 300px;
+    height: 20px;
 }
 
-#demo {
-    font-family: system-ui;
-}   
+figcaption {
+    margin-top: 10px;
+}
+
+audio {
+    margin-top: 10px;
+}

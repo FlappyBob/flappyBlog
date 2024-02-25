@@ -37,15 +37,15 @@ languages:
       imageHeight: 100
       buttons:
         - name: tech
-          url: posts/tech
+          url: en/posts/tech
         - name: life
-          url: posts/life
+          url: en/posts/life
         - name: class
-          url: posts/classes
+          url: en/posts/classes
         - name: thoughts
-          url: posts/thoughts
+          url: en/posts/thoughts
         - name: anime_game_films
-          url: posts/anime_game_films
+          url: en/posts/anime_game_films
 
     menu:
       main:

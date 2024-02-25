@@ -1,7 +1,6 @@
 ---
 title: "Express Intro"
 date: 2024-02-23T22:10:11-04:00
-url: /articles/my-first-article.html
 showToc: true # 显示目录
 TocOpen: true # 自动展开目录
 draft: false 

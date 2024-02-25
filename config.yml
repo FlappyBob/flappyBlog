@@ -57,7 +57,7 @@ languages:
           weight: 2
         - identifier: About
           name: about
-          url: about
+          url: posts/about
           weight: 3
 
 outputs:

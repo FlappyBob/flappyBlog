@@ -24,7 +24,6 @@ defaultContentLanguageInSubdir: true
 languages:
   en:
     languageName: "English"
-    contentDir: /a
     weight: 1
     profileMode:
       enabled: true

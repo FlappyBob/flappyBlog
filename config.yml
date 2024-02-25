@@ -1,5 +1,4 @@
 baseURL: "https://flappyhimself.netlify.app/"
-languageCode: en-us
 title: Flappy's blog
 theme: PaperMod
 
@@ -18,8 +17,6 @@ minify:
 permalinks: #浏览器链接显示方式
   post: "/:title/"
   # post: "/:year/:month/:day/:title/"
-defaultContentLanguage: en # 最顶部首先展示的语言页面
-defaultContentLanguageInSubdir: true
 
 languages:
   weight: 1

@@ -20,13 +20,13 @@ permalinks:
     about: /about/
 
   # post: "/:year/:month/:day/:title/"
-defaultContentLanguage: zh # 最顶部首先展示的语言页面
+defaultContentLanguage: en # 最顶部首先展示的语言页面
 defaultContentLanguageInSubdir: false
 
 languages:
   en:
-    languageName: "zh"
-    contentDir: content
+    languageName: "English"
+    # contentDir: content/english
     weight: 1
     profileMode:
       enabled: true

@@ -16,48 +16,42 @@ minify:
 
 permalinks:
 
-
   # post: "/:year/:month/:day/:title/"
-defaultContentLanguage: en # 最顶部首先展示的语言页面
-defaultContentLanguageInSubdir: true
+# defaultContentLanguage: en # 最顶部首先展示的语言页面
 
-languages:
-  en:
-    languageName: "English"
-    weight: 1
-    profileMode:
-      enabled: true
-      title: Flappy's notes.
-      subtitle: ""
-      imageUrl: "http://p0.itc.cn/q_70/images03/20200905/3c619b233f9f44f6865c919f49b75478.jpeg"
-      imageWidth: 100
-      imageHeight: 100
-      buttons:
-        - name: tech
-          url: posts/tech
-        - name: life
-          url: posts/life
-        - name: class
-          url: posts/classes
-        - name: thoughts
-          url: posts/thoughts
-        - name: anime_game_films
-          url: posts/anime_game_films
+profileMode:
+  enabled: true
+  title: Flappy's notes.
+  subtitle: ""
+  imageUrl: "http://p0.itc.cn/q_70/images03/20200905/3c619b233f9f44f6865c919f49b75478.jpeg"
+  imageWidth: 100
+  imageHeight: 100
+  buttons:
+    - name: tech
+      url: posts/tech
+    - name: life
+      url: posts/life
+    - name: class
+      url: posts/classes
+    - name: thoughts
+      url: posts/thoughts
+    - name: anime_game_films
+      url: posts/anime_game_films
 
-    menu:
-      main:
-        - identifier: search
-          name: search
-          url: search
-          weight: 1
-        - identifier: tags
-          name: tags
-          url: tags
-          weight: 2
-        - identifier: About
-          name: about
-          url: about
-          weight: 3
+menu:
+  main:
+    - identifier: search
+      name: search
+      url: search
+      weight: 1
+    - identifier: tags
+      name: tags
+      url: tags
+      weight: 2
+    - identifier: About
+      name: about
+      url: about
+      weight: 3
 
 outputs:
   home:

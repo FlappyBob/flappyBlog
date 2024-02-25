@@ -15,9 +15,7 @@ minify:
   # minifyOutput: true
 
 permalinks:
-  section:
-    posts: /posts
-    about: /about/
+
 
   # post: "/:year/:month/:day/:title/"
 defaultContentLanguage: en # 最顶部首先展示的语言页面
@@ -59,7 +57,7 @@ languages:
           weight: 2
         - identifier: About
           name: about
-          url: /about
+          url: about
           weight: 3
 
 outputs:

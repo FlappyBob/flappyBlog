@@ -21,7 +21,7 @@ permalinks:
 
   # post: "/:year/:month/:day/:title/"
 defaultContentLanguage: en # 最顶部首先展示的语言页面
-defaultContentLanguageInSubdir: true
+defaultContentLanguageInSubdir: false
 
 languages:
   en:

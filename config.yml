@@ -16,12 +16,12 @@ minify:
 
 permalinks:
   section:
-    posts: en/posts
+    posts: /posts
     about: /about/
 
   # post: "/:year/:month/:day/:title/"
 defaultContentLanguage: en # 最顶部首先展示的语言页面
-defaultContentLanguageInSubdir: false
+defaultContentLanguageInSubdir: true
 
 languages:
   en:
@@ -37,15 +37,15 @@ languages:
       imageHeight: 100
       buttons:
         - name: tech
-          url: en/posts/tech
+          url: posts/tech
         - name: life
-          url: en/posts/life
+          url: posts/life
         - name: class
-          url: en/posts/classes
+          url: posts/classes
         - name: thoughts
-          url: en/posts/thoughts
+          url: posts/thoughts
         - name: anime_game_films
-          url: en/posts/anime_game_films
+          url: posts/anime_game_films
 
     menu:
       main:

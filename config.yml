@@ -26,6 +26,7 @@ defaultContentLanguageInSubdir: true
 
 languages:
   en:
+    disabled: true
     languageName: "English"
     # contentDir: content/english
     weight: 1

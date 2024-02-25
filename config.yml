@@ -19,25 +19,6 @@ permalinks:
   # post: "/:year/:month/:day/:title/"
 # defaultContentLanguage: en # 最顶部首先展示的语言页面
 
-profileMode:
-  enabled: true
-  title: Flappy's notes.
-  subtitle: ""
-  imageUrl: "http://p0.itc.cn/q_70/images03/20200905/3c619b233f9f44f6865c919f49b75478.jpeg"
-  imageWidth: 100
-  imageHeight: 100
-  buttons:
-    - name: tech
-      url: posts/tech
-    - name: life
-      url: posts/life
-    - name: class
-      url: posts/classes
-    - name: thoughts
-      url: posts/thoughts
-    - name: anime_game_films
-      url: posts/anime_game_films
-
 menu:
   main:
     - identifier: search
@@ -80,6 +61,25 @@ params:
   ShowToc: true # 显示目录
   TocOpen: true # 自动展开目录
   comments: true
+
+  profileMode:
+    enabled: true
+    title: Flappy's notes.
+    subtitle: ""
+    imageUrl: "http://p0.itc.cn/q_70/images03/20200905/3c619b233f9f44f6865c919f49b75478.jpeg"
+    imageWidth: 100
+    imageHeight: 100
+    buttons:
+      - name: tech
+        url: posts/tech
+      - name: life
+        url: posts/life
+      - name: class
+        url: posts/classes
+      - name: thoughts
+        url: posts/thoughts
+      - na  me: anime_game_films
+        url: posts/anime_game_films
 
   socialIcons:
     - name: github

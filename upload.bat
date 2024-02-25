@@ -1,3 +1,3 @@
 git add ./
-git commit -m "finish"  
+git commit -m "quick save"  
 git push blog main

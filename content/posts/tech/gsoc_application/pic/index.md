@@ -3,7 +3,7 @@ title: "保姆级GSOC申请tips"
 date: 2023-10-08T23:51:11-04:00
 showToc: true # 显示目录
 TocOpen: true # 自动展开目录
-draft: false
+draft: true
 cover:
     image: tech/open_source/open_source.png
 tags: 

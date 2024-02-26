@@ -5,7 +5,7 @@ showToc: true # 显示目录
 TocOpen: true # 自动展开目录
 draft: false
 cover:
-  image:
+  image: classes/parra/1.png
 tags:
   - "Parallel Computing"
 ---

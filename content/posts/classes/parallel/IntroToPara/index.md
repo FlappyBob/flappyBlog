@@ -235,3 +235,82 @@ Scalability is the ability of a (software or hardware) system to handle a growin
 **Calculation: 直接看例子吧。**:
 ![alt text](pics/image-23.png)
 ![alt text](pics/image-24.png)
+
+### Efficiency of a program
+
+E = Speedup (T_s / T_p) / P (# of threads)
+
+We cannot use _wall-clock times_ to measure how your program is good or not.
+
+因为我们没有measure资源。而efficiency很好的measure了这个指标。
+
+Efficiency通常会随着processors变多的时候，变小。
+
+- Scalability: 当program size变大的时候，efficiency依旧保持的很好。
+
+- cores increases, problem size fixed, efficiency same -> strongly scalable.
+
+**Performance analysis.**
+Et(execution time) = ic(instruction count) _ cpi(cycles per instruction) _ ct(cycle time)
+
+They depends on what?
+ic = **programmer** && **complier**
+cpi = programmer && complier && hardware
+ct = hardware
+
+**MIPS**:
+
+- MIPS = Million Instructions per Second = # instructions in millions / total time in seconds (ET)
+- (ET) Total time in seconds = total number of cycles \* cycle time = total number of cycles/Frequency
+
+### Choose between ET and MIPS
+
+et: important for user.
+MIPs: millions instructions per seconds. (but it does not count how long a instruction takes. So it is not comlement.)
+
+### check real performance: using
+
+![alt text](image.png)
+There will be no problem for:
+
+- cache coherence.
+- interleaving between threads
+
+because of no memory are shared.
+
+And:
+
+- There is no critical sections.
+- But there will still be race conditions
+
+We only care about **processses** while dealing with MPI.
+
+- processes are numbered 0, 1, 2, .. p-1
+
+```sh
+# compile
+mpicc  -g  -Wall –std=c99 -o  mpi_hello  mpi_hello.c
+
+# execution
+mpiexec  -n  <number of processes>  <executable>
+
+# run with 4 processes.
+mpiexec  -n  4  ./mpi_hello
+```
+
+one first MPI program:
+
+```c
+module load mpi/openmpi-x86_64
+```
+
+## MPI programming
+
+Recall that this approach to parallel programming is called single program, multiple data or SPMD. The if−else statement in Lines 16–29 makes our program SPMD.
+
+一些从中收获到的设计：
+
+- 类型传输因为无法用c语言来实现（char不能直接作为参数传进去），所以最后被定义成了marco MPI_CHAR，来传送（估计背后是`#define MPI_CHAR 1`），使用marco做一个映射。
+  ![alt text](image-1.png)
+
+![alt text](image-2.png)

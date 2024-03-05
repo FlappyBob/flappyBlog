@@ -628,7 +628,8 @@ _2024/02/12_
 
 #### Testing framework
 
-mktest.sh 
+mktest.sh
+
 ```sh
 #!/bin/bash
 set -e
@@ -679,7 +680,6 @@ chmod 644 ${TEST_DIR}/urwgrar
 ```
 
 ls lab用时约**12**小时。
-
 
 ## Lecture 5
 
@@ -742,6 +742,7 @@ pthread_mutex_unlock(&lock);
 ## Lecture 6
 
 **Why do we learn Conditional variable?**
+
 - 通常是因为两个thread之间有dependency形成了一种拓补关系。
 - 但是通常的spin等待太铸币了，需要一种硬件上的解决方式，直接让thread sleep。
 
@@ -821,6 +822,7 @@ int main(int argc, char *argv[]) {
 ## Lecture 7
 
 ### 一些建议。
+
 ### **Implementation of lock**
 
 critiria:
@@ -830,6 +832,7 @@ critiria:
 - performance。
 
 ### spin lock
+
 我们用硬件提供的testandset可以写个spinlock.
 
 相当于：我们用了一个隐形的硬件锁同时完成了比较和赋值。
@@ -924,6 +927,39 @@ thread1 running.
 但是它的cost依旧很高因为context switches。
 
 ### performace的改进：使用park() 和unpark()
+
 TODO
 
 ## Lecture 8
+
+<!-- TODO  -->
+
+## Lecture 13
+
+Multilevel can be managed by the kernel user。
+
+但是这是有tradeoff 的。
+
+因为当一个pagetable的size变大之后，unit size导致会有很多空白。但是这样搜索过程就会快的多。
+
+## Lab 4: Virtual MM: WeensyOS
+
+### Stage 1: 读源码。。
+（我现在读个asm都吃力的很，真的是非常敬佩以前慢慢打孔编程的前辈们，赞美你们。）
+
+来自GNU
+> This may help you to maximize performance in time-sensitive code or to access assembly instructions that are not readily available to C programs.
+
+**Extended Asm**：
+```c
+asm asm-qualifiers ( AssemblerTemplate
+                 : OutputOperands
+                 [ : InputOperands
+                 [ : Clobbers ] ])
+
+asm asm-qualifiers ( AssemblerTemplate
+                      : OutputOperands
+                      : InputOperands
+                      : Clobbers
+                      : GotoLabels)
+```

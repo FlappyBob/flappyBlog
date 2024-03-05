@@ -260,7 +260,7 @@ ct = hardware
 
 **MIPS**:
 
-- MIPS = Million Instructions per Second = # instructions in millions / total time in seconds (ET)
+- MIPS = Million Instructions per Second = # instructions in millions / total time in seconds (ET)  
 - (ET) Total time in seconds = total number of cycles \* cycle time = total number of cycles/Frequency
 
 ### Choose between ET and MIPS

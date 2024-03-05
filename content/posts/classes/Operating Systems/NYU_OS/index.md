@@ -945,21 +945,71 @@ Multilevel can be managed by the kernel user。
 ## Lab 4: Virtual MM: WeensyOS
 
 ### Stage 1: 读源码。。
+
 （我现在读个asm都吃力的很，真的是非常敬佩以前慢慢打孔编程的前辈们，赞美你们。）
 
-来自GNU
+最基础的就是 inline asm，
+
+```c
+ __asm__ ("movl %eax, %ebx\n\t"
+          "movl $56, %esi\n\t"
+          "movl %ecx, $label(%edx,%ebx,$4)\n\t"
+          "movb %ah, (%ebx)");
+```
+
+来自[GNU manual](https://www.ibiblio.org/gferg/ldp/GCC-Inline-Assembly-HOWTO.html#s1)
+
 > This may help you to maximize performance in time-sensitive code or to access assembly instructions that are not readily available to C programs.
 
 **Extended Asm**：
-```c
-asm asm-qualifiers ( AssemblerTemplate
-                 : OutputOperands
-                 [ : InputOperands
-                 [ : Clobbers ] ])
 
-asm asm-qualifiers ( AssemblerTemplate
-                      : OutputOperands
-                      : InputOperands
-                      : Clobbers
-                      : GotoLabels)
+基础语法：
+
+```c
+ asm ( assembler template
+           : output operands                  /* optional */
+           : input operands                   /* optional */
+           : list of clobbered registers      /* optional */
+           );
 ```
+
+以下的代码仅仅是gcc给我们allocate的register。
+
+> Here our input is in ’x’. We didn’t specify the register to be used. GCC will choose some register for input, one for output and does what we desired. If we want the input and output to reside in the same register, we can instruct GCC to do so. Here we use those types of read-write operands. By specifying proper constraints, here we do it.
+
+```c
+asm ("leal (%0,%0,4), %0"
+     : "=r" (five_times_x)
+     : "0" (x)
+     );
+```
+
+我们也可以指定在%rcx中。
+
+```c
+asm ("leal (%%ecx,%%ecx,4), %%ecx"
+    : "=c" (x)
+    : "c" (x)
+    );
+```
+
+还有很多的contraint我们可以指导gcc：
+[constraint](https://www.ibiblio.org/gferg/ldp/GCC-Inline-Assembly-HOWTO.html#toc6)
+
+```c
+ __asm__ __volatile__(  "decl %0; sete %1"
+                      : "=m" (my_var), "=q" (cond)
+                      : "m" (my_var)
+                      : "memory"
+                      );
+
+```
+
+直接问G哥 :)
+![alt text](image-28.png)
+
+attribute 关键字：
+`int x __attribute__ ((aligned (16))) = 0;`
+它是gcc给变量或者方程的施加的额外属性：具体来讲就是在后面增加一串attribute list。This keyword is followed by an attribute specification inside double parentheses.
+
+具体看这个：[attribute](https://gcc.gnu.org/onlinedocs/gcc-4.1.2/gcc/Variable-Attributes.html)

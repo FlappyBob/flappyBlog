@@ -928,9 +928,8 @@ thread1 running.
 
 ### performace的改进：使用park() 和unpark()
 
-TODO
-
 ## Lecture 8
+
 
 <!-- TODO  -->
 

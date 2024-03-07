@@ -2,10 +2,10 @@
 title: "Computer networking: A Top-Down Approach"
 date: 2024-01-21T22:10:11-04:00
 showToc: true # 显示目录
-TocOpen: trueF # 自动展开目录
+TocOpen: true # 自动展开目录
 draft: false
 cover:
-  image: C:\Users\flapp\flappy\static\classes\Network\Umass_NYU_Network\1.png
+  image: classes\Network\Umass_NYU_Network\1.png
 tags:
   - "Computer Network"
 ---

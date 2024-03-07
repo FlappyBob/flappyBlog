@@ -9,3 +9,11 @@ cover:
 tags:
   - "Computer Network"
 ---
+
+## 总述
+这篇文章是我自学Computer Network理论的记录。
+
+**Resources**
+* [Computer networking: A Top-Down Approach](https://gaia.cs.umass.edu/kurose_ross/index.php)
+
+### Lecture 1

@@ -928,13 +928,59 @@ thread1 running.
 
 ### performace的改进：使用park() 和unpark()
 
-## Lecture 8
+## Lecture 8 Scheduler 
+processes有以下几种状态，简洁明了不多说了：
+* ready：就是scheler的候选。
+* running：cpu在跑它。
+* waiting：反正就是在等一个状态，非常像thread在等一个condition variable的状态。
+![alt text](image-29.png)
 
 
+以下是preemptive的scheduler。
+![alt text](image-31.png)
+
+nonpreemptive-preemptive的scheduler：只会在process wait或者exit的时候做出选择，否则就一直死磕在一个process上。
+
+最简单的例子：**FIFO**
+throughput: always 0.1, (number of processes) / time = 3 / 30 = 0.1s
+avg turnaround time = time (first 1, then 2, then 3) = time / processes = (24 + 27 + 30) / 3 = 27s 
+![alt text](image-32.png)
+
+
+例子：**SJF**
+![alt text](image-33.png)
+
+例子：**Round Robin**
+![alt text](image-34.png)
+这个问题是：太长了导致就失去了协调工作的特性，导致turnaround time太长了，太短了也会导致context switch的成本变大很多。
+
+加入以下的机制：I/O
+Intuition是：大多数时间个人用户不会拿电脑来一直做computational intensive的工作，而是和互联网交互，等待文件传输，邮件，code editing等等。（一个例子就是vscode）
+
+我们进行以下分析：disk utilization -- Scheduler的决策怎么影响到disk使用率的。
+![alt text](image-35.png)
+
+FIFO明显不行：等的太久了。
+
+RR(100ms/break)明显不行：disk utilization = 5%. 
+
+
+RR(1ms/break)行：disk utilization = 10/11 = 90%. 
+--------------------IO-------------10ms ------------------------------------------------
+A(1ms) -> B(1ms) -> C(1ms) -> A(1ms) -> B(1ms) -> c waiting -> ... A -> B->...  -> c   
+
+SJF行：disk utilization = 10/11 = 90%. 
+![alt text](image-36.png)
+
+
+## Lecture 9 Virtual Nenory 
+![alt text](image-37.png)
+整节OS我听下来最重要的是这句话。
+
+大体上的memory alloc是这样的 -- process向kernel寻求帮助  --> kernel给每个process都有自己的page table（or other data structures） --> mmu读 page table然后做映射（hardware是不知道哪个·process的）
 <!-- TODO  -->
 
 ## Lecture 13
-
 Multilevel can be managed by the kernel user。
 
 但是这是有tradeoff 的。

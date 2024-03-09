@@ -91,6 +91,13 @@ What is a process constructed of?
 
 ## Lecture 4: Shell I
 
+- why should be execute in the child? -- 因为不这样做的话，parent process就终止了。
+- what does execve do?
+
+> execve() executes the program referred to by pathname. This causes the program that is currently being run by the calling process to be replaced with a new program, with newly initialized stack, heap, and (initialized and uninitialized) data segments
+
+
+
 ```c
 while (1) {
     write(1, "$", 2);
@@ -106,15 +113,15 @@ while (1) {
     }
 }
 ```
+
 **fs** -- file descriptor:  
 ![alt text](image-4.png)
 
-Something to notice:
+- `>`的实现踩在了file descriptor的肩膀上。只不过就是把fs的1的指针从指向terminal到指向了新的file。注意write这个syscall完全不知道发生了什么，他一样写入了fs为1的地方，只不过这次是用户指定的file而不是terminal。
+- 为什么fork和exec要隔离开来?为什么不直接有一个craeteprocess？难道这样不更方便？
+  TODO
 
-1. `>`的实现很简单，这其实踩在了file descriptor的肩膀上。只不过就是把fs的1的指针指向了新的file。注意write这个fsyscall完全不知道发生了什么。
-2. 为什么fork和exec要隔离开来?为什么不直接有一个craeteprocess？难道这样不更方便？
-   TODO
-3. `background`的实现也只不过是`fork和wait`的syscall的妙用。如果shell parse到了&，shell直接不等了，直接让execve在后台运行。
+1. `background`的实现也只不过是`fork和wait`的syscall的妙用。如果shell parse到了&，shell直接不等了，直接让execve在后台运行。
 
 **File Descriptor.** 每个process都会维护一个VM，fs table（实际上是指向真正的fs table的ptr）和registers。
 ![Alt text](image-7.png)]

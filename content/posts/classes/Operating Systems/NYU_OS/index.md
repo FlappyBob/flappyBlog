@@ -47,7 +47,7 @@ walfish教授真的是非常热情。在讲为什么要学os/sys的时候几句�
 
 3. os demonstrate了不少软件工程中重要的概念。比如scheduler是经典的调度问题/ 在和processes打交道的时候会接触到并行。
 
-## Lecture 2/3
+## Lecture 2/3 Review of assembly
 
 首先编译链就不多说了：
 ![Alt text](image-1.png)
@@ -76,37 +76,38 @@ What is a process constructed of?
 **一个经典bug**：不要把指针放到stackframe上！
 ![Alt text](image-3.png)
 
-
 ### **syscall**: user让kernel干一些事情。
+
 总的来说:user没有特权操作硬件，kernel可以。
 
 是一种**user space** transfer to **kernel space**的一种方式。
 
 具体transfer操作方式：
-1. save all reigisters. 
-2. 
 
-_题外话。Mike甚至贴心的给了环境的描述，我哭死。我觉得这很好，因为就这简单的一张图基本上足够破除学生对环境的疑惑和恐惧了。_
-![](image-4.png)
+1. 准备中断进入内核态代码，set好参数。
+2. 查看硬件handler。
+3. 调用指定handler并且把register的参数带回。
+   ![Alt text](1.png)
 
-Time sharing: one split one resource "in time" -- let one process to use cpu for some time and let another to run it for another.
-
-- processes have its own address spaces
-
-有多少个process？
-$2^{10}$
-
-> 现场装逼.jpg
-
-## Lecture 4
-
-**shell**.
+## Lecture 4: Shell I
 
 ```c
-while(1) {
-    write() // just write the dollar sign
+while (1) {
+    write(1, "$", 2);
+    readcmd(cmd, args);
+    // child
+    if ((pid = fork()) == 0) {
+        execve(command, args, 0);
+    } else if (pid > 0) {
+        wait(0);
+
+        // error
+    } else {
+    }
 }
 ```
+**fs** -- file descriptor:  
+![alt text](image-4.png)
 
 Something to notice:
 

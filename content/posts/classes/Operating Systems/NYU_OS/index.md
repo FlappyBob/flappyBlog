@@ -77,8 +77,14 @@ What is a process constructed of?
 ![Alt text](image-3.png)
 
 
+### **syscall**: user让kernel干一些事情。
+总的来说:user没有特权操作硬件，kernel可以。
 
-**syscall**是一种**user space** transfer to **kernel space**的一种方式。
+是一种**user space** transfer to **kernel space**的一种方式。
+
+具体transfer操作方式：
+1. save all reigisters. 
+2. 
 
 _题外话。Mike甚至贴心的给了环境的描述，我哭死。我觉得这很好，因为就这简单的一张图基本上足够破除学生对环境的疑惑和恐惧了。_
 ![](image-4.png)

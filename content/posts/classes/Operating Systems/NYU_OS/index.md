@@ -187,32 +187,55 @@ while (1) {
     } else {
     }
 }
+
+void handle_piepeline(left_cmd, right_cmd) {
+    int fdArr[2];
+    if (pipe(fdArr) < 0) //error
+    if ((pid = fork()) == 0) {
+        dup2(fdArr[1], 1); // now fd 0 -> dev, 1 -> write end, 2 -> dev
+        close(fdArr[0]);
+        close(fdArr[1]);
+        // execute.
+    } else if (pid > 0) {
+        dup2(fdArr[0], 0); // now fd 0 -> dev, 1 -> write end, 2 -> dev
+        close(fdArr[0]);
+        close(fdArr[1]);
+     // error
+    } else {
+    }
+}
 ```
 
 例子：
 
 - left cmd = `ls -l`的输出原本是1，which is defaulted set to the terminal windo.
-- right cmd = `grep 'pattern' <inputFileName>`，grep的实现是关闭0，然后再打开filename的，这样就可以直接从file的字节流中进行输入了。
+- right cmd = `grep 'pattern'`，grep在没有第三个arg的实现是用fd 0 作为自己的input，如果有第三个arg输进去，那他就会吧0 关闭，然后在调用open syscall。
 
-然后我们直接关闭ls -l side的1， 然后打开grep side的0。就可以实现pipe了，而这些都可以在shell中实现。
-
+然鹅我们再shell的实现中 -- 直接关闭ls -l side的1， 然后打开grep side的0，就可以实现pipe了。于是`ls -l | grep "hello"` 就会从ls -l 输入到管道中，然后grep再从fd=0读取（管道的输出）内容。
 
 我们来深入理解一下pipe的机制，以下是ls lab的内容：
+
 ```c
- int status;
+ void hack()
+{
+    int status;
     // pipe from child to parent
     int c2p[2];
     pipe(c2p);
-    printf("c2p[0] = %d\n", c2p[0]); // 3 -> write end of c2p pipe
-    printf("c2p[1] = %d\n", c2p[1]); // 4 -> read end of c2p pipe
+    printf("c2p[0] = %d\n", c2p[0]);
+    printf("c2p[1] = %d\n", c2p[1]);
 
     // child
     if (fork() == 0)
     {
         // so instead of writing to terminal, it will write to the pipe.
         close(1);
+        // let write end be assiged to fd=1
         dup(c2p[WRITEEND]);
+
+        // close these two ends since we only needs the fd=1(write end) as the output.
         close(c2p[READEND]);
+        close(c2p[WRITEEND]);
         char *lala[] = {"/usr/bin/ls", NULL, NULL};
         execve("/usr/bin/ls", lala, 0);
         printf("exec failed!\n");
@@ -221,6 +244,7 @@ while (1) {
     // parent
     else
     {
+        // close it since we dont need it in parent process
         close(c2p[WRITEEND]);
         char buf[BUFSIZE];
         int n = read(c2p[READEND], buf, sizeof(buf));
@@ -232,6 +256,7 @@ while (1) {
         wait(&status);
     }
     exit(0);
+}
 ```
 
 ### Process -- 从OS的角度
@@ -255,7 +280,54 @@ Thread从proc的角度来看，其实和proc差不多。
 **线程写的问题**。当x是一个global的时候，两个线程同时都可以access到一个地方，所以会造成线程写的问题。
 ![Alt text](image-13.png)
 
-## Lab2 ls
+## hw1/2
+
+- Operations on files, such as read(), write(), and close(), are typically implemented as system calls. Describe two of the benefits of having these operations managed by the operating system instead of individual processes.
+
+**ans**:
+(1) Prevent user level processes from manipulating hardware
+(2) Program will have good portability across machines
+(3) Processes do not have to have redundant code
+
+- What do you think are the differences between the implementation of thread_create(func) and the implementation of fork()? (here, func is the address of the function that the thread should begin at).
+
+**ans**:
+
+D1: thread_create doesn't need to make a copy of the invoking thread's memory. It will make both the original thread and created thread share the invoking thread's memory. By contrast, fork will make a copy of the parent process's memory, and the child will run using this copy.
+
+D2: Both thread_create and fork will give the created thread/process a new stack. fork creates this stack from the parent process's stack, while thread_create creates a brand new stack. In other words, fork will set %esp to a copy of the current bottom of the stack, thread_create will set %esp to the top of a new stack within the same address space.
+
+D3: As indicated in the interface, thread_create takes a function pointer as the parameter. thread_create will set the created thread's %eip to func, while fork will not touch %eip, since parent and child are running the "same" code located at the "same" address.
+
+## Lab1/ Lab2 ls
+
+**Unix Utilities**.
+
+- basic shell command
+
+* echo "echo hello $world"? $world will expand
+* echo 'echo hello $world' world will not expand in single quote.
+* echo \`echo hello $world\`? what is inside \`\` will be evaluted first.
+
+```sh
+echo a && echo b # it cares whether echo a execuets successfully
+echo a ; echo b # it does not care whether echo a execuets successfully]
+
+# Explanation: & will put 'echo a' in background and run 'echo b' in foreground.
+echo a & echo b
+```
+
+- **find**: `find [flags] [path...] [expression]; `
+
+```sh
+find . -name "sched.h"
+find . -name "sched.*"
+find . -name "*.h" | wc -w
+
+
+# 一些组合 output 
+cat member.txt | grep "^Name:[a-zA-Z']\+$" |  head -n100 | cut -d':' -f 2 | sort > name.txt 
+```
 
 Personal Note for lab2
 
@@ -785,45 +857,39 @@ chmod 644 ${TEST_DIR}/urwgrar
 
 ```
 
-ls lab用时约**12**小时。
+_ls lab用时约12小时_。
 
-## Lecture 5
+## Lecture 5: Concurrency I 
 
-让我们再回顾一下thread的实现。
+在介绍处理并行的方法前，先介绍一些常见的硬软件错误：
 
-### thread和process的区别是什么？
+Q1：Can data be called with 0? 
 
-它们都要做context switches from process A to B。
-但是process：
+assumption: 
+1. compiler produce sequential code
+2. single cpu 
+``` c 
+int data = 0, ready = 0; 
+void p1() {
+    data = 2000;
+    ready = 1;
+}
 
-- 需要switch addr spaces by page tables.
-- save registers from process A
-  thread:
-- save registers from thread A.
+int p2 () {
+    while (!ready) {}
+    // can data be called with 0? 
+    use(data); 
+}
+```
 
-因此threads共享内存，`.code .data`section都是thread间共享的。
-
-具体背后thread怎么跑的大概率的multiprocessor有关，正是因为并行的优势让我们想用thread。
-
-当一段代码同时使用公用的addr space，这段代码被叫做cirtical section。
-![alt text](image-18.png)
-
-ex: 为什么会有这种错误？
-ans：本质是因为（上节课提过）global variable是被stack-shared。
-![alt text](image-19.png)
-
-ex1:
-![alt text](image-21.png)
-TODO
-
-ans:The problem does not occur because of the program but of the hardware. it is because of the existence of multicore/Sequential inconsistency in mem.
-
-Mike：这个例子并不会出现在单核cpu中，介绍这个example只是为了介绍concurrency的真正问题不只是存在程序员的设计的threadprogramming中，并且存在硬件中（multicore）。但是之后介绍的锁编程的方法会优雅地解决这些硬软件并行问题。
+Q2： memory-inconsistency: 
 ![alt text](image-22.png)
 
-### **lock**
+Mike：这个例子并不会出现在单核cpu中，介绍这个example只是为了介绍concurrency的真正问题不只是存在程序员的设计的threadprogramming中，并且存在硬件中（multicore）。但是之后介绍的control primitives会优雅地解决这些硬软件并行问题。
 
-note：注意虽然被夹在lock中间的代码是“atomic”，但是实际上他们的执行顺序依旧是不固定的，取决于scheduler。
+### 第一个措施：**lock**
+
+**note：注意虽然被夹在lock中间的代码是“atomic”，但是实际上他们的执行顺序依旧是不固定的，取决于scheduler。**
 
 也就是说acquire() 和release() 之间，只能有一个thread running。
 

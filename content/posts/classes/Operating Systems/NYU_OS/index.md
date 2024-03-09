@@ -16,11 +16,28 @@ _这个log就不涉及具体lab实现和setup的detail了，我主要讲一些�
 webpage: https://cs.nyu.edu/~mwalfish/classes/24sp/
 lab： https://github.com/nyu-cs202/labs
 ![alt text](image-41.png)
+
 ## Lecture 1
 
-没讲啥特殊的, good intro =。=
+Abstraction:
 
-walfish教授分别讲了 unix历史，为什么要学os/sys，以及os的一些构成。
+- file system:
+  abstraction: seq of bytes.
+  isolation: hiding user's files.
+
+- text input:
+  abstraction: linear stream
+  isolation: chars go to the intended app
+
+- memory:
+  abstraction: very large conceivable memory
+  isolation: processes cannot access each other's memory
+
+- scheduling:
+  abstraction: continuous execution  
+  isolation: one heavy consumer cannot dominate the cpu.
+
+### 为什么要学os/sys
 
 walfish教授真的是非常热情。在讲为什么要学os/sys的时候几句话听的我像打了鸡血，我觉得相当值得分享在blog里。
 
@@ -30,47 +47,48 @@ walfish教授真的是非常热情。在讲为什么要学os/sys的时候几句�
 
 3. os demonstrate了不少软件工程中重要的概念。比如scheduler是经典的调度问题/ 在和processes打交道的时候会接触到并行。
 
-## Lecture 2
+## Lecture 2/3
 
-![Alt text](image.png)
-walfish课上直接把从src到变成byte load到os中的过程具象化了，有点像csapp中的第一章。
-
-csapp:
+首先编译链就不多说了：
 ![Alt text](image-1.png)
 
-理解process的方式有两种:
+引入process：
 
-1. 从processor的方式：无非就是loader在跑一段exeutable file.
+1. 从processor的方式：process是直接在cpu上运行的机器码而已。
 2. 从os的方式：os as resource manager会把processes当成一些instances来管理。
 
-感觉walfish对cpu如何运行的方式有一种美学的鉴赏 -- 一切漂亮的app，自始至终都是一堆bytes boil down之后都是cpu的pc在不断地指向下一步然后执行。事实就是如此，这些设计是**优雅，强大**的。
+*题外话。*cpu如何运行的方式是简单且优雅的 -- 一切漂亮的app，自始至终都是一堆bytes boil down之后都是cpu的pc在不断地指向下一步然后执行。事实就是如此，这些设计是**优雅，强大**的。
 
-之后所有的的课都是csapp chap3的内容.
-
-**一次相当quick的对sys的intro。**
+What is a process constructed of?
 ![Alt text](image-2.png)
+
+- Addr space: 每个process都会有一个独属于自己的$0 - 2^{48} - 1$的vmm。映射到一个页表，页表会指向真正的物理地址。
+- 有自己的resigter。
+  重要的是：他们其实物理意义上没有，但是os欺骗了它们。
+
+### x86-64 assembly
 
 - stack：记住%rsp永远指向非空addr。
 - local variable access:
 
-## Lecture 3
-
 重新想了一下，Caller和Callee的设计很精妙。相当于用了一层人类的简单的规约去释放了很多设计空间，因为正常的temporary variable不可能不用，不可能全用stack的空间；但是又不能全部都搞成temporary variable，这样要saved variable太几把多了。所以干脆搞一个规约，让一半去负责特定的东西，frame ptr，stack ptr这种，而且callee得负责回去的时候全部的值都不变，让另外一半register让callee随便用，但是回到caller的时候让caller自己搞定。
 
-**一些bug**
+**一个经典bug**：不要把指针放到stackframe上！
 ![Alt text](image-3.png)
-从stack的角度想，这里的x被放在了stack上。而我们如果要send一个variable addr，我们either在别的frame上，either在heap上allocate。
+
+
 
 **syscall**是一种**user space** transfer to **kernel space**的一种方式。
 
-Mike甚至贴心的给了环境的描述，我哭死。我觉得这很好，因为就这简单的一张图基本上足够破除学生对环境的疑惑和恐惧了。
+_题外话。Mike甚至贴心的给了环境的描述，我哭死。我觉得这很好，因为就这简单的一张图基本上足够破除学生对环境的疑惑和恐惧了。_
 ![](image-4.png)
+
+Time sharing: one split one resource "in time" -- let one process to use cpu for some time and let another to run it for another.
+
+- processes have its own address spaces
 
 有多少个process？
 $2^{10}$
-![Alt text](image-5.png)
-
-![Alt text](image-6.png)
 
 > 现场装逼.jpg
 
@@ -928,13 +946,14 @@ thread1 running.
 
 ### performace的改进：使用park() 和unpark()
 
-## Lecture 8 Scheduler 
-processes有以下几种状态，简洁明了不多说了：
-* ready：就是scheler的候选。
-* running：cpu在跑它。
-* waiting：反正就是在等一个状态，非常像thread在等一个condition variable的状态。
-![alt text](image-29.png)
+## Lecture 8 Scheduler
 
+processes有以下几种状态，简洁明了不多说了：
+
+- ready：就是scheler的候选。
+- running：cpu在跑它。
+- waiting：反正就是在等一个状态，非常像thread在等一个condition variable的状态。
+  ![alt text](image-29.png)
 
 以下是preemptive的scheduler。
 ![alt text](image-31.png)
@@ -943,9 +962,8 @@ nonpreemptive-preemptive的scheduler：只会在process wait或者exit的时候�
 
 最简单的例子：**FIFO**
 throughput: always 0.1, (number of processes) / time = 3 / 30 = 0.1s
-avg turnaround time = time (first 1, then 2, then 3) = time / processes = (24 + 27 + 30) / 3 = 27s 
+avg turnaround time = time (first 1, then 2, then 3) = time / processes = (24 + 27 + 30) / 3 = 27s
 ![alt text](image-32.png)
-
 
 例子：**SJF**
 ![alt text](image-33.png)
@@ -962,50 +980,54 @@ Intuition是：大多数时间个人用户不会拿电脑来一直做computation
 
 FIFO明显不行：等的太久了。
 
-RR(100ms/break)明显不行：disk utilization = 5%. 
+RR(100ms/break)明显不行：disk utilization = 5%.
 
-
-RR(1ms/break)行：disk utilization = 10/11 = 90%. 
+RR(1ms/break)行：disk utilization = 10/11 = 90%.
 --------------------IO-------------10ms ------------------------------------------------
-A(1ms) -> B(1ms) -> C(1ms) -> A(1ms) -> B(1ms) -> c waiting -> ... A -> B->...  -> c   
+A(1ms) -> B(1ms) -> C(1ms) -> A(1ms) -> B(1ms) -> c waiting -> ... A -> B->... -> c
 
-SJF行：disk utilization = 10/11 = 90%. 
+SJF行：disk utilization = 10/11 = 90%.
 ![alt text](image-36.png)
 
+## Lecture 9 Virtual Nenory
 
-## Lecture 9 Virtual Nenory 
 ![alt text](image-37.png)
 整节OS我听下来最重要的是这句话。
 
-大体上的memory alloc是这样的 -- process向kernel寻求帮助  --> kernel给每个process都有自己的page table（or other data structures） --> mmu读 page table然后做映射（hardware是不知道哪个·process的）
+大体上的memory alloc是这样的 -- process向kernel寻求帮助 --> kernel给每个process都有自己的page table（or other data structures） --> mmu读 page table然后做映射（hardware是不知道哪个·process的）
 
-*掺杂一些小想法*：walfish在课程中反复的用戏谑的语气来嘲讽fullstack engineer工作的低智商，但是又无可奈何地承认这就是事实。我从中其实也感觉挺无奈的。可能现实世界并不需要多高的智商就能做的一些事情就能赚到钱。不过我总的来说高智商歧视其实也是蛮有毒的，大家各取所需，过好自己的生活就行了吗，希望自己看开一点吧。不可否认的是，对我来说，理解这些底层逻辑对我有一种自然的快乐感，我想这就是好奇心被满足的感觉吧。类似的感觉也出现在初探CSAPP，理解计网的大概逻辑的时刻，理解这些伟大设计让我感到愉悦，虽然之后结局也许大概率是和只选fullstack engineer的结局是一样的，放平心态吧 -- 仅仅为了愉悦去选择这些系统课，未来也可能不可避免地去面对是否读system phd的时刻, 到时候再做决定吧！
+_掺杂一些小想法_：walfish在课程中反复的用戏谑的语气来嘲讽fullstack engineer工作的低智商，但是又无可奈何地承认这就是事实。我从中其实也感觉挺无奈的。可能现实世界并不需要多高的智商就能做的一些事情就能赚到钱。不过我总的来说高智商歧视其实也是蛮有毒的，大家各取所需，过好自己的生活就行了吗，希望自己看开一点吧。不可否认的是，对我来说，理解这些底层逻辑对我有一种自然的快乐感，我想这就是好奇心被满足的感觉吧。类似的感觉也出现在初探CSAPP，理解计网的大概逻辑的时刻，理解这些伟大设计让我感到愉悦，虽然之后结局也许大概率是和只选fullstack engineer的结局是一样的，放平心态吧 -- 仅仅为了愉悦去选择这些系统课，未来也可能不可避免地去面对是否读system phd的时刻, 到时候再做决定吧！
 
+## Lecture 10 Virtual Nenory II
 
-## Lecture 10 Virtual Nenory II 
-*略 ---我认为直接看ppt理解起来要好得多*
+_略 ---我认为直接看ppt理解起来要好得多_
 <object data="./vm-csapp.pdf" type="application/pdf" width="700px" height="700px">
-    <embed src="./vm-csapp.pdf">
-         <a href="./vm-csapp.pdf">Download PDF</a>.</p>
-    </embed>
+<embed src="./vm-csapp.pdf">
+<a href="./vm-csapp.pdf">Download PDF</a>.</p>
+</embed>
 </object>
 
-## Lecture 11 Virtual Nenory III 
-**WeensyOS**： 
+## Lecture 11 Virtual Nenory III
+
+**WeensyOS**：
 
 一些常见的bug：
-* 一定要记得先alloc 0给page table。（因为在vm不存在的世界，没有malloc）
-![alt text](image-38.png)
+
+- 一定要记得先alloc 0给page table。（因为在vm不存在的世界，没有malloc）
+  ![alt text](image-38.png)
 
 课堂小问题：
-* how many PTES that can 3MB virtual addr spaces allows it to hold? 
-![alt text](image-40.png)
+
+- how many PTES that can 3MB virtual addr spaces allows it to hold?
+  ![alt text](image-40.png)
 
 ans：是256 + 512。$3MB / 2^{12} = 3 * 2^{8}$, 然后最底下的会拿2MB拿满，剩下的会在上面。
 ![alt text](image-39.png)
 
 我的小问题：
-* 这些page table存在哪里？
+
+- 这些page table存在哪里？
+
 ## Lab 4: Virtual MM: WeensyOS
 
 ### Stage 1: 读源码。。

@@ -166,7 +166,8 @@ Question:
 $ :(){:1:&};:
 ```
 
-**pipeline**. 
+**pipeline**.
+
 ```c
 while (1) {
     write(1, "$", 2);
@@ -189,11 +190,49 @@ while (1) {
 ```
 
 例子：
-* left cmd = `ls -l`的输出原本是1，which is defaulted set to the terminal windo.
-* right cmd = `grep 'pattern' <inputFileName>`，grep的实现是关闭0，然后再打开filename的，这样就可以直接从file的字节流中进行输入了。
+
+- left cmd = `ls -l`的输出原本是1，which is defaulted set to the terminal windo.
+- right cmd = `grep 'pattern' <inputFileName>`，grep的实现是关闭0，然后再打开filename的，这样就可以直接从file的字节流中进行输入了。
 
 然后我们直接关闭ls -l side的1， 然后打开grep side的0。就可以实现pipe了，而这些都可以在shell中实现。
 
+
+我们来深入理解一下pipe的机制，以下是ls lab的内容：
+```c
+ int status;
+    // pipe from child to parent
+    int c2p[2];
+    pipe(c2p);
+    printf("c2p[0] = %d\n", c2p[0]); // 3 -> write end of c2p pipe
+    printf("c2p[1] = %d\n", c2p[1]); // 4 -> read end of c2p pipe
+
+    // child
+    if (fork() == 0)
+    {
+        // so instead of writing to terminal, it will write to the pipe.
+        close(1);
+        dup(c2p[WRITEEND]);
+        close(c2p[READEND]);
+        char *lala[] = {"/usr/bin/ls", NULL, NULL};
+        execve("/usr/bin/ls", lala, 0);
+        printf("exec failed!\n");
+        exit(1);
+    }
+    // parent
+    else
+    {
+        close(c2p[WRITEEND]);
+        char buf[BUFSIZE];
+        int n = read(c2p[READEND], buf, sizeof(buf));
+        while (n)
+        {
+            write(1, buf, n);
+            n = read(c2p[READEND], buf, sizeof(buf));
+        }
+        wait(&status);
+    }
+    exit(0);
+```
 
 ### Process -- 从OS的角度
 
@@ -204,6 +243,7 @@ Proc就是一个一堆Proc表，每次booting的时候都用表里的信息来lo
 ![Alt text](image-9.png)
 
 ### thread -- 从OS的角度
+
 Thread从proc的角度来看，其实和proc差不多。
 
 ![Alt text](image-10.png)

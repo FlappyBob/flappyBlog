@@ -91,12 +91,17 @@ What is a process constructed of?
 
 ## Lecture 4: Shell I
 
-- why should be execute in the child? -- 因为不这样做的话，parent process就终止了。
+- what does fork do?
+
+fork很简单不赘述了。
+
 - what does execve do?
 
 > execve() executes the program referred to by pathname. This causes the program that is currently being run by the calling process to be replaced with a new program, with newly initialized stack, heap, and (initialized and uninitialized) data segments
 
+execve(“/bin/sh”,0,0)是个系统调用，执行后，即使他发生在某个线程中，整个进程的程序也会被换掉，但进程号保留。
 
+我们先来看一个简单的shell模型。
 
 ```c
 while (1) {
@@ -114,71 +119,71 @@ while (1) {
 }
 ```
 
+原料：fork execve.
+
+实现：让一个parent process来manage i/o，然后创造子进程来跑用户想跑的程序。
+
+目的：为了脱离原始的batch computing，让用户有操作多个任务的能力。
+
 **fs** -- file descriptor:  
 ![alt text](image-4.png)
 
-- `>`的实现踩在了file descriptor的肩膀上。只不过就是把fs的1的指针从指向terminal到指向了新的file。注意write这个syscall完全不知道发生了什么，他一样写入了fs为1的地方，只不过这次是用户指定的file而不是terminal。
+接下来我们来看redirection和后台运行的实现
+
+```c
+while (1) {
+    write(1, "$", 2);
+    readcmd(cmd, args);
+    // child
+    if ((pid = fork()) == 0) {
+        if (redirected) {
+            close(1);
+            open(redirected_file);
+        }
+        execve(command, args, 0);
+    } else if (pid > 0) {
+        if (fore_ground) {
+            wait(0);
+        }
+        // error
+    } else {
+    }
+}
+```
+
+**Redirection**: 它的实现踩在了file descriptor的肩膀上。只不过就是把fs的1的指针从指向terminal到指向了新的file。注意write这个syscall完全不知道发生了什么，他一样写入了fs为1的地方，只不过这次是用户指定的file而不是terminal。
+
+**background**：它的实现是 --- 如果shell parse到了&，parent processes直接不等了，直接让execve在后台运行。
+
+Question:
+
 - 为什么fork和exec要隔离开来?为什么不直接有一个craeteprocess？难道这样不更方便？
-  TODO
 
-1. `background`的实现也只不过是`fork和wait`的syscall的妙用。如果shell parse到了&，shell直接不等了，直接让execve在后台运行。
-
-**File Descriptor.** 每个process都会维护一个VM，fs table（实际上是指向真正的fs table的ptr）和registers。
-![Alt text](image-7.png)]
-
-**pipeline**
+**ans**: 其实这样给了用户更多的操作空间，一个用来创造新process，然后用户可以在fork中的函数中疯狂配环境，就像redirection是怎么实现的一样。
 
 ```sh
 # 奇怪的脚本，赶紧试试吧！
 $ :(){:1:&};:
 ```
 
-回顾一下pipeline和fork的调用知识。
+### Process -- 从OS的角度
 
-```c
-#include "kernel/types.h"
-#include "user/user.h"
+Proc就是一个一堆Proc表，每次booting的时候都用表里的信息来load进去，表如下，可以看看xv6的代码。
 
-// pipe2.c: communication between two processes
+<!-- TODO 可以看看xv6的代码。 -->
 
-int
-main()
-{
-  int n, pid;
-  int fds[2];
-  char buf[100];
-
-  // create a pipe, with two FDs in fds[0], fds[1].
-  pipe(fds);
-
-  pid = fork();
-  if (pid == 0) {
-    write(fds[1] , "this is pipe2\n", 14);
-  } else {
-    n = read(fds[0], buf, sizeof(buf));
-    write(1, buf, n);
-  }
-
-  exit(0);
-}
-```
-
-**一点点proc**。OS的角度来看Proc就是一个一堆Proc表，每次booting的时候都用表里的信息来load进去，表如下，可以看看xv6的代码。
-
-//TODO 可以看看xv6的代码。
 ![Alt text](image-9.png)
 
-**一点点thread**。Thread从proc的角度来看，其实和proc差不多。
+### thread -- 从OS的角度
+Thread从proc的角度来看，其实和proc差不多。
 
 ![Alt text](image-10.png)
 
-每个thread都会维护自己的registers和stack space，但是他们指向的.text and .data area都是一样的（也就是，他们share的code，和global variable是一样的）。这样程序员会觉得觉得他们在“同时”执行一些操作。
-
-<!-- 但是我有个小问题是：创建一个新的thread会创建出过呢更多的register，这个register只是在软件层被维护吗？ -->
+每个thread都会维护自己的registers和stack space，甚至在process的视角里，每个thread的不同只不过是它们的registers罢了。但是他们指向的.text and .data area都是一样的（也就是，他们share的code，和global variable是一样的）。这样程序员会觉得觉得他们在“同时”执行一些操作。
 
 ![Alt text](image-12.png)
 
-当x是一个global的时候，两个线程同时都可以access到一个地方，所以会造成线程写的问题。
+**线程写的问题**。当x是一个global的时候，两个线程同时都可以access到一个地方，所以会造成线程写的问题。
 ![Alt text](image-13.png)
 
 ## Lab2 ls

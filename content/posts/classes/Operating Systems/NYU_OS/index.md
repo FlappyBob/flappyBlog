@@ -166,6 +166,35 @@ Question:
 $ :(){:1:&};:
 ```
 
+**pipeline**. 
+```c
+while (1) {
+    write(1, "$", 2);
+    readcmd(cmd, args);
+    // child
+    if ((pid = fork()) == 0) {
+        if (redirected) {
+            close(1);
+            open(redirected_file);
+        }
+        execve(command, args, 0);
+    } else if (pid > 0) {
+        if (fore_ground) {
+            wait(0);
+        }
+        // error
+    } else {
+    }
+}
+```
+
+例子：
+* left cmd = `ls -l`的输出原本是1，which is defaulted set to the terminal windo.
+* right cmd = `grep 'pattern' <inputFileName>`，grep的实现是关闭0，然后再打开filename的，这样就可以直接从file的字节流中进行输入了。
+
+然后我们直接关闭ls -l side的1， 然后打开grep side的0。就可以实现pipe了，而这些都可以在shell中实现。
+
+
 ### Process -- 从OS的角度
 
 Proc就是一个一堆Proc表，每次booting的时候都用表里的信息来load进去，表如下，可以看看xv6的代码。

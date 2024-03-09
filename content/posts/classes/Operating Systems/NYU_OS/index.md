@@ -15,7 +15,7 @@ _这个log就不涉及具体lab实现和setup的detail了，我主要讲一些�
 如果有人感兴趣，可以看一下课程主页，作业的环境也几乎docker里配好的。
 webpage: https://cs.nyu.edu/~mwalfish/classes/24sp/
 lab： https://github.com/nyu-cs202/labs
-
+![alt text](image-41.png)
 ## Lecture 1
 
 没讲啥特殊的, good intro =。=
@@ -28,7 +28,7 @@ walfish教授真的是非常热情。在讲为什么要学os/sys的时候几句�
 
 2. hardware是ugly的，从软件工程师的角度。如果没有好的design，那么deal with hardware everyday无疑是一个劳动密集的工作。正是因为有这层抽象，让写码本身变得优雅了很多。这是从美学的角度的一个为什么学os的原因。它**简单，强大，优雅。**
 
-3. os demonstrate了不少软件工程中重要的概念。比如scheduler是经典的调度问题/ 在和processes打交道的时候会接触到并行。这些都是在很多健壮的代码库中demonstrate的概念。
+3. os demonstrate了不少软件工程中重要的概念。比如scheduler是经典的调度问题/ 在和processes打交道的时候会接触到并行。
 
 ## Lecture 2
 
@@ -978,15 +978,34 @@ SJF行：disk utilization = 10/11 = 90%.
 整节OS我听下来最重要的是这句话。
 
 大体上的memory alloc是这样的 -- process向kernel寻求帮助  --> kernel给每个process都有自己的page table（or other data structures） --> mmu读 page table然后做映射（hardware是不知道哪个·process的）
-<!-- TODO  -->
 
-## Lecture 13
-Multilevel can be managed by the kernel user。
+*掺杂一些小想法*：walfish在课程中反复的用戏谑的语气来嘲讽fullstack engineer工作的低智商，但是又无可奈何地承认这就是事实。我从中其实也感觉挺无奈的。可能现实世界并不需要多高的智商就能做的一些事情就能赚到钱。不过我总的来说高智商歧视其实也是蛮有毒的，大家各取所需，过好自己的生活就行了吗，希望自己看开一点吧。不可否认的是，对我来说，理解这些底层逻辑对我有一种自然的快乐感，我想这就是好奇心被满足的感觉吧。类似的感觉也出现在初探CSAPP，理解计网的大概逻辑的时刻，理解这些伟大设计让我感到愉悦，虽然之后结局也许大概率是和只选fullstack engineer的结局是一样的，放平心态吧 -- 仅仅为了愉悦去选择这些系统课，未来也可能不可避免地去面对是否读system phd的时刻, 到时候再做决定吧！
 
-但是这是有tradeoff 的。
 
-因为当一个pagetable的size变大之后，unit size导致会有很多空白。但是这样搜索过程就会快的多。
+## Lecture 10 Virtual Nenory II 
+*略 ---我认为直接看ppt理解起来要好得多*
+<object data="./vm-csapp.pdf" type="application/pdf" width="700px" height="700px">
+    <embed src="./vm-csapp.pdf">
+         <a href="./vm-csapp.pdf">Download PDF</a>.</p>
+    </embed>
+</object>
 
+## Lecture 11 Virtual Nenory III 
+**WeensyOS**： 
+
+一些常见的bug：
+* 一定要记得先alloc 0给page table。（因为在vm不存在的世界，没有malloc）
+![alt text](image-38.png)
+
+课堂小问题：
+* how many PTES that can 3MB virtual addr spaces allows it to hold? 
+![alt text](image-40.png)
+
+ans：是256 + 512。$3MB / 2^{12} = 3 * 2^{8}$, 然后最底下的会拿2MB拿满，剩下的会在上面。
+![alt text](image-39.png)
+
+我的小问题：
+* 这些page table存在哪里？
 ## Lab 4: Virtual MM: WeensyOS
 
 ### Stage 1: 读源码。。

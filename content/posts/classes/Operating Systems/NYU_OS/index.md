@@ -280,7 +280,7 @@ Thread从proc的角度来看，其实和proc差不多。
 **线程写的问题**。当x是一个global的时候，两个线程同时都可以access到一个地方，所以会造成线程写的问题。
 ![Alt text](image-13.png)
 
-## hw1/2
+## HW 1/2
 
 - Operations on files, such as read(), write(), and close(), are typically implemented as system calls. Describe two of the benefits of having these operations managed by the operating system instead of individual processes.
 
@@ -859,12 +859,11 @@ chmod 644 ${TEST_DIR}/urwgrar
 
 _ls lab用时约12小时_。
 
-## Lecture 5/6: Concurrency I/II
+## Lecture 5/6/7: Concurrency I/II/III
 
-在介绍处理并行的方法前，先介绍一些常见的硬软件错误：
+在介绍处理并行的方法前，先介绍一个常见的硬软件错误：
 
 Q1：Can data be called with 0?
-
 assumption:
 
 1. compiler produce sequential code
@@ -884,7 +883,6 @@ int p2 () {
 }
 ```
 
-Q2： memory-inconsistency:
 ![alt text](image-22.png)
 
 Mike：这个例子并不会出现在单核cpu中，介绍这个example只是为了介绍concurrency的真正问题不只是存在程序员的设计的threadprogramming中，并且存在硬件中（multicore）。但是之后介绍的control primitives会优雅地解决这些硬软件并行问题。
@@ -911,7 +909,12 @@ x= x + 1;
 pthread_mutex_unlock(&lock);
 ```
 
+![alt text](image-5.png)
+小问题：为什么这里的yield()还要require() 和acquire()？
+因为如果一个进程似了，他还拿着lock，别的进程如果要进入critical section，只能陪它一起似了。（当然，更好的还是使用wait primitive）
+
 ### 第二个措施：**cv**
+
 **Why do we learn Conditional variable?**
 
 - 通常是因为两个thread之间有dependency形成了一种拓补关系。
@@ -988,13 +991,29 @@ int main(int argc, char *argv[]) {
   ans: 会导致如上的consumer唤醒consumer的情况，这样我们就进入了死process中。我们需要让conditional variable具有指向性，让合理的逻辑动起来。
   ![alt text](image-27.png)
 
-- **add efficiency**: avoid context switches
+note in class:
 
-## Lecture 7
+- why wait() releases mutex and goes into waiting states atomically?
 
-### 一些建议。
+**ans**: if not, when mutex is released, the other thread can executes immediately and signals, so when current thread tries to wait, it will always in waiting state.
+
+- Will it be good to replace broadcast with signal?
+
+**ans**: Since we want multiple threads qualified to work together.
+
+### Combined primitive: monitor
+
+_SKIP_
+
+### 一些练习。
 
 ### **Implementation of lock**
+
+Perterson's algorithm? See textbook.
+
+Disable Interrupts? Not work for multicpu.
+
+Note: User cannot turn off interrupts because of monopolizing the resources.
 
 critiria:
 
@@ -1097,7 +1116,169 @@ thread1 running.
 
 但是它的cost依旧很高因为context switches。
 
-### performace的改进：使用park() 和unpark()
+### spinlock -- Lecture stuff
+
+xchg --> load and store atomically
+
+```c
+struct Spinlock {
+    int locked;
+}
+void acquire(Spinlock *lock) {
+    while (1) {
+        // spin ;
+        if (xchg_val(&lock->locked, 1) == 0) {
+            break;
+        }
+    }
+}
+void release(Spinlock *lock) {
+    lock->locked = 0;
+}
+```
+
+When two threads try to acquire the lock (write 1 to a lock):
+
+only read a 0 ---> can proceed.
+
+only one will read 0 and write 1 at a time.
+
+### Spinlock-based mutex
+
+```c
+struct Mutex {
+    // helper
+    thread_t *owner;
+
+    // Queue of threads that wait the lock -- ensrues fairness
+    STAILQ(thread_t) waiters;
+
+    // ensures atomicity
+    struct Spinlock splock；
+}
+
+void acquire(struct Mutex *m) {
+    acquire(&m->splock);
+    if (m->owner == 0) {
+        // if no one waiting, i admit it.
+        m->owner = tid_of_this_thread;
+        release(&m->splock);
+    } else {
+        // if someone owns it, i wait
+        // it is the scheduler that actually blocks
+        sched_mark_blocked(&id_of_this_thread);
+        release(&m->splock);
+        sched_swtch();
+        // continue executes when waking up
+    }
+}
+
+void release(struct Mutex *m) {
+    acquire(&m->splock);
+    // owner must be in critial section
+    // because owner will be waked all at once.
+
+    m->owner = STALIQ_GET_HEAD(&m->waiters);
+    // if we do get some waiting thread, wake that thread, since
+    // invariant here is all the waiters are sleeping in perspective of scheduler.
+    if (m->owner) {
+        sched_wake(&m->owner);
+
+        // And that is officially executing
+        STALIQ_REMOVE_HEAD(&m->waiters);
+    }
+    release(&m->splock);
+}
+```
+
+## HW 3/4/5
+
+### 1. The uses of threading
+
+"For a given workload, a multi-threaded process has lower time-to-completion than the equivalent single-threaded process." Explain your answer in 2-3 sentences.
+
+**ans**: Depends on how the overhead-synchrnozation takes.
+single cpu: multithread < single thread
+multiple cpu: multithread (maybe) > single thread because of parallelism.
+
+### 2. practice
+
+```c
+/* ADD SOME THINGS HERE */
+mutex
+cond
+bool if_foo = 0;
+
+void
+foo(void *)
+{
+    printf("I am foo!!!\n");
+    if_foo = 1;
+    // if_foo 必须在signal前面为了防止死机。
+
+    signal(cond, mutex);
+    /* ADD SOME CODE HERE */
+}
+
+void
+boo(void *)
+{
+    /* ADD SOME CODE HERE */
+    while (!if_foo) {
+        wait(cond, mutex);
+    }
+    printf("I am boo!!!\n");
+}
+
+int
+main(int argc, char** argv)
+{
+    create_thread(foo);
+    create_thread(boo);
+
+    // wait for threads to finish
+    // before exiting
+    join_thread(foo);
+    join_thread(boo);
+
+    exit(0);
+}
+```
+
+### 3. Time-of-check-to-time-of-use (TOCTTOU) bugs
+
+```c
+bool
+transferBob2Alice(double trans) {
+  if (bob_balance > trans) {
+    smutex_lock(&mtx);
+    bob_balance = bob_balance - trans;
+    alice_balance = alice_balance + trans;
+    smutex_unlock(&mtx);
+    return true;
+  }
+  return false;
+}
+```
+* lock should be inside. 
+* interleaving: j
+
+<!-- ### 3. Smoker
+Consider a system with three smoker processes and one agent process. Each smoker continuously rolls a cigarette and then smokes it. But to roll and smoke a cigarette, the smoker needs three ingredients: tobacco, paper, and matches. One of the smoker processes has paper, another has tobacco, and the third has matches. The agent has an infinite supply of all three materials.
+
+The agent places two of the ingredients on the table. The smoker who has the remaining ingredient then makes and smokes a cigarette, signaling the agent on completion. The agent then puts out another two of the three ingredients, and the cycle repeats.
+
+void chooseIngredients(int *paper, int *tobacco, int \*match);
+to randomly select 2 of the 3 ingredients. The routine randomly sets 2 of the ints to "1" and one of them to "0". You don't have to write this routine.
+
+Write a program to synchronize the agent and smokers:
+
+What synchronization and state variables will you use in this problem? (For each variable, indicate the variable's type, the variable's name, its initial value (if any), and a short comment describing the variable's purpose.)
+| Variable Name | Variable Type | Initial Value | Description|
+|----|----|----|----|
+| |  | | |
+
+Write the routines Agent() and matchSmoker() (the routine for the smoker that has lots of matches). You don't have to write the routines paperSmoker() or tobaccoSmoker(), but your solution should be general enough so that those routines would be simple variations of matchSmoker(). -->
 
 ## Lecture 8 Scheduler
 

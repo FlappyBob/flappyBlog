@@ -325,8 +325,8 @@ find . -name "sched.*"
 find . -name "*.h" | wc -w
 
 
-# 一些组合 output 
-cat member.txt | grep "^Name:[a-zA-Z']\+$" |  head -n100 | cut -d':' -f 2 | sort > name.txt 
+# 一些组合 output
+cat member.txt | grep "^Name:[a-zA-Z']\+$" |  head -n100 | cut -d':' -f 2 | sort > name.txt
 ```
 
 Personal Note for lab2
@@ -859,17 +859,19 @@ chmod 644 ${TEST_DIR}/urwgrar
 
 _ls lab用时约12小时_。
 
-## Lecture 5: Concurrency I 
+## Lecture 5/6: Concurrency I/II
 
 在介绍处理并行的方法前，先介绍一些常见的硬软件错误：
 
-Q1：Can data be called with 0? 
+Q1：Can data be called with 0?
 
-assumption: 
+assumption:
+
 1. compiler produce sequential code
-2. single cpu 
-``` c 
-int data = 0, ready = 0; 
+2. single cpu
+
+```c
+int data = 0, ready = 0;
 void p1() {
     data = 2000;
     ready = 1;
@@ -877,12 +879,12 @@ void p1() {
 
 int p2 () {
     while (!ready) {}
-    // can data be called with 0? 
-    use(data); 
+    // can data be called with 0?
+    use(data);
 }
 ```
 
-Q2： memory-inconsistency: 
+Q2： memory-inconsistency:
 ![alt text](image-22.png)
 
 Mike：这个例子并不会出现在单核cpu中，介绍这个example只是为了介绍concurrency的真正问题不只是存在程序员的设计的threadprogramming中，并且存在硬件中（multicore）。但是之后介绍的control primitives会优雅地解决这些硬软件并行问题。
@@ -895,13 +897,6 @@ Mike：这个例子并不会出现在单核cpu中，介绍这个example只是为
 
 锁的作用是配合了programmer设计的invariant。他能保证“某些shared memory中”会被executed atomicaly, 保证了invariant的正确性。
 
-```c
-pthread_mutex_tlock = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_lock(&lock);
-x= x + 1;
-pthread_mutex_unlock(&lock);
-```
-
 **lock的机制**：
 
 - if a lock wants to acquire a lock: it needs to wait for the lock to be unlocked by some other threads.
@@ -909,10 +904,14 @@ pthread_mutex_unlock(&lock);
 
 ![alt text](image-30.png)
 
-- note: During initialiaztion, using a **wrapper** to check error.
+```c
+pthread_mutex_tlock = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_lock(&lock);
+x= x + 1;
+pthread_mutex_unlock(&lock);
+```
 
-## Lecture 6
-
+### 第二个措施：**cv**
 **Why do we learn Conditional variable?**
 
 - 通常是因为两个thread之间有dependency形成了一种拓补关系。

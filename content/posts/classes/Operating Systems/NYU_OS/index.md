@@ -859,7 +859,7 @@ chmod 644 ${TEST_DIR}/urwgrar
 
 _ls lab用时约12小时_。
 
-## Lecture 5/6/7: Concurrency I/II/III
+## Lecture 5/6/7/8: Concurrency I/II/III/IV
 
 在介绍处理并行的方法前，先介绍一个常见的硬软件错误：
 
@@ -1394,7 +1394,7 @@ void insert_box(struct box* outer, struct box inner) {
 }
 ```
 
-**ans**: 
+**ans**: The struct box inner lives on the _stack_ and will go out of scope when the function returns.
 
 ## Lecture 8 Scheduler
 

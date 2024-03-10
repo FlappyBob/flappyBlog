@@ -1260,8 +1260,48 @@ transferBob2Alice(double trans) {
   return false;
 }
 ```
-* lock should be inside. 
-* interleaving: j
+
+- lock should be outside.
+- interleaving: pass if twice?
+
+### 4. Deadlock
+
+The bank decides to use fine-grained locking. Here is its implementation:
+
+```c
+double balance[2]; // 0 for alice, 1 for bob
+smutex_t mtx[2];    // 0 for alice, 1 for bob
+
+bool transfer(int from, int to, double trans) {
+  smutex_lock(&mtx[from]);
+  smutex_lock(&mtx[to]);
+
+  bool result = false;
+  if (balance[from] > trans) {
+    balance[from] = balance[from] - trans;
+    balance[to] = balance[to] + trans;
+    result = true;
+  }
+
+  smutex_unlock(&mtx[to]);
+  smutex_unlock(&mtx[from]);
+  return result;
+}
+```
+
+- to ensure correctness of the mutex acquires --
+
+```c
+// make sure the order is from large to small. 
+if (from > to) {
+    smutex_lock(from)
+    smutex_lock(to)
+} else {
+    // to > frome
+    smutex_lock(to)
+    smutex_lock(from)
+}
+```
 
 <!-- ### 3. Smoker
 Consider a system with three smoker processes and one agent process. Each smoker continuously rolls a cigarette and then smokes it. But to roll and smoke a cigarette, the smoker needs three ingredients: tobacco, paper, and matches. One of the smoker processes has paper, another has tobacco, and the third has matches. The agent has an infinite supply of all three materials.
@@ -1279,6 +1319,73 @@ What synchronization and state variables will you use in this problem? (For each
 | |  | | |
 
 Write the routines Agent() and matchSmoker() (the routine for the smoker that has lots of matches). You don't have to write the routines paperSmoker() or tobaccoSmoker(), but your solution should be general enough so that those routines would be simple variations of matchSmoker(). -->
+
+
+<!-- Sleeping barber
+This is a potentially useful (if convoluted) example to exercise your understanding of how to use mutexes and conditional variables. It is a well-known concurrency problem. The writeup and solution are due to Mike Dahlin (who used to be on the faculty at The University of Texas at Austin). He asked this question on a midterm in 2002.
+
+Work through the problem on your own; we will post the solution next week.
+
+A shop has a barber, a barber chair, and a waiting room with NCHAIRS chairs. If there are no customers present, the barber sits in the chair and falls asleep. When a customer arrives, the customer wakes the sleeping barber. If an additional customer arrives while the barber is cutting hair, the customer sits in a waiting room chair if one is available. If no chairs are available, the customer leaves the shop. When the barber finishes cutting a customer’s hair, the barber tells the customer to leave; then, if there are any customers in the waiting room, the barber announces that the next customer can sit down. Customers in the waiting room get their hair cut in FIFO order.
+
+The barber shop can be modeled as 2 shared objects:
+
+A BarberChair, with the methods napInChair(), wakeBarber(), sitInChair(), cutHair(), and tellCustomerDone(). The BarberChair must have a state variable with the following states: EMPTY, BARBER_IN_CHAIR, LONG_HAIR_CUSTOMER_IN_CHAIR, SHORT_HAIR_CUSTOMER_IN_CHAIR.
+
+Note that neither a customer or barber should sit down until the previous customer is out of the chair (state == EMPTY).
+
+Note that cutHair() must not return until the customer is sitting in the chair (LONG_HAIR_CUSTOMER_IN_CHAIR).
+
+Note that a customer should not get out of the chair (that is, return from sitInChair()) until the customer’s hair is cut (SHORT_HAIR_CUSTOMER_IN_CHAIR).
+
+The barber should get in the chair (BARBER_IN_CHAIR) only if no customers are waiting.
+
+You may need additional state variables.
+
+A WaitingRoom, with the methods enter() and callNextCustomer().
+
+enter() returns WR_FULL if the waiting room is full or (immediately or eventually) returns MY_TURN when it is the caller’s turn to get their hair cut
+
+callNextCustomer() returns WR_BUSY or WR_EMPTY depending on if there is a customer in the waiting room or not. Customers are served in FIFO order.
+
+Thus, each customer thread executes the code:
+
+Customer(WaitingRoom *wr, BarberChair *bc)
+{
+    status = wr->enter();
+    if (status == WR_FULL) {
+        return;
+    }
+    bc->wakeBarber();
+    bc->sitInChair();   // Wait for chair to be EMPTY
+                        // Make state LONG_HAIR_CUSTOMER_IN_CHAIR
+                        // Wait until SHORT_HAIR_CUSTOMER_IN_CHAIR
+                        // then make chair EMPTY and return
+    return;
+}
+The barber thread executes the code:
+
+Barber(WaitingRoom *wr, BarberChair *bc)
+{
+    while (1) { // A barber’s work is never done
+        status = wr->callNextCustomer();
+        if (status == WR_EMPTY) {
+            bc->napInChair(); // Set state to BARBER_IN_CHAIR; return with state EMPTY
+        }
+        bc->cutHair(); // Block until LONG_HAIR_CUSTOMER_IN_CHAIR;
+                       // Return with SHORT_HAIR_CUSTOMER_IN_CHAIR
+        bc->tellCustomerDone(); // Return when EMPTY
+    }
+}
+Write the code for the WaitingRoom class and the BarberChair class. Use locks and condition variables for synchronization. Follow the coding standards specified in Mike Dahlin’s Coding Standards for Threads Programming, which you will also follow in Lab 3.
+
+Hints (and requirement reminders):
+
+remember to start by asking for each method “when can a thread wait?” and writing down a synchronization variable for each such situation.
+
+List the member variables of class WaitingRoom including their type, their name, and their initial value. Then write the methods for WaitingRoom.
+
+List the member variables of class BarberChair including their type, their name, and their initial value. Then write the methods for BarberChair. -->
 
 ## Lecture 8 Scheduler
 

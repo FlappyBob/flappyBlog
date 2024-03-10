@@ -1292,7 +1292,7 @@ bool transfer(int from, int to, double trans) {
 - to ensure correctness of the mutex acquires --
 
 ```c
-// make sure the order is from large to small. 
+// make sure the order is from large to small.
 if (from > to) {
     smutex_lock(from)
     smutex_lock(to)
@@ -1303,89 +1303,98 @@ if (from > to) {
 }
 ```
 
-<!-- ### 3. Smoker
-Consider a system with three smoker processes and one agent process. Each smoker continuously rolls a cigarette and then smokes it. But to roll and smoke a cigarette, the smoker needs three ingredients: tobacco, paper, and matches. One of the smoker processes has paper, another has tobacco, and the third has matches. The agent has an infinite supply of all three materials.
+### 5. Priority Inversion
 
-The agent places two of the ingredients on the table. The smoker who has the remaining ingredient then makes and smokes a cigarette, signaling the agent on completion. The agent then puts out another two of the three ingredients, and the cycle repeats.
+前提条件是：
 
-void chooseIngredients(int *paper, int *tobacco, int \*match);
-to randomly select 2 of the 3 ingredients. The routine randomly sets 2 of the ints to "1" and one of them to "0". You don't have to write this routine.
+- The system runs one task a time (so assume a single CPU).
+- All three tasks are begun before the first task ends.
+- If a task with higher priority is ready to run, it will preempt the running task (note that if a thread is waiting on a mutex that is owned by another thread, then the waiting thread is NOT ready to run!)， 所以scheduler会直接跑最高优先级的，假设这是个完全不fair的scheduler。
+- Preemption can happen inside the critical section (just as when you code using mutexes in application space).
+- If a thread cannot continue (for example because it is waiting for a mutex), it yields.
 
-Write a program to synchronize the agent and smokers:
+```c
+smutex_t res;
 
-What synchronization and state variables will you use in this problem? (For each variable, indicate the variable's type, the variable's name, its initial value (if any), and a short comment describing the variable's purpose.)
-| Variable Name | Variable Type | Initial Value | Description|
-|----|----|----|----|
-| |  | | |
-
-Write the routines Agent() and matchSmoker() (the routine for the smoker that has lots of matches). You don't have to write the routines paperSmoker() or tobaccoSmoker(), but your solution should be general enough so that those routines would be simple variations of matchSmoker(). -->
-
-
-<!-- Sleeping barber
-This is a potentially useful (if convoluted) example to exercise your understanding of how to use mutexes and conditional variables. It is a well-known concurrency problem. The writeup and solution are due to Mike Dahlin (who used to be on the faculty at The University of Texas at Austin). He asked this question on a midterm in 2002.
-
-Work through the problem on your own; we will post the solution next week.
-
-A shop has a barber, a barber chair, and a waiting room with NCHAIRS chairs. If there are no customers present, the barber sits in the chair and falls asleep. When a customer arrives, the customer wakes the sleeping barber. If an additional customer arrives while the barber is cutting hair, the customer sits in a waiting room chair if one is available. If no chairs are available, the customer leaves the shop. When the barber finishes cutting a customer’s hair, the barber tells the customer to leave; then, if there are any customers in the waiting room, the barber announces that the next customer can sit down. Customers in the waiting room get their hair cut in FIFO order.
-
-The barber shop can be modeled as 2 shared objects:
-
-A BarberChair, with the methods napInChair(), wakeBarber(), sitInChair(), cutHair(), and tellCustomerDone(). The BarberChair must have a state variable with the following states: EMPTY, BARBER_IN_CHAIR, LONG_HAIR_CUSTOMER_IN_CHAIR, SHORT_HAIR_CUSTOMER_IN_CHAIR.
-
-Note that neither a customer or barber should sit down until the previous customer is out of the chair (state == EMPTY).
-
-Note that cutHair() must not return until the customer is sitting in the chair (LONG_HAIR_CUSTOMER_IN_CHAIR).
-
-Note that a customer should not get out of the chair (that is, return from sitInChair()) until the customer’s hair is cut (SHORT_HAIR_CUSTOMER_IN_CHAIR).
-
-The barber should get in the chair (BARBER_IN_CHAIR) only if no customers are waiting.
-
-You may need additional state variables.
-
-A WaitingRoom, with the methods enter() and callNextCustomer().
-
-enter() returns WR_FULL if the waiting room is full or (immediately or eventually) returns MY_TURN when it is the caller’s turn to get their hair cut
-
-callNextCustomer() returns WR_BUSY or WR_EMPTY depending on if there is a customer in the waiting room or not. Customers are served in FIFO order.
-
-Thus, each customer thread executes the code:
-
-Customer(WaitingRoom *wr, BarberChair *bc)
-{
-    status = wr->enter();
-    if (status == WR_FULL) {
-        return;
-    }
-    bc->wakeBarber();
-    bc->sitInChair();   // Wait for chair to be EMPTY
-                        // Make state LONG_HAIR_CUSTOMER_IN_CHAIR
-                        // Wait until SHORT_HAIR_CUSTOMER_IN_CHAIR
-                        // then make chair EMPTY and return
-    return;
+void highPriority() {
+  ... // do something
+  smutex_lock(&res);
+  ... // handle resource
+  smutex_unlock(&res);
+  printf("A ");
 }
-The barber thread executes the code:
 
-Barber(WaitingRoom *wr, BarberChair *bc)
-{
-    while (1) { // A barber’s work is never done
-        status = wr->callNextCustomer();
-        if (status == WR_EMPTY) {
-            bc->napInChair(); // Set state to BARBER_IN_CHAIR; return with state EMPTY
-        }
-        bc->cutHair(); // Block until LONG_HAIR_CUSTOMER_IN_CHAIR;
-                       // Return with SHORT_HAIR_CUSTOMER_IN_CHAIR
-        bc->tellCustomerDone(); // Return when EMPTY
-    }
+void mediumPriority() {
+  ... // do something
+  printf("B ");
 }
-Write the code for the WaitingRoom class and the BarberChair class. Use locks and condition variables for synchronization. Follow the coding standards specified in Mike Dahlin’s Coding Standards for Threads Programming, which you will also follow in Lab 3.
 
-Hints (and requirement reminders):
+void lowPriority() {
+  smutex_lock(&res);
+  ... // handle resource
+  smutex_unlock(&res);
+  ... // do something
+  printf("C ");
+}
+```
 
-remember to start by asking for each method “when can a thread wait?” and writing down a synchronization variable for each such situation.
+**ans**：
+这一题 -- 阐释了一个倒霉蛋high-priority依旧因为lock被反超的故事。
+因为它assume了三个threads已经同时开始：
 
-List the member variables of class WaitingRoom including their type, their name, and their initial value. Then write the methods for WaitingRoom.
+- 如果A比C快一步先跑完 --> 拿到锁之后然后跑B再跑C。
+- 如果C比A先拿到锁 --> B接着跑 --> 然后是A --> 然后是C.
 
-List the member variables of class BarberChair including their type, their name, and their initial value. Then write the methods for BarberChair. -->
+### 6. Reader Writer Spinlock (Challenge)
+
+```c
+ // we are giving you the code for the first of the four functions:
+  void reader_acquire(struct sharedlock* lock) {
+    int curr_val;
+    while (1) {
+
+      // spin while a writer owns the lock
+      while ((curr_val = lock->value) == -1) {}
+
+      assert(curr_val >= 0);
+
+      // try to atomically increment the count, based on our best
+      // guess of how many readers there had been. if we were
+      // wrong, keep looping. if we got it right, then we
+      // succeeded in incrementing the count atomically, and we
+      // can proceed.
+      if (cmpxchg_val(&lock->value, curr_val, curr_val + 1) == curr_val)
+        break;
+    }
+    // lock->value now contains curr_val + 1
+  }
+
+
+  void read_release(struct sharedlock* lock) {
+    atomic_decrement(&lock->value);
+  }
+  void writer_acquire(struct sharedlock* lock) {
+    // if it does not equal to 0, just spin.
+    while (cmpxchg_val(&lock->value, curr_val, -1) != 0) {};
+  }
+  void writer_release(struct sharedlock* lock) {
+    xchg_val(&lock->value, 0);
+  }
+```
+
+### 一个典型的c bug
+
+```c
+// Insert box: places the box "inner" inside of the box "outer".
+// Since "outer" is being modified, we pass a pointer to "outer".
+// Since "inner" is not being modified, we pass in "inner" directly.
+void insert_box(struct box* outer, struct box inner) {
+    printf("insert box: placing id %d inside id %d\n", inner.id, outer->id);
+    outer->inner_box = &inner;
+}
+```
+
+**ans**: 
 
 ## Lecture 8 Scheduler
 

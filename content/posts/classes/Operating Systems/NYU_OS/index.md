@@ -1191,6 +1191,8 @@ void release(struct Mutex *m) {
 }
 ```
 
+<!-- TODO  ### Deadlock-->
+
 ## HW 3/4/5
 
 ### 1. The uses of threading
@@ -1396,7 +1398,9 @@ void insert_box(struct box* outer, struct box inner) {
 
 **ans**: The struct box inner lives on the _stack_ and will go out of scope when the function returns.
 
-## Lecture 8 Scheduler
+## Lecture 9 Therac 25
+
+## Lecture 10 Scheduler
 
 processes有以下几种状态，简洁明了不多说了：
 

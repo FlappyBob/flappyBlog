@@ -305,7 +305,7 @@ D3: As indicated in the interface, thread_create takes a function pointer as the
 
 - basic shell command
 
-* echo "echo hello $world"? $world will expand
+* echo "echo hello \$world"? \$world will expand
 * echo 'echo hello $world' world will not expand in single quote.
 * echo \`echo hello $world\`? what is inside \`\` will be evaluted first.
 
@@ -333,69 +333,15 @@ Personal Note for lab2
 
 What I learnt:
 
-- I found the learning process of a function is to **testing** them using different arguments. And That's it and even more sophisticated syscall needs testing. Learning by playing is the most interesting and the most valuable when learning some apis.
-
-- **不要恐惧**。很多时候依附于某种语言的特性都会有一些 trick 让原本的代码变得难读。不要着急，一步一步调试后你就能理解其中的优美之处。所以，多多阅读优秀的源码并且理解是可以比读书收获很多的。
-
 - **磨刀不误砍柴工**。在我们既有的抽象层细细的去了解自己的工具。在 lab2 我们的工作是 base on system calls -> implement user functions. So understanding those tools deeply has value in it.
+
+- 学习一个api最好的方式就是玩它. And That's it and even more sophisticated syscall needs testing. Learning by playing is the most interesting and the most valuable when learning some apis.
+
+- **心态上不要恐惧**。很多时候依附于某种语言的特性都会有一些 trick 让原本的代码变得难读。不要着急，一步一步调试后你就能理解其中的优美之处。所以，多多阅读优秀的源码并且理解是可以比读书收获很多的。
 
 ### Argument parsing
 
-getopt();
-
-```c
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-
-int main(int argc, char *argv[])
-{
-    int flags, opt;
-    int nsecs, tfnd;
-
-    nsecs = 0;
-    tfnd = 0;
-    flags = 0;
-    // opt receives character if success, receives if failing.
-    while ((opt = getopt(argc, argv, "nt:")) != -1)
-    {
-        switch (opt)
-        {
-        case 'n':
-            flags = 1;
-            break;
-        case 't':
-            // optarg is set as the argument if optstring has specified : after a flag
-            nsecs = atoi(optarg);
-            tfnd = 1;
-            break;
-        default: /* '?' */
-            // getopt will retunr ? if some wield pattern occurs.
-            fprintf(stderr, "Usage: %s [-t nsecs] [-n] name\n",
-                    argv[0]);
-            exit(EXIT_FAILURE);
-        }
-    }
-
-    printf("flags=%d; tfnd=%d; nsecs=%d; optind=%d\n",
-           flags, tfnd, nsecs, optind);
-
-    if (optind >= argc)
-    {
-
-        fprintf(stderr, "Expected argument after options\n");
-        exit(EXIT_FAILURE);
-    }
-
-    // optind is the index in argv of the first argv-element that is not an option
-    printf("name argument = %s\n", argv[optind]);
-
-    /* Other code omitted */
-
-    exit(EXIT_SUCCESS);
-}
-```
-
+本质上get_opt 和getopt_long差不多。
 getopt_long();
 
 ```c
@@ -404,12 +350,30 @@ int main(int argc, char **argv)
     int c;
     int digit_optind = 0;
 
+    // start parsins flags
     while (1)
     {
         // set optind to 1 if it is not set
         int this_option_optind = optind ? optind : 1;
         int option_index = 0;
+
         // this struct maps long options into int 0.
+        // first is long option name
+        // second is argument requirement?
+        // third is flag
+        // fourht is the short option it maps to.
+
+        /**
+         * struct option {
+         *   const char *name;
+         *   has_arg can't be an enum because some compilers complain about
+         *   type mismatches in all the code that assumes it is an int.
+         *   int has_arg;
+         *   int *flag;
+         *   int val;
+         *   };
+        */
+
         static struct option long_options[] = {
             {"add", required_argument, 0, 0},
             {"append", no_argument, 0, 0},
@@ -419,6 +383,7 @@ int main(int argc, char **argv)
             {"file", required_argument, 0, 0},
             {0, 0, 0, 0}};
 
+        // return the flag option, it turns long options into short option through struct option mapping
         c = getopt_long(argc, argv, "abc:d:012",
                         long_options, &option_index);
         if (c == -1)
@@ -429,6 +394,8 @@ int main(int argc, char **argv)
         case 0:
             // option_index is used to indexing the option struct .
             printf("option %s", long_options[option_index].name);
+
+            // 在跑过之后，如果有会生成一个optarg, 如果读成功 -- 返回那个string
             if (optarg)
                 printf(" with arg %s", optarg);
             printf("\n");
@@ -500,31 +467,20 @@ non-option ARGV-elements: '123'
 ```
 
 ### Read Directories/ file systems api
+Dir Stream 其实就是 an ordered sequence of all the directory entries in a particular directory，跟打开一个 fd 的感觉一样，都是抽象成一个流。从用户层面理解没有什么意义，会调用能跑就行了。
 
-Dir Stream 其实就是 an ordered sequence of all the directory entries in a particular directory，跟打开一个 fd 的感觉一样，都是抽象成一个流。
-How to open dir Stream -> opendir
+* **opendir**
 
 ```c
 #include <sys/types.h>
 #include <dirent.h>
 // open dir stream.
 DIR *opendir(const char *name);
-DIR *fdopendir(int fd);
-
-// The underlying file descriptor of the directory stream can be obtained using dirfd(3).
-
 // Filename entries can be read from a directory stream using readdir(3).
-
 ```
+- dirp 是一个指针指向了这个流。（This stream can be specified as a linear sequence of struct directory）。
 
-- dirp 是一个指针指向了这个流。（This stream can be specified as a linear sequence of struct directory）。而 Readdir 会返回给当前的 direct struct.
-
-- Applications wishing to check for error situations should set errno to 0 before calling readdir().
-
-- END: It shall return a null pointer upon reaching the end of the directory stream.
-
-direct structure is ->
-
+- 用readdir返回struct dirent 
 ```c
 struct dirent {
     ino_t          d_ino;       /* Inode number */
@@ -537,11 +493,6 @@ struct dirent {
 ```
 
 ```c
-#include <dirent.h>
-#include <stdio.h>
-#include <stdlib.h> /* for exit */
-#include <getopt.h>
-#include <string.h>
 void display(struct dirent *dp)
 {
     printf("d_ino -> %ld\n", dp->d_ino);
@@ -568,6 +519,7 @@ int main(int argc, char **argv)
 }
 
 ```
+
 
 输出是下面：
 
@@ -605,14 +557,8 @@ d_name -> test.sh
 We've finished reading!
 ```
 
-_This following program looks for filenames in given directory_
 
 ```c
-#include <dirent.h>
-#include <errno.h>
-#include <stdio.h>
-#include <string.h>
-
 static void lookup(const char *arg)
 {
     DIR *dirp;
@@ -632,7 +578,7 @@ static void lookup(const char *arg)
 
             (void) printf("found %s\n", arg);
             (void) closedir(dirp);
-                return;
+            return;
         }
     // end if dp is NULL
     } while (dp != NULL);

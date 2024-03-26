@@ -1,5 +1,5 @@
 ---
-title: "web dev"
+title: "HTTP"
 date: 2024-01-23T22:10:11-04:00
 showToc: true # 显示目录
 TocOpen: true # 自动展开目录
@@ -10,7 +10,7 @@ tags:
 - "AIT"
 ---
 
-## Web Dev
+## HTTP
 
 **ip address** - number given to a computer / device on a network
 
